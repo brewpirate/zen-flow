@@ -13,7 +13,7 @@ Zen Flow is opinionated about process but flexible about execution. You can run 
 ## Installation
 
 ```bash
-/plugin marketplace add ./.claude/plugins/zen-marketplace
+/plugin marketplace add brewpirate/zenflow
 /plugin install zen@zen
 /plugin install agent-journal@zen
 ```
