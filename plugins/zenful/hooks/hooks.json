@@ -1,0 +1,25 @@
+{
+  "description": "Zen Flow workflow enforcement hooks",
+  "hooks": {
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash ${CLAUDE_PLUGIN_ROOT}/hooks/scripts/enforce-plan-mode-tools.sh",
+            "timeout": 5
+          }
+        ]
+      },
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash ${CLAUDE_PLUGIN_ROOT}/hooks/scripts/enforce-work-validation.sh",
+            "timeout": 10
+          }
+        ]
+      }
+    ]
+  }
+}

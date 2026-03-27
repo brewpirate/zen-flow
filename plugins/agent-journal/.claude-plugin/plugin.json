@@ -1,0 +1,5 @@
+{
+  "name": "agent-journal",
+  "version": "1.0.0",
+  "description": "Structured agent work journal — write entries, read history, summarize patterns, and reflect on sessions. Single JSONL file per project."
+}

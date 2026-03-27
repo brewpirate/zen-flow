@@ -1,0 +1,23 @@
+{
+  "name": "zen-marketplace",
+  "owner": {
+    "name": "Daniel Zenner"
+  },
+  "metadata": {
+    "description": "zen-flow workflow: idea → plan → execute → validate → review. Plus agent-journal for structured work logging."
+  },
+  "plugins": [
+    {
+      "name": "zen",
+      "source": "./plugins/zenflow",
+      "description": "Structured development pipeline for high-quality, agent-driven software delivery",
+      "version": "1.0.3"
+    },
+    {
+      "name": "agent-journal",
+      "source": "./plugins/agent-journal",
+      "description": "Structured agent work journal — write, read, summarize, and reflect on sessions",
+      "version": "1.0.0"
+    }
+  ]
+}
