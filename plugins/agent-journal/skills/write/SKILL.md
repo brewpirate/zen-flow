@@ -1,6 +1,7 @@
 ---
 name: write
 description: Append a structured journal entry after completing work. Use at the end of any task, feature, bug fix, or session to record what was done, what went wrong, and what was learned.
+allowed-tools: Read, Bash
 ---
 
 # Journal: Write

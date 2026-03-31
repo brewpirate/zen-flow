@@ -90,10 +90,6 @@ Agent tool:
 
 For issues that need deeper diagnosis, use a specialist instead:
 - **error-detective** — when the root cause is unclear
-- **Senior Developer** — general fix work
-- **Frontend Developer** — UI/component issues
-- **Backend Architect** — API/service issues
-- **typescript-pro** — type system problems
 
 The collab-delegate agent can invoke `zen:plan` if the fix turns out to be multi-step — it doesn't have to be a one-liner.
 

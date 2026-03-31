@@ -1,6 +1,7 @@
 ---
 name: reflect
 description: End-of-session retrospective — analyze the current session's journal entries and surface actionable insights for future sessions. Use before ending a long session or at natural stopping points.
+
 ---
 
 # Journal: Reflect

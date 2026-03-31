@@ -1,14 +1,15 @@
 {
   "name": "zen-marketplace",
   "owner": {
-    "name": "Daniel Zenner"
+    "name": "Daniel Zenner",
+    "email": "daniel@zenner.zev"
   },
   "metadata": {
-    "description": "zen-flow workflow: idea → plan → execute → validate → review. Plus agent-journal for structured work logging."
+    "description": "zenflow workflow: idea → plan → execute → validate → review. Plus agent-journal for structured work logging."
   },
   "plugins": [
     {
-      "name": "zen",
+      "name": "zenflow",
       "source": "./plugins/zenflow",
       "description": "Structured development pipeline for high-quality, agent-driven software delivery",
       "version": "1.0.3"
@@ -18,6 +19,20 @@
       "source": "./plugins/agent-journal",
       "description": "Structured agent work journal — write, read, summarize, and reflect on sessions",
       "version": "1.0.0"
+    },
+    {
+      "name": "context-factory",
+      "description": "Snapshot and fork Claude Code sessions. /freeze saves a named snapshot; /clone forks a prior session into the current context.",
+      "version": "1.0.0",
+      "source": "./plugins/context-factory",
+      "keywords": [
+        "session",
+        "snapshot",
+        "context",
+        "fork",
+        "freeze",
+        "clone"
+      ]
     }
   ]
 }
