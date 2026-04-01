@@ -15,16 +15,16 @@
       "version": "0.0.2"
     },
     {
+      "name": "total-recall",
+      "source": "./plugins/total-recall",
+      "description": "Semantic file triggers \u2014 sample model associations to generate training-data-resonant recall phrases.",
+      "version": "0.0.1"
+    },
+    {
       "name": "zenflow",
       "source": "./plugins/zenflow",
       "description": "Structured development pipeline for high-quality, agent-driven software delivery",
-      "version": "0.0.5"
-    },
-    {
-      "name": "total-recall",
-      "source": "./plugins/total-recall",
-      "description": "Semantic file triggers — sample model associations for training-data-resonant recall phrases.",
-      "version": "0.0.1"
+      "version": "0.0.6"
     }
   ]
 }
