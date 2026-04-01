@@ -89,12 +89,12 @@ Which zen skills are used most:
 
 ```
 Skills Usage:
-  zen:dispatch    8 sessions
-  zen:check-work  8 sessions
-  zen:collab      5 sessions
-  zen:bug-fix     4 sessions
-  zen:plan        3 sessions
-  zen:audit       1 session
+  zenflow:dispatch    8 sessions
+  zenflow:check-work  8 sessions
+  zenflow:collab      5 sessions
+  zenflow:bug-fix     4 sessions
+  zenflow:plan        3 sessions
+  zenflow:audit       1 session
 ```
 
 ## Output Format

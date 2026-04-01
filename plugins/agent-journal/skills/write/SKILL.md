@@ -27,9 +27,9 @@ Each entry is a single JSON line:
   "timestamp": "2026-03-27T14:30:00.000Z",
   "workedOn": "plan: resources/plans/245-notifications.md | issue: #123 | description of work",
   "branch": "current git branch name",
-  "type": "work | bug-fix | refactor | audit | exploration | review | reflection",
+  "type": "work | bug-fix | refactor | audit | exploration | review | reflection | context-refresh",
   "origin": "primary | delegated",
-  "skill": "zen:dispatch",
+  "skill": "zenflow:dispatch",
   "outcome": "completed | partial | blocked | abandoned",
   "summary": "One sentence: what was accomplished",
   "details": {
@@ -63,7 +63,7 @@ Each entry is a single JSON line:
 |-------|------|-------------|
 | `branch` | string | Git branch name |
 | `origin` | string | `primary` (user's session) or `delegated` (spawned by another agent) |
-| `skill` | string | Which zen skill was active (e.g., `zen:dispatch`, `zen:collab`) |
+| `skill` | string | Which zen skill was active (e.g., `zenflow:dispatch`, `zenflow:collab`) |
 | `outcome` | string | `completed`, `partial`, `blocked`, or `abandoned` |
 | `feedback` | string | Observations about the workflow, tools, or process — meta-level improvements |
 
@@ -103,7 +103,7 @@ Projects can add custom fields. The schema is open — any valid JSON key-value 
 
 ## Integration with Zen Flow
 
-`zen:check-work` Gate 5 should invoke this skill instead of writing its own journal entry:
+`zenflow:check-work` Gate 5 should invoke this skill instead of writing its own journal entry:
 - Call `agent-journal:write` with type `work`
 - Let this skill handle the format and file location
 

@@ -9,11 +9,11 @@ description: Audit codebase sections against configurable code standards using p
 
 Audit codebase sections against configurable standards using parallel specialist agents. Each section gets reviewed by the right type of agent against the relevant standards. Produces a structured report with file:line findings.
 
-**Announce at start:** "I'm using the zen:audit skill to audit the codebase."
+**Announce at start:** "I'm using the zenflow:audit skill to audit the codebase."
 
 **Modes:**
 - **Full** (default) — audit all configured sections
-- **Changed** (`/zen:audit changed`) — only audit files modified in the current branch vs main
+- **Changed** (`/zenflow:audit changed`) — only audit files modified in the current branch vs main
 
 ## Changed Mode
 
@@ -32,85 +32,56 @@ This is fast enough for pre-merge checks and CI. Use full mode for periodic comp
 
 ## Configuration
 
-Audit sections are configured in `.claude/zen.local.md` under the `audit` key:
+Audit config is read from the `agents` array in `.claude/zen.local.md`:
 
 ```yaml
 ---
-audit:
-  sections:
-    - name: API Routes
-      dir: packages/server/src/server/routes/
-      glob: "*.ts"
-      agent: Backend Architect
-      standards:
-        - error-handling
-        - options-objects
-        - async-patterns
-    - name: Frontend Components
-      dir: packages/frontend/src/components/
-      glob: "**/*.tsx"
-      agent: Frontend Developer
-      standards:
-        - react-patterns
-        - composition-patterns
-    - name: Core Orchestration
-      dir: packages/core/src/core/
-      glob: "**/*.ts"
-      agent: Software Architect
-      standards:
-        - dependency-injection
-        - zod-schemas
-        - typescript-patterns
-    - name: Type Schemas
-      dir: packages/core/src/types/
-      glob: "**/*.ts"
-      agent: typescript-pro
-      standards:
-        - zod-schemas
-        - typescript-patterns
+project:
+  language: typescript
+  framework: nextjs
+
+agents:
+  - domain: api-routes
+    dir: packages/server/src/server/routes/
+    glob: "*.ts"
+    agent: Backend Architect
+    rules:
+      - error-handling
+      - async-patterns
+  - domain: frontend
+    dir: packages/frontend/src/components/
+    glob: "**/*.tsx"
+    agent: Frontend Developer
+    rules:
+      - react-patterns
 ---
 ```
 
-### Section fields
+### Config fields used by zenflow:audit
 
-| Field | Type | Description |
-|-------|------|-------------|
-| `name` | string | Human-readable label for the section |
-| `dir` | string | Directory to audit (relative to project root) |
-| `glob` | string | File pattern to match (default: `"**/*.ts"`) |
-| `path` | string | Single file to audit (alternative to `dir` + `glob`) |
-| `agent` | string | Agent type to dispatch (maps to Claude Code subagent types) |
-| `standards` | array | List of standard names — resolved to `.claude/rules/{name}.md` files |
-
-### Standards resolution
-
-Each standard name maps to a rules file:
-- `error-handling` → `.claude/rules/error-handling.md`
-- `react-patterns` → `.claude/rules/react-patterns.md`
-- `typescript-patterns` → `.claude/rules/typescript-patterns.md`
-
-The agent receives the full text of each standards file as context.
+| Field | Description |
+|-------|-------------|
+| `domain` | Section label in the audit report |
+| `dir` | Directory to audit |
+| `glob` | File pattern (default: `**/*`) |
+| `agent` | Agent type to dispatch |
+| `rules` | Rule names — resolved to `.claude/rules/{name}.md` |
 
 ### Missing config
 
-If no `audit` section exists in `zen.local.md`:
+If no `agents` array exists in `zen.local.md`, run **zenflow:init** first:
 
-1. Scan the project for common code directories
-2. Read `.claude/rules/` to discover available standards
-3. Ask the user which sections and standards to audit
-4. Offer to save the config to `zen.local.md`
+> "No zen config found. Run `/zenflow:init` to scan the codebase and generate config automatically."
 
 ## The Process
 
 ### Step 1: Load Config
 
-1. Read `.claude/zen.local.md` — parse the `audit` section
-2. For each section, verify the directory/files exist
-3. For each standard, read the rules file from `.claude/rules/`
-4. Report the audit plan to the user:
-   - How many sections
-   - How many files per section
-   - Which agents will be dispatched
+1. Read `.claude/zen.local.md`
+2. Parse the `agents` array from frontmatter
+3. If missing, tell the user to run `/zenflow:init` and stop
+4. For each agent entry, verify the dir exists and rules files exist
+5. Report the audit plan: how many domains, how many files per domain, which agents will be dispatched
 
 ### Step 2: Dispatch Auditors
 
@@ -147,13 +118,12 @@ For each file, check compliance with every standard. Report:
 - Clean files: N
 ```
 
-**Agent type selection:** Use the `agent` field from the section config. Common mappings:
-- `Backend Architect` — API routes, services, middleware
-- `Frontend Developer` — React components, hooks, stores
-- `Software Architect` — Core architecture, orchestration
-- `typescript-pro` — Type system, schemas, generics
-- `Security Engineer` — Auth, input validation, secrets
-- `Senior Developer` — General-purpose (default if not specified)
+**Agent type selection:**
+
+1. **Config first** — use the `agent` field from the matching `agents` entry
+2. **Discovery fallback** — if no `agent` is set, glob `.claude/agents/*.md` and `~/.claude/agents/*.md`, read each file's `name` and `description`, match by section domain and file types, fall back to `general-purpose`
+3. **Inform the user** for any section using auto-selection:
+   > "[N] sections are using auto-selected agents. Run `/zenflow:init` to generate agent assignments, or specify `agent` in your zen.local.md config."
 
 ### Step 3: Compile Report
 
@@ -193,17 +163,17 @@ After presenting the report, ask the user:
 Options:
 - **Fix Critical only** — address blockers immediately
 - **Fix Critical + Important** — comprehensive fix pass
-- **Create plan** — invoke zen:plan to create a structured fix plan
+- **Create plan** — invoke zenflow:plan to create a structured fix plan
 - **Save report only** — write findings to a file for later
 
-If fixing: dispatch subagents to fix findings, then run zen:check-work.
+If fixing: dispatch subagents to fix findings, then run zenflow:check-work.
 
 ## Scheduled Audits
 
 For recurring audits, suggest the user set up a cron job:
 
 ```
-/loop 24h /zen:audit
+/loop 24h /zenflow:audit
 ```
 
 ## STUCK Criteria
@@ -215,6 +185,6 @@ For recurring audits, suggest the user set up a cron job:
 
 ## Related Skills
 
-- **zen:check-work** — Runs after fixes are applied
-- **zen:plan** — Creates a structured plan from audit findings
-- **zen:refactor** — For larger structural improvements surfaced by audit
+- **zenflow:check-work** — Runs after fixes are applied
+- **zenflow:plan** — Creates a structured plan from audit findings
+- **zenflow:refactor** — For larger structural improvements surfaced by audit

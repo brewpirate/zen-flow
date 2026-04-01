@@ -171,7 +171,7 @@ The idea is clear. Now help the user make design decisions.
 2. **Ask clarifying questions** — one at a time, understand purpose/constraints/success criteria
 3. **Propose 2-3 approaches** — with trade-offs and your recommendation
 4. **Present design** — in sections scaled to their complexity, get user approval after each section
-5. **Transition to implementation** — invoke zen:plan skill to create implementation plan
+5. **Transition to implementation** — invoke zenflow:plan skill to create implementation plan
 
 **Understanding the idea:**
 - Check out the current project state first (files, docs, recent commits)
@@ -194,11 +194,11 @@ The idea is clear. Now help the user make design decisions.
 
 ## After the Design
 
-- Invoke the zen:plan skill to create a detailed implementation plan
+- Invoke the zenflow:plan skill to create a detailed implementation plan
 - The design decisions from this conversation become the plan's Context and Architecture sections
-- Do NOT invoke any other skill. zen:plan is the next step.
+- Do NOT invoke any other skill. zenflow:plan is the next step.
 
-**The terminal state is invoking zen:plan.** Do NOT invoke frontend-design, mcp-builder, or any other implementation skill. The ONLY skill you invoke after zen:idea is zen:plan.
+**The terminal state is invoking zenflow:plan.** Do NOT invoke frontend-design, mcp-builder, or any other implementation skill. The ONLY skill you invoke after zenflow:idea is zenflow:plan.
 
 ## Key Principles
 
@@ -213,6 +213,6 @@ The idea is clear. Now help the user make design decisions.
 
 ## Related Skills
 
-- **zen:plan** — the only skill invoked after design approval
-- **zen:collab** — for ongoing collaborative work (zen:idea is for pre-implementation design)
+- **zenflow:plan** — the only skill invoked after design approval
+- **zenflow:collab** — for ongoing collaborative work (zenflow:idea is for pre-implementation design)
 - **agent-journal:write** — checkpoint exploration findings for future sessions

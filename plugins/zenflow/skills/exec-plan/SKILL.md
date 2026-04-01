@@ -9,9 +9,9 @@ description: Use when you have a written implementation plan to execute in a sep
 
 Load plan, review critically, execute all tasks, report when complete.
 
-**Announce at start:** "I'm using the zen:exec-plan skill to implement this plan."
+**Announce at start:** "I'm using the zenflow:exec-plan skill to implement this plan."
 
-**Note:** This skill works best with subagent support. If subagents are available, consider using zen:dispatch instead for higher quality parallel execution.
+**Note:** This skill works best with subagent support. If subagents are available, consider using zenflow:dispatch instead for higher quality parallel execution.
 
 ## The Process
 
@@ -44,11 +44,11 @@ For each task:
 
 ### Step 4: Complete Development (MANDATORY — enforced by hook)
 
-⚠️ **A Stop hook will BLOCK you from finishing if you skip this step.** You cannot complete a zen:exec-plan session without invoking zen:check-work.
+⚠️ **A Stop hook will BLOCK you from finishing if you skip this step.** You cannot complete a zenflow:exec-plan session without invoking zenflow:check-work.
 
 After all tasks complete, do these in order:
 
-1. **Invoke zen:check-work:** Call the Skill tool with `skill: "zen:check-work"`. Do NOT manually run lint/format/test — the skill handles all 5 gates including the journal entry. **Announce completion of each gate by name** (Lint, Format, Tests, Docs, Journal) as you pass it. Skipping the journal gate is a rule violation.
+1. **Invoke zenflow:check-work:** Call the Skill tool with `skill: "zenflow:check-work"`. Do NOT manually run lint/format/test — the skill handles all 5 gates including the journal entry. **Announce completion of each gate by name** (Lint, Format, Tests, Docs, Journal) as you pass it. Skipping the journal gate is a rule violation.
 2. **Update the plan file frontmatter:**
    ```yaml
    ---
@@ -82,10 +82,10 @@ After all tasks complete, do these in order:
 - Don't skip verifications
 - Reference skills when plan says to
 - Stop when blocked, don't guess
-- **Step 4 is not optional** — you MUST invoke `zen:check-work` before finishing. A hook enforces this.
+- **Step 4 is not optional** — you MUST invoke `zenflow:check-work` before finishing. A hook enforces this.
 
 ## Related Skills
 
-- **zen:plan** — Creates the plan this skill executes; should include a Subagent Recommendation section
-- **zen:check-work** — Required at Step 4; runs all quality gates (lint, format, tests, docs, journal)
-- **zen:dispatch** — Alternative skill for fully parallel execution with subagents
+- **zenflow:plan** — Creates the plan this skill executes; should include a Subagent Recommendation section
+- **zenflow:check-work** — Required at Step 4; runs all quality gates (lint, format, tests, docs, journal)
+- **zenflow:dispatch** — Alternative skill for fully parallel execution with subagents

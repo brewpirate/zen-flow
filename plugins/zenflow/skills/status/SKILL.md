@@ -13,7 +13,7 @@ Show a quick snapshot of where things stand. Reads active plans, task state, git
 
 **Modes:**
 - **Default** — fast scan, checkbox counts, frontmatter status
-- **Deep** (`/zen:status recent`) — verifies each task was actually completed by checking the codebase, then stamps the plan with `validated` frontmatter
+- **Deep** (`/zenflow:status recent`) — verifies each task was actually completed by checking the codebase, then stamps the plan with `validated` frontmatter
 
 ## The Process
 
@@ -62,7 +62,7 @@ Check if any `TaskList` tasks exist in the current session:
 Check the transcript for zen skill invocations:
 - Which skills were invoked
 - In what order
-- Any that are still in progress (e.g., zen:exec-plan started but zen:check-work not yet called)
+- Any that are still in progress (e.g., zenflow:exec-plan started but zenflow:check-work not yet called)
 
 ### 5. Journal
 
@@ -73,7 +73,7 @@ Read the most recent entry from `.claude/journal.jsonl` (if it exists):
 
 ## Deep Mode
 
-**Triggered by:** `/zen:status recent` or when the user asks to verify/validate a plan.
+**Triggered by:** `/zenflow:status recent` or when the user asks to verify/validate a plan.
 
 Deep mode is a **recent work review habit** — it verifies that plans from the last few days were actually completed, so nothing gets overlooked. Run it daily or before handoffs.
 
@@ -176,8 +176,8 @@ Only stamp `status: complete` if ALL tasks are `done`. If any are `partial`, `mi
 
 **Current Session:**
 - Tasks: 2 completed, 1 in progress, 2 pending
-- Skills used: zen:idea → zen:plan → zen:dispatch (in progress)
-- ⚠️ zen:check-work not yet invoked
+- Skills used: zenflow:idea → zenflow:plan → zenflow:dispatch (in progress)
+- ⚠️ zenflow:check-work not yet invoked
 
 **Last Journal (2026-03-26):**
 - Worked on: SSE notification system
@@ -190,11 +190,11 @@ Only stamp `status: complete` if ALL tasks are `done`. If any are `partial`, `mi
 - **Before handoff** — summarize state for the next session or agent
 - **Mid-session check** — "How much is left?"
 - **After errors** — understand current state before debugging
-- **Before marking complete** — `/zen:status recent` to verify everything was actually done
+- **Before marking complete** — `/zenflow:status recent` to verify everything was actually done
 - **After another agent finished** — recent verify their work before trusting it
 
 ## Related Skills
 
-- **zen:check-work** — If status shows execution without validation, remind to run it
-- **zen:docs** — If status shows completed features without doc updates, suggest it
-- **zen:audit** — If recent mode finds pattern violations, suggest an audit
+- **zenflow:check-work** — If status shows execution without validation, remind to run it
+- **zenflow:docs** — If status shows completed features without doc updates, suggest it
+- **zenflow:audit** — If recent mode finds pattern violations, suggest an audit

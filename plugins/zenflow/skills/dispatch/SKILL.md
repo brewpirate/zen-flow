@@ -18,20 +18,20 @@ digraph when_to_use {
     "Have implementation plan?" [shape=diamond];
     "Tasks mostly independent?" [shape=diamond];
     "Stay in this session?" [shape=diamond];
-    "zen:dispatch" [shape=box];
-    "zen:exec-plan" [shape=box];
-    "Manual execution or zen:idea first" [shape=box];
+    "zenflow:dispatch" [shape=box];
+    "zenflow:exec-plan" [shape=box];
+    "Manual execution or zenflow:idea first" [shape=box];
 
     "Have implementation plan?" -> "Tasks mostly independent?" [label="yes"];
-    "Have implementation plan?" -> "Manual execution or zen:idea first" [label="no"];
+    "Have implementation plan?" -> "Manual execution or zenflow:idea first" [label="no"];
     "Tasks mostly independent?" -> "Stay in this session?" [label="yes"];
-    "Tasks mostly independent?" -> "Manual execution or zen:idea first" [label="no - tightly coupled"];
-    "Stay in this session?" -> "zen:dispatch" [label="yes"];
-    "Stay in this session?" -> "zen:exec-plan" [label="no - parallel session"];
+    "Tasks mostly independent?" -> "Manual execution or zenflow:idea first" [label="no - tightly coupled"];
+    "Stay in this session?" -> "zenflow:dispatch" [label="yes"];
+    "Stay in this session?" -> "zenflow:exec-plan" [label="no - parallel session"];
 }
 ```
 
-**vs. zen:exec-plan (parallel session):**
+**vs. zenflow:exec-plan (parallel session):**
 - Same session (no context switch)
 - Fresh subagent per task (no context pollution)
 - Two-stage review after each task: spec compliance first, then code quality
@@ -61,7 +61,7 @@ digraph process {
     "Read plan, extract all tasks with full text, note context, create TaskCreate/TaskUpdate" [shape=box];
     "More tasks remain?" [shape=diamond];
     "Dispatch final code reviewer subagent for entire implementation" [shape=box];
-    "Use zen:check-work" [shape=box style=filled fillcolor=lightgreen];
+    "Use zenflow:check-work" [shape=box style=filled fillcolor=lightgreen];
 
     "Read plan, extract all tasks with full text, note context, create TaskCreate/TaskUpdate" -> "Dispatch implementer subagent (./implementer-prompt.md)";
     "Dispatch implementer subagent (./implementer-prompt.md)" -> "Implementer subagent asks questions?";
@@ -80,7 +80,7 @@ digraph process {
     "Mark task complete in TaskCreate/TaskUpdate" -> "More tasks remain?";
     "More tasks remain?" -> "Dispatch implementer subagent (./implementer-prompt.md)" [label="yes"];
     "More tasks remain?" -> "Dispatch final code reviewer subagent for entire implementation" [label="no"];
-    "Dispatch final code reviewer subagent for entire implementation" -> "Use zen:check-work";
+    "Dispatch final code reviewer subagent for entire implementation" -> "Use zenflow:check-work";
 }
 ```
 
@@ -126,7 +126,7 @@ Implementer subagents report one of four statuses. Handle each appropriately:
 ## Example Workflow
 
 ```
-You: I'm using zen:dispatch to execute this plan.
+You: I'm using zenflow:dispatch to execute this plan.
 
 [Read plan file once: resources/plans/NNN-feature-name.md]
 [Extract all 5 tasks with full text and context]
@@ -205,7 +205,7 @@ Done!
 - Parallel-safe (subagents don't interfere)
 - Subagent can ask questions (before AND during work)
 
-**vs. zen:exec-plan:**
+**vs. zenflow:exec-plan:**
 - Same session (no handoff)
 - Continuous progress (no waiting)
 - Review checkpoints automatic
@@ -261,8 +261,8 @@ Done!
 
 ## Related Skills
 
-- **zen:plan** — Creates the plan this skill executes (includes Subagent Recommendation)
-- **zen:review** — Code review template for reviewer subagents
-- **zen:check-work** — Required after all tasks complete; runs quality gates
+- **zenflow:plan** — Creates the plan this skill executes (includes Subagent Recommendation)
+- **zenflow:review** — Code review template for reviewer subagents
+- **zenflow:check-work** — Required after all tasks complete; runs quality gates
 - **testing-anti-patterns** — Subagents should follow this for test quality
-- **zen:exec-plan** — Alternative for sequential execution with checkpoints
+- **zenflow:exec-plan** — Alternative for sequential execution with checkpoints

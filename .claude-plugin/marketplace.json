@@ -5,34 +5,26 @@
     "email": "daniel@zenner.zev"
   },
   "metadata": {
-    "description": "zenflow workflow: idea → plan → execute → validate → review. Plus agent-journal for structured work logging."
+    "description": "zenflow workflow: idea \u2192 plan \u2192 execute \u2192 validate \u2192 review. Plus agent-journal for structured work logging."
   },
   "plugins": [
+    {
+      "name": "agent-journal",
+      "source": "./plugins/agent-journal",
+      "description": "Structured agent work journal \u2014 write entries, read history, summarize patterns, and reflect on sessions. Single JSONL file per project.",
+      "version": "0.0.2"
+    },
+    {
+      "name": "total-recall",
+      "source": "./plugins/total-recall",
+      "description": "Semantic file triggers \u2014 sample model associations to generate training-data-resonant recall phrases.",
+      "version": "0.0.1"
+    },
     {
       "name": "zenflow",
       "source": "./plugins/zenflow",
       "description": "Structured development pipeline for high-quality, agent-driven software delivery",
-      "version": "1.0.3"
-    },
-    {
-      "name": "agent-journal",
-      "source": "./plugins/agent-journal",
-      "description": "Structured agent work journal — write, read, summarize, and reflect on sessions",
-      "version": "1.0.0"
-    },
-    {
-      "name": "context-factory",
-      "description": "Snapshot and fork Claude Code sessions. /freeze saves a named snapshot; /clone forks a prior session into the current context.",
-      "version": "1.0.0",
-      "source": "./plugins/context-factory",
-      "keywords": [
-        "session",
-        "snapshot",
-        "context",
-        "fork",
-        "freeze",
-        "clone"
-      ]
+      "version": "0.0.6"
     }
   ]
 }

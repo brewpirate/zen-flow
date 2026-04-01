@@ -1,6 +1,13 @@
 ---
 name: plan
 description: Use when you have a spec or requirements for a multi-step task, before touching code
+hooks:
+  PreToolUse:
+    - matcher: "Write"
+      hooks:
+        - type: command
+          command: "bash ${CLAUDE_PLUGIN_ROOT}/hooks/scripts/enforce-local-plans.sh"
+          timeout: 5
 ---
 
 # Writing Plans
@@ -11,7 +18,7 @@ Write comprehensive implementation plans as if handing them to a junior develope
 
 Assume they can write code but know nothing about barf's architecture, conventions, or testing patterns. Leave nothing implicit.
 
-**Announce at start:** "I'm using the zen:plan skill to create the implementation plan."
+**Announce at start:** "I'm using the zenflow:plan skill to create the implementation plan."
 
 **Save plans to:** `resources/plans/NNN-descriptive-name.md`
 - Run `ls -r resources/plans/` to find the highest existing `NNN`, increment by 1, zero-pad to 3 digits
@@ -19,7 +26,7 @@ Assume they can write code but know nothing about barf's architecture, conventio
 
 ## Scope Check
 
-If the spec covers multiple independent subsystems, it should have been broken into sub-project specs during zen:idea. If it wasn't, suggest breaking this into separate plans — one per subsystem. Each plan should produce working, testable software on its own.
+If the spec covers multiple independent subsystems, it should have been broken into sub-project specs during zenflow:idea. If it wasn't, suggest breaking this into separate plans — one per subsystem. Each plan should produce working, testable software on its own.
 
 ## File Structure
 
@@ -52,7 +59,7 @@ status: planned
 
 # [Feature Name] Implementation Plan
 
-> **For agentic workers:** Use zen:dispatch (recommended) or zen:exec-plan to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
+> **For agentic workers:** Use zenflow:dispatch (recommended) or zenflow:exec-plan to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
 **Goal:** [One sentence describing what this builds]
 
@@ -131,7 +138,7 @@ Every step must contain the actual content an engineer needs. These are **plan f
 
 ## Verification Section
 
-Every plan MUST end with a `## Verification` section listing how to confirm the work is correct. This feeds `zen:check-work` and gives the executing agent clear success criteria.
+Every plan MUST end with a `## Verification` section listing how to confirm the work is correct. This feeds `zenflow:check-work` and gives the executing agent clear success criteria.
 
 Include:
 - Unit tests to write and what they cover
@@ -153,7 +160,7 @@ If you find issues, fix them inline. No need to re-review — just fix and move 
 
 ## Subagent Recommendation
 
-After the self-review passes, add a **Subagent Recommendation** section to the end of the plan. This tells `zen:exec-plan` how to staff the work.
+After the self-review passes, add a **Subagent Recommendation** section to the end of the plan. This tells `zenflow:exec-plan` how to staff the work.
 
 Include:
 - **Number of subagents** — how many parallel workers are needed
@@ -184,14 +191,14 @@ After saving the plan, offer execution choice:
 
 **1. Subagent-Driven (recommended)** — I dispatch subagents per the recommendation above, parallel execution, fast iteration
 
-**2. Inline Execution** — Execute tasks in this session using zen:exec-plan, batch execution with checkpoints
+**2. Inline Execution** — Execute tasks in this session using zenflow:exec-plan, batch execution with checkpoints
 
 **Which approach?"**
 
 **If Subagent-Driven chosen:**
-- Use zen:dispatch skill
+- Use zenflow:dispatch skill
 - Follow the Subagent Recommendation from the plan
 
 **If Inline Execution chosen:**
-- Use zen:exec-plan skill
+- Use zenflow:exec-plan skill
 - Sequential execution with verification between tasks

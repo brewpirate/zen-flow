@@ -88,7 +88,7 @@ Present entries in reverse chronological order (newest first):
 ## Journal — last 5 entries
 
 ◆ 2026-03-27 14:30 | work | completed | primary
-  Branch: feature/notifications | Skill: zen:dispatch
+  Branch: feature/notifications | Skill: zenflow:dispatch
   Worked on: plan: resources/plans/245-realtime-notifications.md
   Added real-time SSE notifications for issue state changes
   Files: 5 modified, 2 created | Tests: +8
@@ -96,13 +96,13 @@ Present entries in reverse chronological order (newest first):
   Feedback: Worktree delegation kept context clean during side fix
 
 ◆ 2026-03-27 10:15 | bug-fix | completed | delegated
-  Branch: fix/rate-limiter | Skill: zen:bug-fix
+  Branch: fix/rate-limiter | Skill: zenflow:bug-fix
   Worked on: issue: rate limiter counter not resetting
   Fixed rate limiter counter not resetting between windows
   Files: 1 modified | Tests: +1
 
 ◆ 2026-03-26 16:00 | exploration | partial | primary
-  Branch: feature/mastra | Skill: zen:collab
+  Branch: feature/mastra | Skill: zenflow:collab
   Worked on: Mastra workflow integration patterns
   Explored Mastra workflow integration patterns
   Insight: Mastra's step() API changed in 0.5 — docs are outdated
@@ -110,7 +110,7 @@ Present entries in reverse chronological order (newest first):
   Feedback: Remote docs should be version-pinned in bookmarks
 
 ◆ 2026-03-26 11:00 | work | blocked | delegated
-  Branch: fix/sse-backoff | Skill: zen:plan
+  Branch: fix/sse-backoff | Skill: zenflow:plan
   Worked on: plan: resources/plans/244-sse-backoff.md
   Attempted SSE backoff implementation, blocked by unclear retry semantics
   Blocker: No spec for max retry count — needs product decision

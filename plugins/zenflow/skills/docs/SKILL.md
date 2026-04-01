@@ -9,7 +9,7 @@ description: Create or update project documentation. Use when adding new feature
 
 Create or update project documentation to match the current state of the codebase. Uses `.claude/zen.local.md` to discover where docs live in each project.
 
-**Announce at start:** "I'm using the zen:docs skill to update documentation."
+**Announce at start:** "I'm using the zenflow:docs skill to update documentation."
 
 ## Configuration
 
@@ -200,5 +200,5 @@ Options based on what was found — only show options relevant to the project's 
 
 ## Related Skills
 
-- **zen:check-work** — Gate 4 (Update Documentation) uses this skill's approach
-- **zen:plan** — Plans should reference documentation requirements in their Verification section
+- **zenflow:check-work** — Gate 4 (Update Documentation) uses this skill's approach
+- **zenflow:plan** — Plans should reference documentation requirements in their Verification section

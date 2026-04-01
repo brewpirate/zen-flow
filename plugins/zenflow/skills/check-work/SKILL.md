@@ -9,7 +9,7 @@ description: Validate completed work passes all quality gates (lint, format, tes
 
 Run all quality gates after implementation is complete. Each gate is tracked as a task. If any gate fails, fix it — using subagents for parallel resolution when possible.
 
-**Announce at start:** "I'm using the zen:check-work skill to verify this work."
+**Announce at start:** "I'm using the zenflow:check-work skill to verify this work."
 
 ## Command Discovery
 
@@ -76,7 +76,7 @@ Create all 5 tasks via `TaskCreate` upfront, then execute them in order.
   "branch": "current git branch name",
   "type": "work",
   "origin": "primary",
-  "skill": "zen:check-work",
+  "skill": "zenflow:check-work",
   "outcome": "completed",
   "summary": "One sentence: what was accomplished",
   "details": {

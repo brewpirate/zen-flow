@@ -9,7 +9,7 @@ description: Use when fixing bugs, errors, or unexpected behavior. Launches para
 
 Diagnose and fix bugs using a 4-agent pipeline: two diagnostic agents analyze the problem in parallel, a specialist writes the fix, and a code reviewer verifies quality.
 
-**Announce at start:** "I'm using the zen:bug-fix skill to diagnose and fix this issue."
+**Announce at start:** "I'm using the zenflow:bug-fix skill to diagnose and fix this issue."
 
 ## The Process
 
@@ -39,16 +39,14 @@ Launch **two agents in parallel** via `Agent` tool:
 
 ### Step 3: Determine Specialist
 
-Based on diagnostic results, choose the right specialist agent type:
+Based on diagnostic results, select the specialist agent type:
 
-| Bug location | Agent type |
-|-------------|------------|
-| Frontend components, UI, styling | Frontend Developer |
-| API routes, services, middleware | Backend Architect |
-| Database, queries, schemas | Database Optimizer |
-| Build, tooling, config | Senior Developer |
-| Tests, test infrastructure | Senior Developer |
-| Cross-cutting / unclear | Senior Developer |
+1. **Config first** — read `agents` array from `.claude/zen.local.md`, match the affected file path against each entry's `dir`, use that entry's `agent` field
+2. **Discovery fallback** — if no config match, glob `.claude/agents/*.md` and `~/.claude/agents/*.md`, read each file's `name` and `description`, match the bug's location and domain to the most relevant agent
+3. **Final fallback** — use `general-purpose`
+
+**Inform the user** which agent was selected and why. If falling back to discovery or default:
+> "No config match for this bug domain — using [agent]. Run `/zenflow:init` to generate agent assignments, or add an entry to your zen.local.md config."
 
 ### Step 4: Fix
 
@@ -82,7 +80,7 @@ If the reviewer finds issues: send feedback to the specialist agent to fix, then
 
 ### Step 6: Validate
 
-Run **zen:check-work** skill to pass all quality gates.
+Run **zenflow:check-work** skill to pass all quality gates.
 
 ## STUCK Criteria
 
@@ -108,7 +106,7 @@ When marking STUCK, report:
 
 ## Related Skills
 
-- **zen:check-work** — Required at Step 6; runs all quality gates
-- **zen:review** — Template for the review step
+- **zenflow:check-work** — Required at Step 6; runs all quality gates
+- **zenflow:review** — Template for the review step
 - **error-detective** — Root cause analysis agent
 - **error-coordinator** — Error correlation and cascade detection agent
