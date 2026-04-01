@@ -1,6 +1,6 @@
 ---
 name: seed
-description: Scan prompt files, CLAUDE.md docs, skill definitions, and other documentation to seed trigger phrases — bootstrapping total-recall from existing project knowledge.
+description: Scan prompt files, CLAUDE.md docs, skill definitions, and other documentation to seed trigger phrases — bootstrapping total-recall from existing project knowledge. Supports --models flag for model-scoped triggers.
 ---
 
 # Seed — Bootstrap Triggers from Docs and Prompts
@@ -11,7 +11,13 @@ Automatically discover and scan documentation, prompt files, skill definitions, 
 
 ## Process
 
-### 1. Discover Seedable Files
+### 1. Parse Arguments
+
+- **`--models <list>`**: Comma-separated list of target models (e.g., `--models sonnet,opus`). Default: `sonnet`
+- **`--force` or `--rescan`**: Re-scan files that already have triggers
+- **Optional path**: Limit seeding to a specific directory
+
+### 2. Discover Seedable Files
 
 Glob for documentation and prompt files across the project:
 
@@ -29,51 +35,59 @@ Exclude: `node_modules/`, `dist/`, `build/`, `.git/`
 
 If the user provided a specific path, scan only that path.
 
-### 2. Filter Already-Scanned
+### 3. Filter Already-Scanned
 
-Read `.claude/triggers.json`. Skip any files that already have trigger entries unless the user passed `--force` or `--rescan`.
+Read `.claude/triggers.json`. Skip any files that already have trigger entries for ALL requested models, unless the user passed `--force` or `--rescan`. Files with triggers for some but not all requested models will be scanned for the missing models only.
 
-### 3. Invoke Researcher
+### 4. Invoke Researcher
 
 For each batch of unscanned files (up to 20 per batch), spawn the `researcher` agent (use the Agent tool with `subagent_type` set to `total-recall:researcher`):
 
 ```
-Generate trigger phrases for these files:
+Generate trigger phrases for these files.
+Target models: <comma-separated model list>
+
+Files:
 <list absolute file paths, one per line>
 ```
 
-### 4. Store Results
+### 5. Store Results
 
-Merge results into `.claude/triggers.json` following the same format as the scan skill. Tag seeded entries with `"source": "seed"` to distinguish from manual scans:
+Merge results into `.claude/triggers.json` using the model-scoped format (version 2). Tag seeded entries with `"source": "seed"`:
 
 ```json
 {
   "src/auth/middleware.ts": {
-    "phrase": "jwt route authentication guard",
-    "samples": ["...", "..."],
-    "convergence": ["jwt", "route", "auth"],
-    "confidence": 0.85,
+    "models": {
+      "sonnet": {
+        "phrase": "jwt route authentication guard",
+        "samples": ["...", "..."],
+        "convergence": ["jwt", "route", "auth"],
+        "confidence": 0.85,
+        "phases": 1
+      }
+    },
+    "crossModelTerms": ["jwt", "route"],
     "source": "seed",
-    "scannedAt": "2026-03-31T10:00:00.000Z"
+    "scannedAt": "2026-04-01T10:00:00.000Z"
   }
 }
 ```
 
-### 5. Rebuild Index
+### 6. Rebuild Index
 
 After storing all results, invoke the `total-recall:index` skill to rebuild the master word index.
 
-### 6. Report
+### 7. Report
 
 ```
-Seeded N new triggers from M files:
+Seeded N new triggers from M files (models: sonnet, opus):
 
-  File                              | Trigger Phrase                    | Confidence
-  --------------------------------- | --------------------------------- | ----------
-  CLAUDE.md                         | project rules and conventions     | 0.88
-  plugins/zenflow/skills/plan/...   | implementation planning workflow  | 0.92
-  docs/ARCHITECTURE.md              | system design and structure       | 0.80
+  File                              | Model  | Trigger Phrase                    | Confidence
+  --------------------------------- | ------ | --------------------------------- | ----------
+  CLAUDE.md                         | sonnet | project rules and conventions     | 0.88
+  CLAUDE.md                         | opus   | project conventions enforcement   | 0.95
 
-Skipped K files (already scanned). Use --rescan to regenerate.
-Rebuilt recall index: X words → Y files.
+Skipped K files (already scanned for all target models). Use --rescan to regenerate.
+Rebuilt recall index: X words → Y files across Z models.
 ```

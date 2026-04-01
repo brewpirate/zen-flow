@@ -8,6 +8,8 @@ Agents do work, then the session ends and the context is gone. The journal captu
 
 It's also a record for humans. Open the HTML viewer, filter by branch or outcome, and see exactly what your agents have been doing.
 
+> **Experimental** — This plugin is under active development and its APIs, commands, and behavior may change without notice. Use at your own risk.
+
 ## Installation
 
 ```bash
@@ -35,6 +37,7 @@ It's also a record for humans. Open the HTML viewer, filter by branch or outcome
 | Read | `/agent-journal:read [filter]` | View recent entries with filtering |
 | Summary | `/agent-journal:summary [range]` | Aggregate patterns across sessions |
 | Reflect | `/agent-journal:reflect` | End-of-session retrospective with actionable takeaways |
+| View | `/agent-journal:view` | Open the journal in a browser with the Tokyo Night HTML viewer |
 
 ## Storage
 
@@ -171,9 +174,10 @@ Health:
 
 `zenflow:check-work` Gate 5 invokes `agent-journal:write` automatically. If agent-journal isn't installed, it falls back to appending directly to `.claude/journal.jsonl` with the full schema.
 
-Other zen skills that write journal entries:
-- `zenflow:reflect` (via agent-journal:reflect)
-- `zenflow:collab` delegates (via agent-journal:write with `origin: "delegated"`)
+Other zenflow integrations:
+- `zenflow:collab` triggers `agent-journal:reflect` at end of session
+- `zenflow:collab` delegates write entries with `origin: "delegated"`
+- `zenflow:idea` writes `exploration` type entries on completion
 
 ## Plugin Structure
 
@@ -181,13 +185,19 @@ Other zen skills that write journal entries:
 agent-journal/
 ├── .claude-plugin/
 │   └── plugin.json
+├── commands/
+│   ├── write.md               # /agent-journal:write
+│   ├── read.md                # /agent-journal:read
+│   ├── summary.md             # /agent-journal:summary
+│   └── reflect.md             # /agent-journal:reflect
 ├── scripts/
-│   └── journal.html          # Browser-based viewer (Tokyo Night)
+│   └── journal.html           # Browser-based viewer (Tokyo Night)
 └── skills/
     ├── write/SKILL.md         # agent-journal:write
     ├── read/SKILL.md          # agent-journal:read
     ├── summary/SKILL.md       # agent-journal:summary
-    └── reflect/SKILL.md       # agent-journal:reflect
+    ├── reflect/SKILL.md       # agent-journal:reflect
+    └── view/SKILL.md          # agent-journal:view — open in browser
 ```
 
 

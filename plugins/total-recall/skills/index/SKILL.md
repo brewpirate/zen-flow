@@ -1,6 +1,6 @@
 ---
 name: index
-description: Build a reverse word-to-files index from all stored triggers. Enables fast lookup — given a word or concept, find which files to load.
+description: Build a reverse word-to-files index from all stored triggers. Model-aware — builds per-model lookup so agents find triggers matched to their own model.
 allowed-tools: Read, Edit
 ---
 
@@ -8,7 +8,7 @@ allowed-tools: Read, Edit
 
 ## Overview
 
-Reads `.claude/triggers.json` and builds `.claude/recall-index.json` — a reverse lookup that maps individual words and terms to the files they came from. This is the fast path: when an agent encounters a concept, it checks the index to find which files are relevant.
+Reads `.claude/triggers.json` and builds `.claude/recall-index.json` — a reverse lookup that maps individual words and terms to the files they came from, organized by model. When an agent encounters a concept, it checks the index to find which files are relevant and gets the trigger phrase optimized for its own model.
 
 ## Process
 
@@ -20,14 +20,21 @@ Read `.claude/triggers.json`. If it doesn't exist or has no triggers, report "No
 
 For each trigger entry:
 
-1. Take the **active phrase** and all **convergence terms**
-2. Tokenize into individual words
-3. Normalize: lowercase, strip plurals (simple `s` suffix), collapse obvious synonyms (e.g., "auth"/"authentication"/"authenticate" → "auth")
-4. For each normalized word, add the file path to that word's file list
+1. Detect format:
+   - **v2 (model-scoped)**: Entry has a `models` object with per-model phrases
+   - **v1 (legacy)**: Entry has a flat `phrase` field — treat as model `"haiku"` for backwards compatibility
+
+2. For each model in the entry:
+   - Take the **active phrase** and all **convergence terms**
+   - Tokenize into individual words
+   - Normalize: lowercase, strip plurals (simple `s` suffix), collapse obvious synonyms (e.g., "auth"/"authentication"/"authenticate" → "auth")
+   - For each normalized word, add the file path to that word's entry under the appropriate model
+
+3. Also build a **cross-model** section from `crossModelTerms` if present
 
 ### 3. Score Entries
 
-For each word in the index, calculate a **weight** based on:
+For each word per model in the index, calculate a **weight** based on:
 - How many triggers it appeared in (higher = more generic, lower weight)
 - Whether it came from a convergence term (higher weight) vs just the phrase
 - Inverse document frequency — words appearing in fewer files are more distinctive
@@ -38,25 +45,49 @@ Write `.claude/recall-index.json`:
 
 ```json
 {
-  "version": 1,
-  "builtAt": "2026-03-31T10:05:00.000Z",
+  "version": 2,
+  "builtAt": "2026-04-01T10:05:00.000Z",
   "triggerCount": 15,
-  "index": {
+  "models": {
+    "sonnet": {
+      "jwt": {
+        "files": ["src/auth/middleware.ts"],
+        "phrase": "jwt route authentication guard",
+        "weight": 0.9
+      },
+      "broken windows": {
+        "files": ["rules/broken-windows.md"],
+        "phrase": "broken windows code quality ratchet",
+        "weight": 0.95
+      }
+    },
+    "opus": {
+      "jwt": {
+        "files": ["src/auth/middleware.ts"],
+        "phrase": "jwt bearer token route guard",
+        "weight": 0.92
+      },
+      "broken windows": {
+        "files": ["rules/broken-windows.md"],
+        "phrase": "broken windows codebase quality ratchet",
+        "weight": 0.98
+      }
+    }
+  },
+  "crossModel": {
     "jwt": {
-      "files": ["src/auth/middleware.ts", "src/auth/token.ts"],
+      "files": ["src/auth/middleware.ts"],
       "weight": 0.9
     },
-    "route": {
-      "files": ["src/auth/middleware.ts", "src/router/index.ts"],
-      "weight": 0.6
-    },
-    "database": {
-      "files": ["src/db/connection.ts", "src/db/migrations.ts"],
-      "weight": 0.85
+    "quality": {
+      "files": ["rules/broken-windows.md", "rules/hard-requirements.md"],
+      "weight": 0.8
     }
   }
 }
 ```
+
+The key change: each index entry under a model includes the **phrase** field — so an agent can look up a term and immediately get the trigger phrase optimized for its own model, without reading triggers.json.
 
 ### 5. Prune Noise
 
@@ -67,9 +98,13 @@ Also remove common stop words: the, a, an, is, are, was, were, be, been, being, 
 ### 6. Report
 
 ```
-Built recall index: N words → M files
-Top 10 most distinctive terms:
+Built recall index: N words → M files across K models
+Models indexed: sonnet, opus
+
+Top 10 most distinctive terms (sonnet):
   jwt → src/auth/middleware.ts (0.95)
-  migration → src/db/migrations.ts (0.92)
+  ratchet → rules/broken-windows.md (0.92)
   ...
+
+Cross-model universal terms: jwt, quality, typescript, ...
 ```

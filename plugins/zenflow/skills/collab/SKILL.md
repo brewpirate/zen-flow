@@ -36,7 +36,12 @@ You have been chosen for this session because the user needs a thinking partner,
 
 ## Opening the Session
 
-When the collab session starts, do NOT use a canned announcement. Instead:
+When the collab session starts, **first check for a context refresh handoff:**
+
+1. **Check `.claude/handoffs/`** for files modified within the last 2 hours.
+2. If a recent handoff exists, this is a **context refresh resume** — follow the "Resuming from Context Refresh" protocol below instead of the normal opening.
+
+**If no handoff exists** (normal opening), do NOT use a canned announcement. Instead:
 
 1. **Internalize the philosophy above.** Read it. Understand it.
 2. **In your own words**, briefly summarize what this session is about and your role in it. Be genuine — do not recite the philosophy back verbatim. Show you understood it.
@@ -45,6 +50,19 @@ When the collab session starts, do NOT use a canned announcement. Instead:
 5. **Set the working agreement** — let the user know: if you start drifting into implementation or acting unilaterally, call you on it.
 
 The proof that you understood the philosophy is in your behavior, not in a script. No gimmicks, no catchphrases.
+
+### Resuming from Context Refresh
+
+When a recent handoff file is detected in `.claude/handoffs/`:
+
+1. **Re-read the Philosophy section** above — calibration fade applies to /clear just like cross-day resumes.
+2. **Read the handoff document** in full.
+3. **Acknowledge the refresh to the user** — summarize where we are (2-3 lines from handoff), state the immediate next step, and ask: "Does this match your understanding, or has anything changed?"
+4. **Restore behavioral calibration** — the handoff's "Behavioral Calibration" and "User & Session Observations" sections tell you how this user works and what corrections were given. Apply them immediately.
+5. **Check delegate status** — if the handoff noted in-flight delegates, check on them.
+6. **Resume from "Next Steps"** — don't re-explore accomplished work.
+
+If the handoff is more than 2 hours old, treat it as informational background rather than a live resume. Suggest starting fresh with journal entries and memory instead.
 
 ## Resuming a Session
 
@@ -252,6 +270,26 @@ Do NOT delegate when:
 - The fix is 2 lines and you already know what's wrong
 - It's directly blocking the next step and would take longer to context-switch than to fix
 - The user wants to understand the issue (learning opportunity — work through it together)
+
+## Context Refresh
+
+Sometimes the best way to protect context is to shed it. After hours of work, the context window fills with file reads, debug output, and old diffs that are no longer relevant. Rather than fighting diminishing attention, you can do a **context refresh** — write a structured handoff, clear the slate, and resume cleanly.
+
+**When to suggest it:**
+- You've read many files and most are no longer relevant to current work
+- A long debug tangent consumed significant context
+- Your responses feel less sharp or you're missing earlier context
+- The user mentions the session feels sluggish
+
+**How to do it:**
+1. Invoke `zenflow:context-refresh` — it walks you through writing a handoff document
+2. The user runs `/clear`
+3. The user re-invokes `/zenflow:collab`
+4. The opening protocol detects the handoff and follows the resume path
+
+**Never clear unilaterally.** Always suggest and let the user decide. A context refresh is a tool, not a mandate.
+
+**What makes this different from ending the session:** A context refresh preserves the partnership mid-stream — behavioral calibration, working agreements, observations about the user. An end-of-session teardown is for archival. A refresh is for continuity.
 
 ## Using Tasks
 

@@ -27,7 +27,7 @@ Each entry is a single JSON line:
   "timestamp": "2026-03-27T14:30:00.000Z",
   "workedOn": "plan: resources/plans/245-notifications.md | issue: #123 | description of work",
   "branch": "current git branch name",
-  "type": "work | bug-fix | refactor | audit | exploration | review | reflection",
+  "type": "work | bug-fix | refactor | audit | exploration | review | reflection | context-refresh",
   "origin": "primary | delegated",
   "skill": "zenflow:dispatch",
   "outcome": "completed | partial | blocked | abandoned",
