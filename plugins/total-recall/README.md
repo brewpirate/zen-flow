@@ -86,7 +86,6 @@ In testing, the lowest-confidence file (04-claude-integration, 0.80) covered two
 | `/total-recall:index` | Rebuild the master word-to-files reverse lookup index |
 | `/total-recall:forget <path>` | Remove triggers for a file or pattern |
 | `/total-recall:compare <path>` | Cross-model comparison — run study agents on haiku, sonnet, and opus to compare phrase generation |
-| `/total-recall:test-efficacy [files]` | Behavioral efficacy test — flood context with real code, test if triggers help recall buried content |
 
 ## Architecture
 
@@ -97,9 +96,6 @@ In testing, the lowest-confidence file (04-claude-integration, 0.80) covered two
 | **researcher** | Sonnet | Orchestrates model-aware two-phase sampling, per-model convergence, cross-model analysis |
 | **study** | Haiku (default) | Reads a single file and returns a 1-6 word phrase — model overridden at call time |
 | **compare-researcher** | Sonnet | Runs haiku/sonnet/opus comparison for research purposes |
-| **efficacy-conductor** | Sonnet | Orchestrates behavioral efficacy test protocol |
-| **efficacy-trial** | Sonnet | Test subject — loads rules, floods context, answers from memory |
-| **efficacy-judge** | Opus | Scores trial answers against ground truth |
 
 ### Skills
 
@@ -111,7 +107,6 @@ In testing, the lowest-confidence file (04-claude-integration, 0.80) covered two
 | **list** | Display stored triggers with optional filtering |
 | **forget** | Remove triggers for a file or glob pattern |
 | **compare** | Cross-model comparison research tool |
-| **test-efficacy** | Behavioral efficacy test with context flooding |
 
 ### Rules
 
@@ -256,42 +251,21 @@ The `/total-recall:compare` command runs all three models for research:
 /total-recall:compare rules/broken-windows.md
 ```
 
-## Experimental: Behavioral Efficacy Test
+## Behavioral Efficacy: What We Tested
 
-The critical question: **do triggers actually work in practice?** The `/total-recall:test-efficacy` command runs a controlled experiment:
+We ran three iterations of synthetic behavioral tests attempting to measure whether triggers help recall content that has decayed in long contexts:
 
-```
-/total-recall:test-efficacy
-```
+| Test | Context Load | Method | Result |
+|------|-------------|--------|--------|
+| v1 — Passive flood | ~60K tokens | Read 10 source files | All conditions identical |
+| v2 — Active engagement | ~80K tokens | 5 deep analysis tasks | All conditions identical |
+| v3 — Heavy engagement | ~136K tokens | 12 deep analysis tasks across 30+ files | All conditions identical |
 
-### Protocol
+**Finding: Synthetic tests cannot reproduce attention decay.** Sonnet retained perfect recall of a ~1K token rule file at every tested depth, even after performing 12 substantive code review, debugging, and architecture analysis tasks. All conditions (trigger, generic hint, no intervention) scored identically.
 
-1. A trial agent reads the target rule file
-2. It then reads ~15 real source code files (~50K tokens), pushing the rule deep into context
-3. It receives one of 4 interventions:
-   - **Trigger**: The trigger phrase (e.g., "quality ratchet broken windows")
-   - **Re-read**: The full file content (positive control, ~1000 tokens)
-   - **Generic**: A plain-language reminder ("remember the coding rules about...")
-   - **Baseline**: No intervention
-4. It answers 3 specific detail-requiring questions from memory only (no re-reading allowed)
-5. An opus judge scores each answer on accuracy, specificity, and completeness (0-10)
+**Why:** Attention decay is an organic phenomenon that builds over real working sessions — temporal distance, context switching, conversational noise, system-level context compression. A synthetic single-turn test cannot reproduce this. The decay happens over 45 minutes and dozens of exchanges, not over token count alone.
 
-### Key Metric: Trigger Recovery Rate
-
-`(trigger_score - baseline_score) / (reread_score - baseline_score)`
-
-This measures what fraction of full re-read quality the 5-token trigger achieves:
-
-| Recovery Rate | Interpretation |
-|---------------|----------------|
-| >70% | Strong — triggers are effective at 200:1 compression |
-| 50-70% | Moderate — useful but imperfect |
-| 30-50% | Weak — marginal utility |
-| <30% | Triggers don't meaningfully outperform generic hints |
-
-The **trigger vs generic delta** isolates whether convergent token selection matters or any short reminder works equally well.
-
-Results are stored in `.claude/efficacy-results.json`.
+**Implication:** Behavioral efficacy must be measured through real-session instrumentation, not synthetic tests. The trigger mechanism itself is validated (convergence sampling produces model-specific lookup keys), but whether in-session attention decay is a real problem for current large-context models remains an open question.
 
 ## What's Proven vs. Unproven
 
@@ -307,9 +281,9 @@ Results are stored in `.claude/efficacy-results.json`.
 
 ### Unproven
 
-- **Behavioral efficacy** — do triggers actually prevent re-reads and maintain agent quality in live sessions?
+- **Behavioral efficacy in real sessions** — synthetic tests showed no decay up to 136K tokens; real-session instrumentation is needed to test whether triggers help over long, multi-turn working sessions
 - **Novel code boundary** — does the mechanism hold for project-specific code with thin parametric backing?
-- **Token selection specificity** — do convergent tokens outperform any generic description of equal length?
+- **Whether attention decay is a real problem** for current large-context models (200K+ token windows)
 
 ## Cost
 
