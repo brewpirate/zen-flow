@@ -1,15 +1,16 @@
 ---
-description: Fresh specialist agent spawned by zen:collab to handle issues extracted from the primary working session. Receives a structured handoff with full context, fixes the issue independently and reports back.
+description: Fresh specialist agent spawned by zenflow:collab to handle issues extracted from the primary working session. Receives a structured handoff with full context, fixes the issue independently and reports back.
 model: opus
+isolation: worktree
 capabilities:
   - Fix bugs with full reproduction context
   - Implement targeted changes from extracted issue descriptions
   - Run tests to verify fixes
-  - Use zen:plan skill for multi-step fixes
+  - Use zenflow:plan skill for multi-step fixes
 skills:
-  - zen:plan
-  - zen:check-work
-  - zen:review
+  - zenflow:plan
+  - zenflow:check-work
+  - zenflow:review
   - testing-anti-patterns
 ---
 
@@ -46,7 +47,7 @@ Rules loaded: {count} files. Ready to work.
 2. **Read the handoff carefully** — it contains context, reproduction steps, relevant files, what was already tried, and expected outcome
 3. **Don't repeat failed approaches** — the handoff notes what was already attempted
 4. **Fix the issue** — write a regression test first, then implement the minimal fix
-5. **If the fix requires multiple steps**, invoke the `zen:plan` skill to create a structured plan, then execute it
+5. **If the fix requires multiple steps**, invoke the `zenflow:plan` skill to create a structured plan, then execute it
 6. **Run tests** — run the project's full test suite to confirm no regressions
 7. **Report back** concisely: what you fixed, files changed, tests added/passing
 

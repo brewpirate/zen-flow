@@ -9,7 +9,7 @@ description: Structured refactoring pipeline — analyze target code, propose ch
 
 Structured approach to improving existing code without changing behavior. Analyzes the target, proposes the refactor with concrete before/after examples, creates a plan with regression test coverage, then executes.
 
-**Announce at start:** "I'm using the zen:refactor skill to improve this code."
+**Announce at start:** "I'm using the zenflow:refactor skill to improve this code."
 
 <HARD-GATE>
 Refactoring MUST NOT change **external** behavior — observable outputs, public API contracts consumed by code outside this repository.
@@ -19,7 +19,7 @@ Refactoring MUST NOT change **external** behavior — observable outputs, public
 - Renaming an internal function and updating all call sites
 - Splitting a module and updating internal imports
 
-If external consumers exist (npm package, REST API, CLI flags), signature changes are NOT a refactor — use zen:idea instead.
+If external consumers exist (npm package, REST API, CLI flags), signature changes are NOT a refactor — use zenflow:idea instead.
 </HARD-GATE>
 
 ## The Process
@@ -30,7 +30,7 @@ Determine what to refactor. The user may specify:
 - A file or directory
 - A function or module
 - A pattern ("all uses of X")
-- An audit finding from zen:audit
+- An audit finding from zenflow:audit
 
 If vague ("refactor the auth module"), explore the code first:
 1. Read the target files
@@ -106,7 +106,7 @@ Two options based on scope:
 2. Run tests after each change
 3. If any test fails, stop and investigate (don't fix the test — the refactor may be wrong)
 
-**Large refactor (4+ files):** Invoke zen:plan to create a detailed plan, then zen:dispatch to execute.
+**Large refactor (4+ files):** Invoke zenflow:plan to create a detailed plan, then zenflow:dispatch to execute.
 - Each task should be a self-contained refactoring step
 - Tests must pass after every task
 - Code review after each task catches drift
@@ -118,7 +118,7 @@ After refactoring is complete:
 1. Run full test suite (must match or exceed baseline count)
 2. Run type checker if the project has one
 3. Compare behavior — if the refactor touched API boundaries, verify responses match
-4. Invoke **zen:check-work** for full quality gates
+4. Invoke **zenflow:check-work** for full quality gates
 
 ## Refactoring Patterns
 
@@ -162,8 +162,8 @@ After refactoring is complete:
 
 ## Related Skills
 
-- **zen:audit** — Surfaces code quality issues that may warrant refactoring
-- **zen:plan** — Creates detailed plan for large refactors
-- **zen:dispatch** — Executes multi-task refactor plans with subagents
-- **zen:check-work** — Required after refactoring is complete
-- **zen:review** — Verify the refactor maintains quality
+- **zenflow:audit** — Surfaces code quality issues that may warrant refactoring
+- **zenflow:plan** — Creates detailed plan for large refactors
+- **zenflow:dispatch** — Executes multi-task refactor plans with subagents
+- **zenflow:check-work** — Required after refactoring is complete
+- **zenflow:review** — Verify the refactor maintains quality

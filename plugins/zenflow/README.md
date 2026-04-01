@@ -1,8 +1,8 @@
-# Zen Flow
+# ZenFlow
 
 A structured development pipeline for Claude Code that turns ideas into shipped, validated code through a series of composable skills.
 
-Zen Flow is derived from [Superpowers](https://github.com/obra/superpowers) by Jesse Vincent — a pioneering set of Claude Code skills for structured, agent-driven development. Zen Flow adapts and extends those ideas into a bundled plugin with additional skills, hooks, agents, and configuration.
+ZenFlow is derived from [Superpowers](https://github.com/obra/superpowers) by Jesse Vincent — a pioneering set of Claude Code skills for structured, agent-driven development. Zen Flow adapts and extends those ideas into a bundled plugin with additional skills, hooks, agents, and configuration.
 
 ## Philosophy
 
@@ -13,8 +13,8 @@ Zen Flow is opinionated about process but flexible about execution. You can run 
 ## Installation
 
 ```bash
-/plugin marketplace add brewpirate/zen-flow
-/plugin install zen@zen
+/plugin marketplace add brewpirate/zenflow
+/plugin install zenflow@zen
 /plugin install agent-journal@zen
 /reload-plugins
 ```
@@ -24,9 +24,9 @@ Zen Flow is opinionated about process but flexible about execution. You can run 
 Run `/zen` to see the interactive menu, or invoke any skill directly:
 
 ```
-/zen:idea    Build a new user notification system
-/zen:plan
-/zen:dispatch
+/zenflow:idea    Build a new user notification system
+/zenflow:plan
+/zenflow:dispatch
 ```
 
 ## The Marketplace
@@ -43,12 +43,12 @@ Two plugins, one marketplace:
 ```mermaid
 %%{init: {'theme': 'base', 'themeVariables': { 'primaryColor': '#1a1b26', 'primaryTextColor': '#c0caf5', 'lineColor': '#565f89', 'secondaryColor': '#24283b' }}}%%
 graph LR
-    idea["zen:idea<br/><small>Explore → Discover → Design</small>"]
-    plan["zen:plan<br/><small>Implementation Plan</small>"]
-    dispatch["zen:dispatch<br/><small>Parallel Subagents</small>"]
-    execplan["zen:exec-plan<br/><small>Sequential Steps</small>"]
-    check["zen:check-work<br/><small>5 Quality Gates</small>"]
-    review["zen:review<br/><small>Code Review</small>"]
+    idea["zenflow:idea<br/><small>Explore → Discover → Design</small>"]
+    plan["zenflow:plan<br/><small>Implementation Plan</small>"]
+    dispatch["zenflow:dispatch<br/><small>Parallel Subagents</small>"]
+    execplan["zenflow:exec-plan<br/><small>Sequential Steps</small>"]
+    check["zenflow:check-work<br/><small>5 Quality Gates</small>"]
+    review["zenflow:review<br/><small>Code Review</small>"]
 
     idea --> plan
     plan --> dispatch
@@ -67,38 +67,38 @@ graph LR
 
 ### Full Pipeline
 
-1. **`/zen:idea`** — Three modes based on idea maturity:
+1. **`/zenflow:idea`** — Three modes based on idea maturity:
    - **Exploration** ("an idea") — open questions, research agents, periodic checkpoints. No proposals until the user signals readiness. Produces a mandatory exploration artifact.
    - **Discovery** ("a problem") — clear pain, unclear solution. Skips problem exploration, investigates solution approaches. Produces a mandatory discovery artifact.
    - **Design** ("the idea") — clear intent. Clarify → propose 2-3 approaches → present design → get approval.
 
    No code until the design is approved.
 
-2. **`/zen:plan`** — Write a detailed implementation plan with bite-sized tasks, complete code in every step, exact commands, and TDD. Saved to `resources/plans/NNN-name.md`.
+2. **`/zenflow:plan`** — Write a detailed implementation plan with bite-sized tasks, complete code in every step, exact commands, and TDD. Saved to `resources/plans/NNN-name.md`.
 
 3. **Execute** (pick one):
-   - **`/zen:dispatch`** — Parallel subagents per task with two-stage review (spec compliance + code quality). Recommended for plans with independent tasks.
-   - **`/zen:exec-plan`** — Sequential execution with checkpoints. Better for tightly coupled tasks or when you want more control.
+   - **`/zenflow:dispatch`** — Parallel subagents per task with two-stage review (spec compliance + code quality). Recommended for plans with independent tasks.
+   - **`/zenflow:exec-plan`** — Sequential execution with checkpoints. Better for tightly coupled tasks or when you want more control.
 
-4. **`/zen:check-work`** — Five quality gates in order: lint, format, tests, docs, journal. Auto-discovers project commands from `package.json`/`CLAUDE.md`. Auto-fixes what it can, launches subagents for the rest. Enforced by a Stop hook — you cannot finish an execution session without running this.
+4. **`/zenflow:check-work`** — Five quality gates in order: lint, format, tests, docs, journal. Auto-discovers project commands from `package.json`/`CLAUDE.md`. Auto-fixes what it can, launches subagents for the rest. Enforced by a Stop hook — you cannot finish an execution session without running this.
 
-5. **`/zen:review`** — Dispatch a code reviewer subagent with the git diff. Categorizes issues as Critical/Important/Minor with file:line references and a clear merge verdict.
+5. **`/zenflow:review`** — Dispatch a code reviewer subagent with the git diff. Categorizes issues as Critical/Important/Minor with file:line references and a clear merge verdict.
 
 ### Standalone Skills
 
 These work independently of the pipeline:
 
-- **`/zen:collab`** — Collaborative working session (Opus model). You and the agent work together as a team — exploring code, building features, troubleshooting problems. When issues arise, they're extracted and delegated to fresh `collab-delegate` agents — either inline (quick fixes) or in **isolated worktrees** (larger issues that get their own branch and PR). Delegates load all project rules dynamically before starting work.
+- **`/zenflow:collab`** — Collaborative working session (Opus model). You and the agent work together as a team — exploring code, building features, troubleshooting problems. When issues arise, they're extracted and delegated to fresh `collab-delegate` agents — either inline (quick fixes) or in **isolated worktrees** (larger issues that get their own branch and PR). Delegates load all project rules dynamically before starting work.
 
-- **`/zen:bug-fix`** — Four-agent diagnostic pipeline: two agents diagnose in parallel (root cause + cascade risk), a specialist writes the minimal fix with a regression test, a reviewer verifies.
+- **`/zenflow:bug-fix`** — Four-agent diagnostic pipeline: two agents diagnose in parallel (root cause + cascade risk), a specialist writes the minimal fix with a regression test, a reviewer verifies.
 
-- **`/zen:docs`** — Create or update project documentation. Reads `.claude/zen.local.md` for doc paths, assesses what's stale, asks what to update, writes it.
+- **`/zenflow:docs`** — Create or update project documentation. Reads `.claude/zen.local.md` for doc paths, assesses what's stale, asks what to update, writes it.
 
-- **`/zen:audit`** — Audit codebase sections against configurable code standards. Dispatches specialist agents in parallel per section, each checking against rules defined in `.claude/rules/`. Supports **changed mode** (`/zen:audit changed`) for diff-only audits — only files modified vs main get checked. Full mode for comprehensive sweeps.
+- **`/zenflow:audit`** — Audit codebase sections against configurable code standards. Dispatches specialist agents in parallel per section, each checking against rules defined in `.claude/rules/`. Supports **changed mode** (`/zenflow:audit changed`) for diff-only audits — only files modified vs main get checked. Full mode for comprehensive sweeps.
 
-- **`/zen:refactor`** — Structured refactoring pipeline. Analyzes target code, proposes changes with before/after examples, ensures regression test coverage exists, then executes. Internal API changes are allowed if all callers are updated in the same scope; external-facing changes are not refactors.
+- **`/zenflow:refactor`** — Structured refactoring pipeline. Analyzes target code, proposes changes with before/after examples, ensures regression test coverage exists, then executes. Internal API changes are allowed if all callers are updated in the same scope; external-facing changes are not refactors.
 
-- **`/zen:status`** — Quick snapshot of project state: active plans (any frontmatter `status != complete`), task progress, git status, session history, and journal entries. Supports **recent mode** (`/zen:status recent`) which verifies tasks from the last 72h were actually completed by inspecting tests, commits, and files, then stamps plans with `validated` frontmatter.
+- **`/zenflow:status`** — Quick snapshot of project state: active plans (any frontmatter `status != complete`), task progress, git status, session history, and journal entries. Supports **recent mode** (`/zenflow:status recent`) which verifies tasks from the last 72h were actually completed by inspecting tests, commits, and files, then stamps plans with `validated` frontmatter.
 
 ### Agent Journal (separate plugin)
 
@@ -114,18 +114,19 @@ Journal entries are stored in `.claude/journal.jsonl` (single file, append-only)
 | Skill | Invocation | Model | Purpose |
 |-------|-----------|-------|---------|
 | Menu | `/zen` | — | Interactive skill picker |
-| Collab | `/zen:collab` | Opus | Collaborative session with inline + worktree delegation |
-| Idea | `/zen:idea` | — | Explore → discover → design (three modes) |
-| Plan | `/zen:plan` | — | Write implementation plan from spec |
-| Execute (parallel) | `/zen:dispatch` | — | Subagent-per-task with two-stage review |
-| Execute (sequential) | `/zen:exec-plan` | — | Step-by-step with checkpoints |
-| Validate | `/zen:check-work` | — | Lint, format, tests, docs, journal gates |
-| Review | `/zen:review` | — | Code review via subagent |
-| Bug Fix | `/zen:bug-fix` | — | Diagnose and fix with agent pipeline |
-| Docs | `/zen:docs` | — | Create or update documentation |
-| Audit | `/zen:audit [changed]` | — | Audit code sections against standards; changed = diff-only |
-| Refactor | `/zen:refactor` | — | Structured refactoring with regression safety |
-| Status | `/zen:status [recent]` | — | Project state snapshot; recent mode verifies recent work |
+| Init | `/zenflow:init` | — | Scan codebase and agents to generate zen.local.md config |
+| Collab | `/zenflow:collab` | Opus | Collaborative session with inline + worktree delegation |
+| Idea | `/zenflow:idea` | — | Explore → discover → design (three modes) |
+| Plan | `/zenflow:plan` | — | Write implementation plan from spec |
+| Execute (parallel) | `/zenflow:dispatch` | — | Subagent-per-task with two-stage review |
+| Execute (sequential) | `/zenflow:exec-plan` | — | Step-by-step with checkpoints |
+| Validate | `/zenflow:check-work` | — | Lint, format, tests, docs, journal gates |
+| Review | `/zenflow:review` | — | Code review via subagent |
+| Bug Fix | `/zenflow:bug-fix` | — | Diagnose and fix with agent pipeline |
+| Docs | `/zenflow:docs` | — | Create or update documentation |
+| Audit | `/zenflow:audit [changed]` | — | Audit code sections against standards; changed = diff-only |
+| Refactor | `/zenflow:refactor` | — | Structured refactoring with regression safety |
+| Status | `/zenflow:status [recent]` | — | Project state snapshot; recent mode verifies recent work |
 | Journal Write | `/agent-journal:write` | — | Append structured journal entry |
 | Journal Read | `/agent-journal:read` | — | View and filter entries |
 | Journal Summary | `/agent-journal:summary` | — | Aggregate patterns and health signals |
@@ -133,13 +134,17 @@ Journal entries are stored in `.claude/journal.jsonl` (single file, append-only)
 
 ## Agents
 
-| Agent | Model | Purpose |
-|-------|-------|---------|
-| `collab-delegate` | Opus | Fresh specialist spawned by zen:collab to handle extracted issues |
+| Agent | Model | Purpose | Source |
+|-------|-------|---------|--------|
+| `collab-delegate` | Opus | Fresh specialist spawned by zenflow:collab to handle extracted issues | — |
+| `error-coordinator` | — | Cascade risk analysis in zenflow:bug-fix | [awesome-claude-code-subagents](https://github.com/VoltAgent/awesome-claude-code-subagents/blob/main/categories/09-meta-orchestration/error-coordinator.md) |
+| `error-detective` | — | Root cause analysis in zenflow:bug-fix | [awesome-claude-code-subagents](https://github.com/VoltAgent/awesome-claude-code-subagents/blob/main/categories/04-quality-security/error-detective.md) |
+
+> Agent assignments for skills are configured in `.claude/zen.local.md`. Run `/zenflow:init` to auto-generate config from your installed agents.
 
 The collab-delegate agent:
 - **Loads all project rules dynamically** — globs `.claude/rules/*.md` and reads every file, announcing each one
-- **Has zen skills** — can invoke `zen:plan`, `zen:check-work`, `zen:review`, and `testing-anti-patterns`
+- **Has zen skills** — can invoke `zenflow:plan`, `zenflow:check-work`, `zenflow:review`, and `testing-anti-patterns`
 - **Receives structured handoffs** — context, reproduction steps, relevant files, what was already tried
 - **Can work in worktrees** — isolated branch, commits freely, submits PR as review gate
 - **Can escalate** — reports `BLOCKED` if context is insufficient rather than guessing
@@ -151,18 +156,22 @@ Zen Flow includes two Stop hooks that enforce workflow discipline:
 | Hook | What it does |
 |------|-------------|
 | `enforce-plan-mode-tools` | In plan mode, blocks ending a turn without calling `ExitPlanMode` or `AskUserQuestion` |
-| `enforce-work-validation` | After `zen:exec-plan` or `zen:dispatch`, blocks finishing without running `zen:check-work` |
+| `enforce-work-validation` | After `zenflow:exec-plan` or `zenflow:dispatch`, blocks finishing without running `zenflow:check-work` |
 
 These fire automatically when the plugin is installed. No configuration needed.
 
 ## Configuration
 
-All zen configuration lives in `.claude/zen.local.md` — a single file with YAML frontmatter for structured config and a markdown body for freeform notes.
+All zen configuration lives in `.claude/zen.local.md` — a single file with YAML frontmatter for structured config and a markdown body for freeform notes. Run `/zenflow:init` to generate this file automatically from your codebase and installed agents.
 
-### Documentation paths (zen:docs)
+### Config structure
 
 ```yaml
 ---
+project:
+  language: typescript       # detected primary language
+  framework: nextjs          # detected framework (if any)
+
 docs:
   readme: README.md
   architecture: docs/ARCHITECTURE.md
@@ -174,44 +183,45 @@ docs:
       glob: "*.md"
     - name: API Reference
       path: docs/api-reference.md
+
+agents:
+  - domain: api-routes
+    dir: packages/server/src/server/routes/
+    glob: "*.ts"
+    agent: Backend Architect
+    rules:
+      - error-handling
+      - options-objects
+      - async-patterns
+  - domain: frontend
+    dir: packages/frontend/src/components/
+    glob: "**/*.tsx"
+    agent: Frontend Developer
+    rules:
+      - react-patterns
+      - composition-patterns
 ---
 
 Style notes: use tables for config options, code blocks for commands.
 ```
 
-**Well-known fields:** `readme`, `architecture`, `claude`, `changelog` — paths to standard files.
+### Config keys
 
-**`paths` array:** Additional doc locations. Each entry has a `name` and either:
-- `path` — a single file
-- `dir` + `glob` — a directory scanned with a glob pattern (default: `"*.md"`)
+| Key | Used by | Description |
+|-----|---------|-------------|
+| `project` | All skills | Detected language and framework |
+| `docs` | zenflow:docs | Documentation file paths and directories |
+| `agents` | zenflow:audit, zenflow:bug-fix | Domain-to-agent mapping for the codebase |
 
-If no config exists, `zen:docs` auto-discovers common locations and creates the file for you.
+### agents fields
 
-### Audit sections (zen:audit)
-
-```yaml
----
-audit:
-  sections:
-    - name: API Routes
-      dir: packages/server/src/server/routes/
-      glob: "**/*.ts"
-      agent: Backend Architect
-      standards:
-        - error-handling
-        - async-patterns
-    - name: Frontend Components
-      dir: packages/frontend/src/components/
-      glob: "**/*.tsx"
-      agent: Frontend Developer
-      standards:
-        - react-patterns
----
-```
-
-Each `standards` entry maps to a file in `.claude/rules/` (e.g., `error-handling` → `.claude/rules/error-handling.md`). The `agent` field selects which specialist subagent type reviews that section.
-
-If no `audit` config exists, `zen:audit` scans the project and asks you to configure it.
+| Field | Required | Description |
+|-------|----------|-------------|
+| `domain` | yes | Logical name for this codebase section |
+| `dir` | yes | Directory path relative to project root |
+| `glob` | no | File pattern (default: `**/*`) |
+| `agent` | no | Agent name — must match an installed agent's `name` frontmatter |
+| `rules` | no | Rule names resolved to `.claude/rules/{name}.md` |
 
 ### Layering
 
@@ -237,7 +247,7 @@ zen-marketplace/
 │   ├── .claude-plugin/
 │   │   └── plugin.json
 │   ├── agents/
-│   │   └── collab-delegate.md        # Opus-powered specialist for zen:collab
+│   │   └── collab-delegate.md        # Opus-powered specialist for zenflow:collab
 │   ├── commands/
 │   │   └── zen.md                    # /zen interactive menu
 │   ├── hooks/
@@ -246,24 +256,24 @@ zen-marketplace/
 │   │       ├── enforce-plan-mode-tools.sh
 │   │       └── enforce-work-validation.sh
 │   └── skills/
-│       ├── idea/SKILL.md             # zen:idea — explore → discover → design
-│       ├── plan/SKILL.md             # zen:plan — write implementation plans
-│       ├── exec-plan/SKILL.md        # zen:exec-plan — sequential execution
-│       ├── dispatch/                  # zen:dispatch — parallel subagent execution
+│       ├── idea/SKILL.md             # zenflow:idea — explore → discover → design
+│       ├── plan/SKILL.md             # zenflow:plan — write implementation plans
+│       ├── exec-plan/SKILL.md        # zenflow:exec-plan — sequential execution
+│       ├── dispatch/                  # zenflow:dispatch — parallel subagent execution
 │       │   ├── SKILL.md
 │       │   ├── implementer-prompt.md
 │       │   ├── spec-reviewer-prompt.md
 │       │   └── code-quality-reviewer-prompt.md
-│       ├── check-work/SKILL.md       # zen:check-work — 5 quality gates
-│       ├── review/                    # zen:review — code review
+│       ├── check-work/SKILL.md       # zenflow:check-work — 5 quality gates
+│       ├── review/                    # zenflow:review — code review
 │       │   ├── SKILL.md
 │       │   └── code-reviewer.md
-│       ├── bug-fix/SKILL.md          # zen:bug-fix — diagnostic pipeline
-│       ├── docs/SKILL.md             # zen:docs — documentation
-│       ├── audit/SKILL.md            # zen:audit — code standards audit
-│       ├── refactor/SKILL.md         # zen:refactor — structured refactoring
-│       ├── status/SKILL.md           # zen:status — project snapshot + recent verify
-│       └── collab/SKILL.md           # zen:collab — collaborative session (Opus)
+│       ├── bug-fix/SKILL.md          # zenflow:bug-fix — diagnostic pipeline
+│       ├── docs/SKILL.md             # zenflow:docs — documentation
+│       ├── audit/SKILL.md            # zenflow:audit — code standards audit
+│       ├── refactor/SKILL.md         # zenflow:refactor — structured refactoring
+│       ├── status/SKILL.md           # zenflow:status — project snapshot + recent verify
+│       └── collab/SKILL.md           # zenflow:collab — collaborative session (Opus)
 └── plugins/agent-journal/
     ├── .claude-plugin/
     │   └── plugin.json
@@ -278,12 +288,12 @@ zen-marketplace/
 
 ## Workflow Diagrams
 
-### zen:idea — Three Modes
+### zenflow:idea — Three Modes
 
 ```mermaid
 %%{init: {'theme': 'base', 'themeVariables': { 'primaryColor': '#1a1b26', 'primaryTextColor': '#c0caf5', 'lineColor': '#565f89', 'secondaryColor': '#24283b', 'tertiaryColor': '#24283b' }}}%%
 flowchart TD
-    start([User invokes zen:idea]) --> assess{"How concrete<br/>is the idea?"}
+    start([User invokes zenflow:idea]) --> assess{"How concrete<br/>is the idea?"}
 
     assess -->|"vague / still forming"| explore["<b>Exploration Mode</b><br/><small>Open questions, research agents,<br/>checkpoint every 3-4 exchanges</small>"]
     assess -->|"clear problem,<br/>unclear solution"| discover["<b>Discovery Mode</b><br/><small>Investigate solutions, compare<br/>approaches, narrow together</small>"]
@@ -297,7 +307,7 @@ flowchart TD
 
     design --> approval{"Design approved?"}
     approval -->|no| design
-    approval -->|yes| plan["<b>zen:plan</b>"]
+    approval -->|yes| plan["<b>zenflow:plan</b>"]
 
     style start fill:#24283b,color:#c0caf5,stroke:#565f89
     style assess fill:#24283b,color:#c0caf5,stroke:#565f89
@@ -316,12 +326,12 @@ flowchart TD
 %%{init: {'theme': 'base', 'themeVariables': { 'primaryColor': '#1a1b26', 'primaryTextColor': '#c0caf5', 'lineColor': '#565f89', 'secondaryColor': '#24283b', 'tertiaryColor': '#24283b' }}}%%
 flowchart TD
     start([User has an idea]) --> idea
-    idea["<b>zen:idea</b><br/>Explore → Discover → Design"]
+    idea["<b>zenflow:idea</b><br/>Explore → Discover → Design"]
     idea -->|design approved| plan
-    plan["<b>zen:plan</b><br/>Write Implementation Plan"]
+    plan["<b>zenflow:plan</b><br/>Write Implementation Plan"]
     plan -->|"plan saved"| choose{Execution Strategy?}
-    choose -->|parallel| dispatch["<b>zen:dispatch</b><br/>Subagent per Task"]
-    choose -->|sequential| execplan["<b>zen:exec-plan</b><br/>Step-by-step"]
+    choose -->|parallel| dispatch["<b>zenflow:dispatch</b><br/>Subagent per Task"]
+    choose -->|sequential| execplan["<b>zenflow:exec-plan</b><br/>Step-by-step"]
 
     dispatch --> task1["Task 1: Implement"]
     dispatch --> task2["Task 2: Implement"]
@@ -338,9 +348,9 @@ flowchart TD
 
     execplan -->|"all tasks done"| check
 
-    check["<b>zen:check-work</b><br/>Lint → Format → Tests → Docs → Journal"]
+    check["<b>zenflow:check-work</b><br/>Lint → Format → Tests → Docs → Journal"]
     check -->|"all gates pass"| review
-    review["<b>zen:review</b><br/>Final Code Review"]
+    review["<b>zenflow:review</b><br/>Final Code Review"]
     review --> done([Ship It])
 
     style start fill:#24283b,color:#c0caf5,stroke:#565f89
@@ -381,7 +391,7 @@ flowchart TD
     specialist["Specialist Agent<br/><small>Regression test → Minimal fix</small>"]
     specialist --> reviewer["Code Reviewer<br/><small>Verify fix quality</small>"]
     reviewer -->|issues found| specialist
-    reviewer -->|approved| check["<b>zen:check-work</b>"]
+    reviewer -->|approved| check["<b>zenflow:check-work</b>"]
     check --> done([Fixed])
 
     style bug fill:#24283b,color:#c0caf5,stroke:#565f89
@@ -400,7 +410,7 @@ flowchart TD
 ```mermaid
 %%{init: {'theme': 'base', 'themeVariables': { 'primaryColor': '#1a1b26', 'primaryTextColor': '#c0caf5', 'lineColor': '#565f89', 'secondaryColor': '#24283b', 'tertiaryColor': '#24283b' }}}%%
 flowchart TD
-    start(["/zen:collab"]) --> work
+    start(["/zenflow:collab"]) --> work
     work["Working Together<br/><small>Explore, build, discuss</small>"]
     work --> issue{"Issue found?"}
     issue -->|"quick fix<br/>(< 2 min)"| inline["Fix Inline"]
@@ -418,7 +428,7 @@ flowchart TD
 
     work --> finish{Done?}
     finish -->|more work| work
-    finish -->|yes| check["<b>zen:check-work</b>"]
+    finish -->|yes| check["<b>zenflow:check-work</b>"]
 
     style start fill:#24283b,color:#c0caf5,stroke:#565f89
     style work fill:#bb9af7,color:#1a1b26,stroke:#bb9af7
@@ -439,7 +449,7 @@ flowchart TD
 ```mermaid
 %%{init: {'theme': 'base', 'themeVariables': { 'primaryColor': '#1a1b26', 'primaryTextColor': '#c0caf5', 'lineColor': '#565f89', 'secondaryColor': '#24283b', 'tertiaryColor': '#24283b' }}}%%
 flowchart TD
-    start(["/zen:audit"]) --> mode{"Mode?"}
+    start(["/zenflow:audit"]) --> mode{"Mode?"}
     mode -->|full| config["Read zen.local.md<br/><small>All audit sections</small>"]
     mode -->|changed| diff["git diff main...HEAD<br/><small>Only changed files</small>"]
     diff --> config
@@ -455,9 +465,9 @@ flowchart TD
     dispatch --> report["Compile Report<br/><small>Critical → Important → Minor</small>"]
     report --> action{"Action?"}
     action -->|fix| fix["Dispatch Fix Agents"]
-    action -->|plan| plan["<b>zen:plan</b>"]
+    action -->|plan| plan["<b>zenflow:plan</b>"]
     action -->|save| save["Save Report"]
-    fix --> check["<b>zen:check-work</b>"]
+    fix --> check["<b>zenflow:check-work</b>"]
 
     style start fill:#24283b,color:#c0caf5,stroke:#565f89
     style mode fill:#24283b,color:#c0caf5,stroke:#565f89

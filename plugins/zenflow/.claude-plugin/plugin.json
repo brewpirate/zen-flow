@@ -1,5 +1,5 @@
 {
-  "name": "zen",
+  "name": "zenflow",
   "description": "Structured development pipeline for high-quality, agent-driven software delivery",
-  "version": "1.0.3"
+  "version": "0.0.5"
 }

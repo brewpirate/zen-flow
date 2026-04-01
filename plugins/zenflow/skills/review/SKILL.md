@@ -12,7 +12,7 @@ Dispatch code-reviewer subagent to catch issues before they cascade. The reviewe
 ## When to Request Review
 
 **Mandatory:**
-- After each task in zen:dispatch
+- After each task in zenflow:dispatch
 - After completing major feature
 - Before merge to main
 
@@ -76,12 +76,12 @@ You: [Fix progress indicators]
 
 ## Integration with Workflows
 
-**zen:dispatch:**
+**zenflow:dispatch:**
 - Review after EACH task
 - Catch issues before they compound
 - Fix before moving to next task
 
-**zen:exec-plan:**
+**zenflow:exec-plan:**
 - Review after each batch (3 tasks)
 - Get feedback, apply, continue
 

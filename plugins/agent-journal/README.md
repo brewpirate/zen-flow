@@ -11,7 +11,7 @@ It's also a record for humans. Open the HTML viewer, filter by branch or outcome
 ## Installation
 
 ```bash
-/plugin marketplace add brewpirate/zen-flow
+/plugin marketplace add brewpirate/zenflow
 /plugin install agent-journal@zen
 /reload-plugins
 ```
@@ -60,7 +60,7 @@ JSONL was chosen over SQLite, markdown, or separate files because:
   "branch": "feature/notifications",
   "type": "work",
   "origin": "primary",
-  "skill": "zen:dispatch",
+  "skill": "zenflow:dispatch",
   "outcome": "completed",
   "summary": "Added real-time SSE notifications for issue state changes",
   "details": {
@@ -94,7 +94,7 @@ JSONL was chosen over SQLite, markdown, or separate files because:
 |-------|-------------|
 | `branch` | Git branch name |
 | `origin` | `primary` (user's session) or `delegated` (spawned agent) |
-| `skill` | Which skill was active (e.g., `zen:dispatch`) |
+| `skill` | Which skill was active (e.g., `zenflow:dispatch`) |
 | `outcome` | `completed`, `partial`, `blocked`, `abandoned` |
 | `feedback` | Meta-level process observations |
 
@@ -108,7 +108,7 @@ All other fields are optional. The schema is open — add custom fields as neede
 
 ```
 ◆ Mar 27 2:30 PM | work | completed | primary
-  Branch: feature/notifications | Skill: zen:dispatch
+  Branch: feature/notifications | Skill: zenflow:dispatch
   Worked on: plan: resources/plans/245-realtime-notifications.md
   Added real-time SSE notifications for issue state changes
   Files: 5 modified, 2 created | Tests: +8
@@ -149,7 +149,7 @@ Activity:       12 work, 4 bug-fix, 2 refactor, 3 exploration
 Hot Files:      src/routes/api.ts (8 entries), src/core/context.ts (5)
 Blockers:       "Mock pollution in tests" (3x), "Rate limiter unclear" (2x, resolved)
 Top Insight:    Two-stage review catches different failure modes (3 mentions)
-Skills:         zen:dispatch (8), zen:collab (5), zen:bug-fix (4)
+Skills:         zenflow:dispatch (8), zenflow:collab (5), zenflow:bug-fix (4)
 
 Health:
   Bug-fix ratio:        17% (healthy < 25%)
@@ -169,11 +169,11 @@ Health:
 
 ## Integration with Zen Flow
 
-`zen:check-work` Gate 5 invokes `agent-journal:write` automatically. If agent-journal isn't installed, it falls back to appending directly to `.claude/journal.jsonl` with the full schema.
+`zenflow:check-work` Gate 5 invokes `agent-journal:write` automatically. If agent-journal isn't installed, it falls back to appending directly to `.claude/journal.jsonl` with the full schema.
 
 Other zen skills that write journal entries:
-- `zen:reflect` (via agent-journal:reflect)
-- `zen:collab` delegates (via agent-journal:write with `origin: "delegated"`)
+- `zenflow:reflect` (via agent-journal:reflect)
+- `zenflow:collab` delegates (via agent-journal:write with `origin: "delegated"`)
 
 ## Plugin Structure
 
@@ -197,10 +197,10 @@ agent-journal/
 ```
 You: /agent-journal:reflect
   → Session Timeline:
-    10:15 — Started zen:collab, exploring SSE
+    10:15 — Started zenflow:collab, exploring SSE
     10:30 — Delegated rate limiter bug to worktree
     10:45 — Designed notification schema
-    11:00 — Created plan, started zen:dispatch
+    11:00 — Created plan, started zenflow:dispatch
     12:30 — All tasks complete, check-work passed
 
   → What Went Well:

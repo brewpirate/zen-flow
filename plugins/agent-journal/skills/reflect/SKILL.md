@@ -31,14 +31,14 @@ Build a chronological narrative of what happened:
 
 ```
 Session Timeline:
-  10:15 — Started with zen:collab, exploring SSE implementation
+  10:15 — Started with zenflow:collab, exploring SSE implementation
   10:30 — Found rate limiter bug, delegated to worktree agent
   10:45 — Designed notification schema together
   11:00 — Created plan (resources/plans/245-notifications.md)
-  11:15 — Started zen:dispatch, tasks 1-3 in parallel
+  11:15 — Started zenflow:dispatch, tasks 1-3 in parallel
   12:00 — Tasks 1-2 complete, task 3 partial (missing reconnection)
   12:15 — Fixed task 3 with implementer re-dispatch
-  12:30 — zen:check-work passed all gates
+  12:30 — zenflow:check-work passed all gates
   12:35 — Rate limiter PR merged from worktree delegate
 ```
 
@@ -129,7 +129,7 @@ After presenting the reflection, ask:
 **"Any of these suggested actions worth doing now?"**
 
 Options:
-- **Update docs** — invoke zen:docs for documentation gaps
+- **Update docs** — invoke zenflow:docs for documentation gaps
 - **Update rules** — add new conventions to `.claude/rules/`
 - **Create issues** — log suggested actions as tasks for later
 - **Save and close** — reflection is recorded, act on it next session
@@ -147,4 +147,4 @@ Options:
 - **agent-journal:write** — Reflection writes its own journal entry
 - **agent-journal:summary** — Broader pattern analysis across sessions
 - **agent-journal:read** — Review raw entries
-- **zen:docs** — Act on documentation gaps found during reflection
+- **zenflow:docs** — Act on documentation gaps found during reflection

@@ -4,7 +4,7 @@
 ### New Feature (full pipeline)
 
 ```
-You: /zen:idea  I want to improve how agents communicate results
+You: /zenflow:idea  I want to improve how agents communicate results
   → "How concrete is this? Still forming, clear problem, or ready to design?"
 
 You: Still forming — I know there's a problem but I'm not sure what to build
@@ -23,20 +23,20 @@ You: Yes, let's go with journal integration
   → [Design mode: clarifies schema, proposes architecture, presents design]
   → Design approved
 
-You: /zen:plan
+You: /zenflow:plan
   → Plan saved to resources/plans/245-agent-communication.md
 
 You: Subagent-Driven
-  → /zen:dispatch executes 5 tasks with parallel subagents
+  → /zenflow:dispatch executes 5 tasks with parallel subagents
   → Each task: implement → spec review → code quality review
-  → /zen:check-work runs all 5 gates
+  → /zenflow:check-work runs all 5 gates
   → Done
 ```
 
 ### Collab Session (inline delegation)
 
 ```
-You: /zen:collab  Let's work on the notification system together
+You: /zenflow:collab  Let's work on the notification system together
   → Starting collab session (Opus). Working on notifications together.
 
 You: Let's start by looking at how SSE works in the server
@@ -64,7 +64,7 @@ You: Delegate it, let's stay focused on notifications
 ### Collab Session (worktree delegation)
 
 ```
-You: /zen:collab  Let's explore the plugin system together
+You: /zenflow:collab  Let's explore the plugin system together
   → Starting collab session (Opus). Exploring plugins together.
 
 You: I think the plugin loader needs a complete rewrite
@@ -90,20 +90,20 @@ You: We'll look at it after we finish here
 ### Bug Fix
 
 ```
-You: /zen:bug-fix  SSE connections drop after 30 seconds
+You: /zenflow:bug-fix  SSE connections drop after 30 seconds
   → Reproduces the bug
   → Launches error-detective + error-coordinator in parallel
   → Detective: keep-alive interval missing in stream handler
   → Coordinator: no cascade risk, isolated to SSE module
   → Specialist writes regression test + minimal fix
   → Code reviewer approves
-  → /zen:check-work validates
+  → /zenflow:check-work validates
 ```
 
 ### Code Audit (full)
 
 ```
-You: /zen:audit
+You: /zenflow:audit
   → Reads audit config from .claude/zen.local.md
   → Dispatches 4 specialist agents in parallel:
     Backend Architect → API Routes (12 files, 3 standards)
@@ -112,13 +112,13 @@ You: /zen:audit
     typescript-pro → Type Schemas (14 files, 2 standards)
   → Report: 49 files audited, 7 findings (1 Critical, 3 Important, 3 Minor)
   → "How should we handle findings?" → Fix Critical + Important
-  → Dispatches fix agents, runs zen:check-work
+  → Dispatches fix agents, runs zenflow:check-work
 ```
 
 ### Code Audit (changed files only)
 
 ```
-You: /zen:audit changed
+You: /zenflow:audit changed
   → Runs git diff --name-only main...HEAD
   → 6 files changed: 3 in routes/, 2 in components/, 1 in types/
   → Maps to 3 audit sections (skips Core Orchestration — no changes there)
@@ -133,7 +133,7 @@ You: /zen:audit changed
 ### Refactor (internal API change)
 
 ```
-You: /zen:refactor  triageIssue has 5 positional params, should be options object
+You: /zenflow:refactor  triageIssue has 5 positional params, should be options object
   → Reads triageIssue and all 8 call sites
   → "This changes an internal function signature. All 8 callers are in this repo
      — no external consumers. This qualifies as an internal API refactor."
@@ -143,26 +143,26 @@ You: /zen:refactor  triageIssue has 5 positional params, should be options objec
   → Shows before/after for each of the 8 call sites
   → You approve
   → Writes characterization tests, updates signature + all callers, tests pass
-  → zen:check-work validates
+  → zenflow:check-work validates
 ```
 
 ### Refactor (module split)
 
 ```
-You: /zen:refactor  packages/core/src/core/triage.ts is getting unwieldy
+You: /zenflow:refactor  packages/core/src/core/triage.ts is getting unwieldy
   → Reads triage.ts and all callers/callees
   → Identifies: 3 responsibilities mixed in one file, 2 duplicated patterns
   → Proposes split into triage-interview.ts + triage-classifier.ts + triage.ts
   → Shows before/after for each extraction
   → You approve
   → Writes characterization tests, executes split, all tests pass
-  → zen:check-work validates
+  → zenflow:check-work validates
 ```
 
 ### Recent Work Verification
 
 ```
-You: /zen:status recent
+You: /zenflow:status recent
   → Recent Verification: 245-realtime-notifications.md
 
   Task 1: SSE Event Schema — done
@@ -185,7 +185,7 @@ You: /zen:status recent
 ### Documentation Update
 
 ```
-You: /zen:docs
+You: /zenflow:docs
   → Reads .claude/zen.local.md for doc paths
   → Scans docs/, finds 3 stale guides
   → "Which docs should I update?" → Guides + README
@@ -195,9 +195,9 @@ You: /zen:docs
 ### Quick Status Check
 
 ```
-You: /zen:status
+You: /zenflow:status
   → Branch: feature/notifications (3 ahead, 2 uncommitted)
   → Active plan: 245-realtime-notifications.md (3/5 tasks, 60%)
-  → Session: zen:dispatch in progress, zen:check-work not yet invoked
+  → Session: zenflow:dispatch in progress, zenflow:check-work not yet invoked
   → Last journal: worked on SSE system, blocker on rate limiting
 ```
