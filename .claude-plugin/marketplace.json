@@ -21,18 +21,10 @@
       "version": "1.0.0"
     },
     {
-      "name": "context-factory",
-      "description": "Snapshot and fork Claude Code sessions. /freeze saves a named snapshot; /clone forks a prior session into the current context.",
-      "version": "1.0.0",
-      "source": "./plugins/context-factory",
-      "keywords": [
-        "session",
-        "snapshot",
-        "context",
-        "fork",
-        "freeze",
-        "clone"
-      ]
+      "name": "total-recall",
+      "source": "./plugins/total-recall",
+      "description": "Semantic file triggers — sample model associations for training-data-resonant recall phrases.",
+      "version": "1.0.0"
     }
   ]
 }
