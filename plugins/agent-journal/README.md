@@ -11,8 +11,9 @@ It's also a record for humans. Open the HTML viewer, filter by branch or outcome
 ## Installation
 
 ```bash
-/plugin marketplace add ./.claude/plugins/zen-marketplace
+/plugin marketplace add brewpirate/zen-flow
 /plugin install agent-journal@zen
+/reload-plugins
 ```
 
 ## Quick Start
@@ -187,4 +188,28 @@ agent-journal/
     ├── read/SKILL.md          # agent-journal:read
     ├── summary/SKILL.md       # agent-journal:summary
     └── reflect/SKILL.md       # agent-journal:reflect
+```
+
+
+
+### Session Reflection
+
+```
+You: /agent-journal:reflect
+  → Session Timeline:
+    10:15 — Started zen:collab, exploring SSE
+    10:30 — Delegated rate limiter bug to worktree
+    10:45 — Designed notification schema
+    11:00 — Created plan, started zen:dispatch
+    12:30 — All tasks complete, check-work passed
+
+  → What Went Well:
+    Worktree delegation kept context clean
+    Two-stage review caught reconnection gap
+
+  → Suggested Actions:
+    - [ ] Add SSE keep-alive docs to ARCHITECTURE.md
+    - [ ] Add timing test conventions to testing rules
+
+  → "Any of these worth doing now?"
 ```
