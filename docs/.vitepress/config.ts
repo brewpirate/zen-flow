@@ -3,6 +3,7 @@ import { defineConfig } from 'vitepress'
 export default defineConfig({
   title: 'zen-marketplace',
   description: 'Structured development plugins for Claude Code — zenflow, agent-journal, and total-recall.',
+  appearance: 'dark',
 
   themeConfig: {
     logo: '⚡',
