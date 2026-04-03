@@ -75,10 +75,16 @@ export default defineConfig({
     },
   },
 
+  vite: {
+    ssr: {
+      noExternal: ['vitepress-carbon'],
+    },
+  },
+
   markdown: {
     theme: {
-      light: 'github-light',
-      dark: 'tokyo-night',
+      light: 'one-dark-pro',
+      dark: 'one-dark-pro',
     },
   },
 })
