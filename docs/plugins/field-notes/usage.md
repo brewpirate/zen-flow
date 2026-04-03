@@ -2,7 +2,7 @@
 
 ## Reading entries
 
-`/agent-journal:read` shows the last 5 entries formatted for the terminal:
+`/field-notes:read` shows the last 5 entries formatted for the terminal:
 
 ```
 ◆ Mar 27 2:30 PM | work | completed | primary
@@ -20,22 +20,22 @@ Pass a filter argument to narrow results:
 
 | Command | Shows |
 |---------|-------|
-| `/agent-journal:read 10` | Last 10 entries |
-| `/agent-journal:read today` | Entries from today |
-| `/agent-journal:read bug-fix` | Entries with `type: "bug-fix"` |
-| `/agent-journal:read blocked` | Entries with `outcome: "blocked"` |
-| `/agent-journal:read delegated` | Entries with `origin: "delegated"` |
-| `/agent-journal:read branch feature/x` | Entries from a specific branch |
-| `/agent-journal:read search "rate limiter"` | Keyword search across all fields |
+| `/field-notes:read 10` | Last 10 entries |
+| `/field-notes:read today` | Entries from today |
+| `/field-notes:read bug-fix` | Entries with `type: "bug-fix"` |
+| `/field-notes:read blocked` | Entries with `outcome: "blocked"` |
+| `/field-notes:read delegated` | Entries with `origin: "delegated"` |
+| `/field-notes:read branch feature/x` | Entries from a specific branch |
+| `/field-notes:read search "rate limiter"` | Keyword search across all fields |
 
 ## Summary
 
-`/agent-journal:summary` aggregates the last 7 days by default. Pass a range to change the window:
+`/field-notes:summary` aggregates the last 7 days by default. Pass a range to change the window:
 
 ```
-/agent-journal:summary week
-/agent-journal:summary month
-/agent-journal:summary all
+/field-notes:summary week
+/field-notes:summary month
+/field-notes:summary all
 ```
 
 Example output:
@@ -57,7 +57,7 @@ The health section flags patterns that might indicate process issues. High bug-f
 
 ## Reflect
 
-`/agent-journal:reflect` runs an end-of-session retrospective:
+`/field-notes:reflect` runs an end-of-session retrospective:
 
 1. Reads recent entries to reconstruct a session timeline
 2. Identifies what went well, what was harder than expected, and what was learned
@@ -68,7 +68,7 @@ The health section flags patterns that might indicate process issues. High bug-f
 Example:
 
 ```
-You: /agent-journal:reflect
+You: /field-notes:reflect
 
 Session Timeline:
   10:15 — Started zenflow:collab, exploring SSE
@@ -90,7 +90,7 @@ Suggested Actions:
 
 ## Browser viewer
 
-Open `plugins/agent-journal/scripts/journal.html` in a browser, select your `journal.jsonl` file, and use the search and filter chips to browse entries. The viewer uses a Tokyo Night color scheme and color-codes entries by outcome.
+Open `plugins/field-notes/scripts/journal.html` in a browser, select your `journal.jsonl` file, and use the search and filter chips to browse entries. The viewer uses a Tokyo Night color scheme and color-codes entries by outcome.
 
 Open directly from the terminal without a server:
 

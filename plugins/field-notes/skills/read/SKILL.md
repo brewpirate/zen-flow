@@ -13,7 +13,7 @@ Read and display journal entries. Supports filtering by time range, type, branch
 
 ## Journal Location
 
-Reads from `.claude/journal.jsonl` in the project root. If the file doesn't exist, report that no journal exists and suggest running `agent-journal:write`.
+Reads from `.claude/journal.jsonl` in the project root. If the file doesn't exist, report that no journal exists and suggest running `field-notes:write`.
 
 ## Modes
 
@@ -22,8 +22,8 @@ Reads from `.claude/journal.jsonl` in the project root. If the file doesn't exis
 Show the last N entries (default: 5):
 
 ```
-/agent-journal:read
-/agent-journal:read 10
+/field-notes:read
+/field-notes:read 10
 ```
 
 ### By type
@@ -31,8 +31,8 @@ Show the last N entries (default: 5):
 Filter to a specific entry type:
 
 ```
-/agent-journal:read bug-fix
-/agent-journal:read refactor
+/field-notes:read bug-fix
+/field-notes:read refactor
 ```
 
 ### By time
@@ -40,9 +40,9 @@ Filter to a specific entry type:
 Filter to entries from a time range:
 
 ```
-/agent-journal:read today
-/agent-journal:read week
-/agent-journal:read 2026-03-27
+/field-notes:read today
+/field-notes:read week
+/field-notes:read 2026-03-27
 ```
 
 ### By branch
@@ -50,7 +50,7 @@ Filter to entries from a time range:
 Filter to entries from a specific branch:
 
 ```
-/agent-journal:read branch feature/notifications
+/field-notes:read branch feature/notifications
 ```
 
 ### By outcome
@@ -58,8 +58,8 @@ Filter to entries from a specific branch:
 Filter to entries with a specific outcome:
 
 ```
-/agent-journal:read blocked
-/agent-journal:read partial
+/field-notes:read blocked
+/field-notes:read partial
 ```
 
 ### By origin
@@ -67,8 +67,8 @@ Filter to entries with a specific outcome:
 Show only primary sessions or delegated work:
 
 ```
-/agent-journal:read delegated
-/agent-journal:read primary
+/field-notes:read delegated
+/field-notes:read primary
 ```
 
 ### By keyword
@@ -76,8 +76,8 @@ Show only primary sessions or delegated work:
 Search across all text fields (summary, workedOn, issues, insights, feedback):
 
 ```
-/agent-journal:read search SSE
-/agent-journal:read search "rate limiter"
+/field-notes:read search SSE
+/field-notes:read search "rate limiter"
 ```
 
 ## Display Format
@@ -136,6 +136,6 @@ Present entries in reverse chronological order (newest first):
 
 ## Related Skills
 
-- **agent-journal:write** — Append new entries
-- **agent-journal:summary** — Aggregate patterns
-- **agent-journal:reflect** — Session retrospective
+- **field-notes:write** — Append new entries
+- **field-notes:summary** — Aggregate patterns
+- **field-notes:reflect** — Session retrospective

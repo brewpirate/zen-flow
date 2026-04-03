@@ -104,11 +104,11 @@ Projects can add custom fields. The schema is open — any valid JSON key-value 
 ## Integration with Zen Flow
 
 `zenflow:check-work` Gate 5 should invoke this skill instead of writing its own journal entry:
-- Call `agent-journal:write` with type `work`
+- Call `field-notes:write` with type `work`
 - Let this skill handle the format and file location
 
 ## Related Skills
 
-- **agent-journal:read** — View recent entries
-- **agent-journal:summary** — Aggregate patterns across entries
-- **agent-journal:reflect** — End-of-session retrospective
+- **field-notes:read** — View recent entries
+- **field-notes:summary** — Aggregate patterns across entries
+- **field-notes:reflect** — End-of-session retrospective

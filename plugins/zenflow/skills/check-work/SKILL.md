@@ -65,9 +65,9 @@ Create all 5 tasks via `TaskCreate` upfront, then execute them in order.
 ### Gate 5: Write Journal Entry
 
 - Mark `in_progress` via `TaskUpdate`
-- Invoke `agent-journal:write` using the Skill tool
+- Invoke `field-notes:write` using the Skill tool
 - The journal plugin handles the format and file location (`.claude/journal.jsonl`)
-- If agent-journal is not installed, append directly to `.claude/journal.jsonl` using the full schema:
+- If field-notes is not installed, append directly to `.claude/journal.jsonl` using the full schema:
 
 ```json
 {

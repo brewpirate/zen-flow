@@ -17,7 +17,7 @@ Zen Flow is opinionated about process but flexible about execution. You can run 
 ```bash
 /plugin marketplace add brewpirate/zenflow
 /plugin install zenflow@zen
-/plugin install agent-journal@zen
+/plugin install field-notes@zen
 /reload-plugins
 ```
 
@@ -38,7 +38,7 @@ Three plugins, one marketplace:
 | Plugin | Skills | Purpose |
 |--------|--------|---------|
 | **zenflow** | 15 skills, 3 agents, 13 commands, 3 hooks | The development workflow |
-| **agent-journal** | 5 skills, 4 commands, HTML viewer | Structured work logging |
+| **field-notes** | 5 skills, 4 commands, HTML viewer | Structured work logging |
 | **total-recall** | 7 skills, 6 agents, 7 commands | Semantic file triggers via convergence sampling |
 
 ## The Pipeline
@@ -105,14 +105,14 @@ These work independently of the pipeline:
 
 - **`/zenflow:status`** — Quick snapshot of project state: active plans (any frontmatter `status != complete`), task progress, git status, session history, and journal entries. Supports **recent mode** (`/zenflow:status recent`) which verifies tasks from the last 72h were actually completed by inspecting tests, commits, and files, then stamps plans with `validated` frontmatter.
 
-### Agent Journal (separate plugin)
+### Field Notes (separate plugin)
 
-- **`/agent-journal:write`** — Append a structured entry after completing work. Captures what happened, what went wrong, and what was learned.
-- **`/agent-journal:read`** — View recent entries with filtering by type, outcome, origin, branch, or keyword.
-- **`/agent-journal:summary`** — Aggregate patterns across sessions — recurring blockers, hot files, health signals.
-- **`/agent-journal:reflect`** — End-of-session retrospective with actionable takeaways.
+- **`/field-notes:write`** — Append a structured entry after completing work. Captures what happened, what went wrong, and what was learned.
+- **`/field-notes:read`** — View recent entries with filtering by type, outcome, origin, branch, or keyword.
+- **`/field-notes:summary`** — Aggregate patterns across sessions — recurring blockers, hot files, health signals.
+- **`/field-notes:reflect`** — End-of-session retrospective with actionable takeaways.
 
-Journal entries are stored in `.claude/journal.jsonl` (single file, append-only). See the [agent-journal README](../agent-journal/README.md) for the full schema and HTML viewer.
+Journal entries are stored in `.claude/journal.jsonl` (single file, append-only). See the [field-notes README](../field-notes/README.md) for the full schema and HTML viewer.
 
 ## Skills Reference
 
@@ -134,10 +134,10 @@ Journal entries are stored in `.claude/journal.jsonl` (single file, append-only)
 | Refactor | `/zenflow:refactor` | — | Structured refactoring with regression safety |
 | Status | `/zenflow:status [recent]` | — | Project state snapshot; recent mode verifies recent work |
 | Testing Anti-Patterns | (automatic) | — | Enforces test quality rules — test real behavior, not mock behavior |
-| Journal Write | `/agent-journal:write` | — | Append structured journal entry |
-| Journal Read | `/agent-journal:read` | — | View and filter entries |
-| Journal Summary | `/agent-journal:summary` | — | Aggregate patterns and health signals |
-| Journal Reflect | `/agent-journal:reflect` | — | End-of-session retrospective |
+| Journal Write | `/field-notes:write` | — | Append structured journal entry |
+| Journal Read | `/field-notes:read` | — | View and filter entries |
+| Journal Summary | `/field-notes:summary` | — | Aggregate patterns and health signals |
+| Journal Reflect | `/field-notes:reflect` | — | End-of-session retrospective |
 
 ## Agents
 
@@ -298,22 +298,22 @@ zen-marketplace/
 │       ├── context-refresh/SKILL.md  # zenflow:context-refresh — mid-session context shed
 │       ├── init/SKILL.md             # zenflow:init — generate zen.local.md config
 │       └── testing-anti-patterns/SKILL.md  # test quality enforcement
-└── plugins/agent-journal/
+└── plugins/field-notes/
     ├── .claude-plugin/
     │   └── plugin.json
     ├── commands/
-    │   ├── write.md                  # /agent-journal:write
-    │   ├── read.md                   # /agent-journal:read
-    │   ├── summary.md                # /agent-journal:summary
-    │   └── reflect.md                # /agent-journal:reflect
+    │   ├── write.md                  # /field-notes:write
+    │   ├── read.md                   # /field-notes:read
+    │   ├── summary.md                # /field-notes:summary
+    │   └── reflect.md                # /field-notes:reflect
     ├── scripts/
     │   └── journal.html              # Browser-based viewer (Tokyo Night)
     └── skills/
-        ├── write/SKILL.md            # agent-journal:write
-        ├── read/SKILL.md             # agent-journal:read
-        ├── summary/SKILL.md          # agent-journal:summary
-        ├── reflect/SKILL.md          # agent-journal:reflect
-        └── view/SKILL.md             # agent-journal:view — open in browser
+        ├── write/SKILL.md            # field-notes:write
+        ├── read/SKILL.md             # field-notes:read
+        ├── summary/SKILL.md          # field-notes:summary
+        ├── reflect/SKILL.md          # field-notes:reflect
+        └── view/SKILL.md             # field-notes:view — open in browser
 ```
 
 ## Workflows & Diagrams

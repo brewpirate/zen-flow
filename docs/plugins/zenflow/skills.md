@@ -40,15 +40,15 @@ These run automatically and do not need to be called manually.
 | Command | When it runs |
 |---------|-------------|
 | `testing-anti-patterns` (skill rule) | Applied automatically during test-writing stages. Enforces testing real behavior rather than implementation details. |
-| `agent-journal:write` | Called by `zenflow:check-work` at Gate 5. Falls back to writing JSONL directly if agent-journal is not installed. |
+| `field-notes:write` | Called by `zenflow:check-work` at Gate 5. Falls back to writing JSONL directly if field-notes is not installed. |
 
-## Agent Journal Commands
+## Field Notes Commands
 
-These are part of the [agent-journal plugin](/plugins/agent-journal/) but integrate directly with ZenFlow.
+These are part of the [field-notes plugin](/plugins/field-notes/) but integrate directly with ZenFlow.
 
 | Command | What it does |
 |---------|-------------|
-| `/agent-journal:write` | Appends a structured entry to `.claude/journal.jsonl`. |
-| `/agent-journal:read` | Shows recent entries, with optional filters. |
-| `/agent-journal:summary` | Aggregates patterns across a time range. |
-| `/agent-journal:reflect` | Runs an end-of-session retrospective and writes a `reflection` entry. |
+| `/field-notes:write` | Appends a structured entry to `.claude/journal.jsonl`. |
+| `/field-notes:read` | Shows recent entries, with optional filters. |
+| `/field-notes:summary` | Aggregates patterns across a time range. |
+| `/field-notes:reflect` | Runs an end-of-session retrospective and writes a `reflection` entry. |

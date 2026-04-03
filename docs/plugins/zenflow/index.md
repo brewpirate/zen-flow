@@ -14,11 +14,11 @@ The plugin includes enforcement hooks that prevent skipping stages — for examp
 ```bash
 /plugin marketplace add brewpirate/zenflow
 /plugin install zenflow@zen
-/plugin install agent-journal@zen
+/plugin install field-notes@zen
 /reload-plugins
 ```
 
-Installing `agent-journal` alongside is recommended — `zenflow:check-work` invokes it automatically in Gate 5.
+Installing `field-notes` alongside is recommended — `zenflow:check-work` invokes it automatically in Gate 5.
 
 ## Setup
 

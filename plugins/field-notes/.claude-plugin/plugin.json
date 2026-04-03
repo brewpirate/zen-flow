@@ -1,5 +1,5 @@
 {
-  "name": "agent-journal",
+  "name": "field-notes",
   "version": "0.0.2",
   "description": "Structured agent work journal — write entries, read history, summarize patterns, and reflect on sessions. Single JSONL file per project."
 }

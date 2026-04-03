@@ -144,7 +144,7 @@ Options:
 
 ## Related Skills
 
-- **agent-journal:write** — Reflection writes its own journal entry
-- **agent-journal:summary** — Broader pattern analysis across sessions
-- **agent-journal:read** — Review raw entries
+- **field-notes:write** — Reflection writes its own journal entry
+- **field-notes:summary** — Broader pattern analysis across sessions
+- **field-notes:read** — Review raw entries
 - **zenflow:docs** — Act on documentation gaps found during reflection

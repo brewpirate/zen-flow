@@ -2,7 +2,7 @@ import { defineConfig } from 'vitepress'
 
 export default defineConfig({
   title: 'zen-marketplace',
-  description: 'Structured development plugins for Claude Code — zenflow, agent-journal, and total-recall.',
+  description: 'Structured development plugins for Claude Code — zenflow, field-notes, and total-recall.',
   base: '/zen-flow/',
   appearance: 'dark',
 
@@ -17,7 +17,7 @@ export default defineConfig({
         text: 'Plugins',
         items: [
           { text: 'ZenFlow', link: '/plugins/zenflow/' },
-          { text: 'Agent Journal', link: '/plugins/agent-journal/' },
+          { text: 'Field Notes', link: '/plugins/field-notes/' },
           { text: 'Total Recall', link: '/plugins/total-recall/' },
         ],
       },
@@ -45,12 +45,12 @@ export default defineConfig({
         ],
       },
       {
-        text: 'Agent Journal',
+        text: 'Field Notes',
         collapsed: false,
         items: [
-          { text: 'Overview', link: '/plugins/agent-journal/' },
-          { text: 'Entry Schema', link: '/plugins/agent-journal/schema' },
-          { text: 'Reading & Filtering', link: '/plugins/agent-journal/usage' },
+          { text: 'Overview', link: '/plugins/field-notes/' },
+          { text: 'Entry Schema', link: '/plugins/field-notes/schema' },
+          { text: 'Reading & Filtering', link: '/plugins/field-notes/usage' },
         ],
       },
       {
