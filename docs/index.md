@@ -33,9 +33,8 @@ features:
     linkText: Documentation
 ---
 
-::: warning Experimental
-All plugins in this marketplace are under active development. APIs, commands, and behavior may change without notice.
-:::
+> [!WARNING]
+> All plugins in this marketplace are under active development. APIs, commands, and behavior may change without notice.
 
 ## Plugins
 

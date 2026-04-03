@@ -4,9 +4,8 @@ Total Recall generates short "trigger phrases" for files by running multiple stu
 
 The idea is that these phrases, derived from how the model itself describes the content, can be injected later into prompts to help the model refocus on files it loaded earlier but has since deprioritized in a long context.
 
-::: warning Experimental
-The trigger generation mechanism is validated (see [Test Results](/plugins/total-recall/test-results)), but whether injecting these phrases actually improves recall in real sessions has not been conclusively demonstrated. Synthetic behavioral tests showed no measurable effect. Real-session instrumentation is needed.
-:::
+> [!WARNING]
+> The trigger generation mechanism is validated (see [Test Results](/plugins/total-recall/test-results)), but whether injecting these phrases actually improves recall in real sessions has not been conclusively demonstrated. Synthetic behavioral tests showed no measurable effect. Real-session instrumentation is needed.
 
 ## The Problem
 

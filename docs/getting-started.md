@@ -1,8 +1,7 @@
 # Getting Started
 
-::: warning Experimental
-All plugins are under active development. APIs and behavior may change without notice.
-:::
+> [!WARNING]
+> All plugins are under active development. APIs and behavior may change without notice.
 
 ## Installation
 

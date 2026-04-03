@@ -2,9 +2,8 @@
 
 Agent Journal is a Claude Code plugin that appends structured log entries to a `.claude/journal.jsonl` file after work sessions. It provides commands to write entries, filter and read past entries, summarize patterns across sessions, and run end-of-session retrospectives.
 
-::: warning Experimental
-This plugin is under active development. APIs, commands, and behavior may change without notice.
-:::
+> [!WARNING]
+> This plugin is under active development. APIs, commands, and behavior may change without notice.
 
 ## Why
 
