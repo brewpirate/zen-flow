@@ -57,7 +57,7 @@ If any background agents are running:
 
 ### 5. Write Journal Entry
 
-Invoke `agent-journal:write` with:
+Invoke `field-notes:write` with:
 - **type:** `context-refresh`
 - **summary:** Brief description of what was accomplished before the refresh
 - **insights:** Any observations worth preserving long-term

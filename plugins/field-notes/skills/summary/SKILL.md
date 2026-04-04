@@ -18,10 +18,10 @@ Reads from `.claude/journal.jsonl` in the project root.
 ## Time Ranges
 
 ```
-/agent-journal:summary            # last 7 days (default)
-/agent-journal:summary week       # last 7 days
-/agent-journal:summary month      # last 30 days
-/agent-journal:summary all        # everything
+/field-notes:summary            # last 7 days (default)
+/field-notes:summary week       # last 7 days
+/field-notes:summary month      # last 30 days
+/field-notes:summary all        # everything
 ```
 
 ## Analysis Dimensions
@@ -138,6 +138,6 @@ These are rough heuristics, not hard rules. A spike in bug fixes after a big fea
 
 ## Related Skills
 
-- **agent-journal:read** — View individual entries
-- **agent-journal:write** — Append new entries
-- **agent-journal:reflect** — Session retrospective with actionable takeaways
+- **field-notes:read** — View individual entries
+- **field-notes:write** — Append new entries
+- **field-notes:reflect** — Session retrospective with actionable takeaways

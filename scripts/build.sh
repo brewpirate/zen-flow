@@ -34,7 +34,7 @@ marketplace = {
         'email': 'daniel@zenner.zev',
     },
     'metadata': {
-        'description': 'zenflow workflow: idea → plan → execute → validate → review. Plus agent-journal for structured work logging.',
+        'description': 'zenflow workflow: idea → plan → execute → validate → review. Plus field-notes for structured work logging.',
     },
     'plugins': entries,
 }

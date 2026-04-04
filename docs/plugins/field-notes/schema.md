@@ -70,7 +70,7 @@ Each entry in `.claude/journal.jsonl` is a JSON object on a single line. The sch
 
 ## How `reflect` uses the schema
 
-`/agent-journal:reflect` reads recent entries, constructs a session timeline, and then writes a new entry with `type: "reflection"`. The reflection entry's `summary` captures key takeaways, and the `insights` and `wouldDoDifferently` fields contain actionable notes.
+`/field-notes:reflect` reads recent entries, constructs a session timeline, and then writes a new entry with `type: "reflection"`. The reflection entry's `summary` captures key takeaways, and the `insights` and `wouldDoDifferently` fields contain actionable notes.
 
 ## Custom fields
 

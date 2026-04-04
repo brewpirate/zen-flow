@@ -5,12 +5,12 @@
     "email": "daniel@zenner.zev"
   },
   "metadata": {
-    "description": "zenflow workflow: idea \u2192 plan \u2192 execute \u2192 validate \u2192 review. Plus agent-journal for structured work logging."
+    "description": "zenflow workflow: idea \u2192 plan \u2192 execute \u2192 validate \u2192 review. Plus field-notes for structured work logging."
   },
   "plugins": [
     {
-      "name": "agent-journal",
-      "source": "./plugins/agent-journal",
+      "name": "field-notes",
+      "source": "./plugins/field-notes",
       "description": "Structured agent work journal \u2014 write entries, read history, summarize patterns, and reflect on sessions. Single JSONL file per project.",
       "version": "0.0.2"
     },

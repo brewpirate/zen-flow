@@ -103,7 +103,7 @@ The idea is still taking shape. Your job is to help the user think, not rush to 
 
 Before transitioning to discovery or design mode, you MUST produce a written summary. This is non-negotiable — if the session dies, this artifact preserves everything.
 
-Write an `agent-journal:write` entry of type `exploration` AND present the summary to the user:
+Write an `field-notes:write` entry of type `exploration` AND present the summary to the user:
 
 ```
 ## Exploration Summary
@@ -215,4 +215,4 @@ The idea is clear. Now help the user make design decisions.
 
 - **zenflow:plan** — the only skill invoked after design approval
 - **zenflow:collab** — for ongoing collaborative work (zenflow:idea is for pre-implementation design)
-- **agent-journal:write** — checkpoint exploration findings for future sessions
+- **field-notes:write** — checkpoint exploration findings for future sessions

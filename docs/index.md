@@ -21,9 +21,9 @@ features:
     linkText: Documentation
 
   - icon: 📓
-    title: Agent Journal
+    title: Field Notes
     details: Writes structured log entries after each work session. Entries are stored as JSONL and can be read, filtered, and summarized. Includes a browser-based viewer.
-    link: /plugins/agent-journal/
+    link: /plugins/field-notes/
     linkText: Documentation
 
   - icon: 🧠
@@ -41,5 +41,5 @@ features:
 | Plugin | What it does |
 |--------|-------------|
 | **[zenflow](/plugins/zenflow/)** | A structured pipeline for going from idea to reviewed code. 15 commands, 3 agents, 3 enforcement hooks. |
-| **[agent-journal](/plugins/agent-journal/)** | Appends structured entries to a `.claude/journal.jsonl` file after work sessions. 5 commands, HTML viewer. |
+| **[field-notes](/plugins/field-notes/)** | Appends structured entries to a `.claude/journal.jsonl` file after work sessions. 5 commands, HTML viewer. |
 | **[total-recall](/plugins/total-recall/)** | Generates model-specific trigger phrases for files using convergence sampling. 6 commands, 3 agents. |

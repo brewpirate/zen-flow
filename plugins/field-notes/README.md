@@ -1,4 +1,4 @@
-# Agent Journal
+# Field Notes
 
 A structured work journal for Claude Code agents. Write entries, read history, surface patterns, and reflect on sessions — all stored in a single JSONL file per project.
 
@@ -14,30 +14,30 @@ It's also a record for humans. Open the HTML viewer, filter by branch or outcome
 
 ```bash
 /plugin marketplace add brewpirate/zenflow
-/plugin install agent-journal@zen
+/plugin install field-notes@zen
 /reload-plugins
 ```
 
 ## Quick Start
 
 ```
-/agent-journal:write                    # Record what you just did
-/agent-journal:read                     # See last 5 entries
-/agent-journal:read today               # Today's entries
-/agent-journal:read blocked             # What's stuck
-/agent-journal:summary                  # Patterns from the last week
-/agent-journal:reflect                  # End-of-session retrospective
+/field-notes:write                    # Record what you just did
+/field-notes:read                     # See last 5 entries
+/field-notes:read today               # Today's entries
+/field-notes:read blocked             # What's stuck
+/field-notes:summary                  # Patterns from the last week
+/field-notes:reflect                  # End-of-session retrospective
 ```
 
 ## Skills
 
 | Skill | Invocation | Purpose |
 |-------|-----------|---------|
-| Write | `/agent-journal:write` | Append a structured entry after completing work |
-| Read | `/agent-journal:read [filter]` | View recent entries with filtering |
-| Summary | `/agent-journal:summary [range]` | Aggregate patterns across sessions |
-| Reflect | `/agent-journal:reflect` | End-of-session retrospective with actionable takeaways |
-| View | `/agent-journal:view` | Open the journal in a browser with the Tokyo Night HTML viewer |
+| Write | `/field-notes:write` | Append a structured entry after completing work |
+| Read | `/field-notes:read [filter]` | View recent entries with filtering |
+| Summary | `/field-notes:summary [range]` | Aggregate patterns across sessions |
+| Reflect | `/field-notes:reflect` | End-of-session retrospective with actionable takeaways |
+| View | `/field-notes:view` | Open the journal in a browser with the Tokyo Night HTML viewer |
 
 ## Storage
 
@@ -107,7 +107,7 @@ All other fields are optional. The schema is open — add custom fields as neede
 
 ### In Claude Code
 
-`/agent-journal:read` formats entries for the terminal:
+`/field-notes:read` formats entries for the terminal:
 
 ```
 ◆ Mar 27 2:30 PM | work | completed | primary
@@ -120,13 +120,13 @@ All other fields are optional. The schema is open — add custom fields as neede
 ```
 
 **Filters:**
-- `/agent-journal:read 10` — last 10 entries
-- `/agent-journal:read today` — today's entries
-- `/agent-journal:read bug-fix` — by type
-- `/agent-journal:read blocked` — by outcome
-- `/agent-journal:read delegated` — by origin
-- `/agent-journal:read branch feature/x` — by branch
-- `/agent-journal:read search "rate limiter"` — keyword search
+- `/field-notes:read 10` — last 10 entries
+- `/field-notes:read today` — today's entries
+- `/field-notes:read bug-fix` — by type
+- `/field-notes:read blocked` — by outcome
+- `/field-notes:read delegated` — by origin
+- `/field-notes:read branch feature/x` — by branch
+- `/field-notes:read search "rate limiter"` — keyword search
 
 ### In a Browser
 
@@ -145,7 +145,7 @@ The viewer provides:
 
 ## Summary & Health
 
-`/agent-journal:summary` analyzes the last 7 days (or specify `week`, `month`, `all`):
+`/field-notes:summary` analyzes the last 7 days (or specify `week`, `month`, `all`):
 
 ```
 Activity:       12 work, 4 bug-fix, 2 refactor, 3 exploration
@@ -162,7 +162,7 @@ Health:
 
 ## Reflect
 
-`/agent-journal:reflect` is an end-of-session retrospective:
+`/field-notes:reflect` is an end-of-session retrospective:
 
 1. Reconstructs a timeline of what happened
 2. Analyzes what went well, what was harder than expected, what was learned
@@ -172,32 +172,38 @@ Health:
 
 ## Integration with Zen Flow
 
-`zenflow:check-work` Gate 5 invokes `agent-journal:write` automatically. If agent-journal isn't installed, it falls back to appending directly to `.claude/journal.jsonl` with the full schema.
+`zenflow:check-work` Gate 5 invokes `field-notes:write` automatically. If field-notes isn't installed, it falls back to appending directly to `.claude/journal.jsonl` with the full schema.
 
 Other zenflow integrations:
-- `zenflow:collab` triggers `agent-journal:reflect` at end of session
+- `zenflow:collab` triggers `field-notes:reflect` at end of session
 - `zenflow:collab` delegates write entries with `origin: "delegated"`
 - `zenflow:idea` writes `exploration` type entries on completion
+
+## Workflows & Diagrams
+
+See **[docs/plugins/field-notes/workflows.md](../../docs/plugins/field-notes/workflows.md)** for workflow diagrams and usage examples.
+
+**Diagrams:** [Basic Write/Read Cycle](#) | [zenflow Integration](#) | [Session Retrospective](#) | [Filtering](#) | [Primary vs. Delegated](#) | [Weekly Health Cadence](#)
 
 ## Plugin Structure
 
 ```
-agent-journal/
+field-notes/
 ├── .claude-plugin/
 │   └── plugin.json
 ├── commands/
-│   ├── write.md               # /agent-journal:write
-│   ├── read.md                # /agent-journal:read
-│   ├── summary.md             # /agent-journal:summary
-│   └── reflect.md             # /agent-journal:reflect
+│   ├── write.md               # /field-notes:write
+│   ├── read.md                # /field-notes:read
+│   ├── summary.md             # /field-notes:summary
+│   └── reflect.md             # /field-notes:reflect
 ├── scripts/
 │   └── journal.html           # Browser-based viewer (Tokyo Night)
 └── skills/
-    ├── write/SKILL.md         # agent-journal:write
-    ├── read/SKILL.md          # agent-journal:read
-    ├── summary/SKILL.md       # agent-journal:summary
-    ├── reflect/SKILL.md       # agent-journal:reflect
-    └── view/SKILL.md          # agent-journal:view — open in browser
+    ├── write/SKILL.md         # field-notes:write
+    ├── read/SKILL.md          # field-notes:read
+    ├── summary/SKILL.md       # field-notes:summary
+    ├── reflect/SKILL.md       # field-notes:reflect
+    └── view/SKILL.md          # field-notes:view — open in browser
 ```
 
 
@@ -205,7 +211,7 @@ agent-journal/
 ### Session Reflection
 
 ```
-You: /agent-journal:reflect
+You: /field-notes:reflect
   → Session Timeline:
     10:15 — Started zenflow:collab, exploring SSE
     10:30 — Delegated rate limiter bug to worktree

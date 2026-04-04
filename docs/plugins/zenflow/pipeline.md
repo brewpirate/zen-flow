@@ -52,7 +52,7 @@ Runs five gates in order. Each gate must pass before the next runs:
 | 2 — Format | Finds and runs the project formatter |
 | 3 — Tests | Finds and runs the test suite |
 | 4 — Docs | Checks whether documentation is up to date given what changed |
-| 5 — Journal | Invokes `agent-journal:write` (or falls back to writing the JSONL directly if the plugin isn't installed) |
+| 5 — Journal | Invokes `field-notes:write` (or falls back to writing the JSONL directly if the plugin isn't installed) |
 
 Gates that fail are auto-fixed where possible. For failures that require judgment, `check-work` spawns a subagent to handle the fix.
 
