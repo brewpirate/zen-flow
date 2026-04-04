@@ -23,8 +23,8 @@ These can be invoked at any point, independently of the pipeline.
 | Command | What it does |
 |---------|-------------|
 | `/zen` | Opens the interactive menu listing all available commands. |
-| `/zenflow:collab` | Starts a long-running collaborative session (Opus). Delegates side problems to separate agents. |
-| `/zenflow:context-refresh` | Writes a handoff document and prepares for a `/clear` + resume without losing context. |
+| `/zenflow:collab` | Long-running collaborative session (Opus). You and the agent work as partners — exploring, deciding, delegating. See the [Collab](/plugins/zenflow/collab) page. |
+| `/zenflow:context-refresh` | Writes a handoff document and prepares for a `/clear` + resume without losing context. Used within a collab session. |
 | `/zenflow:bug-fix` | Four-agent bug diagnosis and fix pipeline. |
 | `/zenflow:audit` | Audits the codebase against project coding rules. |
 | `/zenflow:audit changed` | Same as `audit`, but only for files changed vs. main. |

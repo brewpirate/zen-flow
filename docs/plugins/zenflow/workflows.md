@@ -40,39 +40,39 @@ You: /zenflow:review
 
 ---
 
-## Collaborative Session with Worktree Delegation
+## Collaborative Session
 
-Use `collab` for open-ended work where the scope isn't fully defined upfront.
+`collab` is ZenFlow's crown jewel — a long-running working session where you and Claude Opus operate as partners. Not a task executor: a thinking partner that explores, reasons, and delegates. See the **[Collab](/plugins/zenflow/collab)** page for the full reference.
 
 ```
 /zenflow:collab    Start a collaborative session
 ```
 
-When a side issue comes up during the session, the agent delegates it:
+When a side issue comes up, the agent delegates it rather than burning context:
 
 ```
 You: /zenflow:collab
 
-Agent: I found a bug in the rate limiter while exploring this.
-       Delegating to a worktree agent so we don't lose our place.
+Agent: Found a bug in the rate limiter while exploring this.
+       Delegating to a worktree agent — it'll get its own branch and PR.
 
-[Delegate agent creates branch, diagnoses and fixes bug, submits PR]
+[Worktree delegate creates branch, fixes bug, submits PR #47]
 
-Agent: Worktree delegate submitted PR #47. Back to the main feature.
+Agent: PR #47 is up. Back to the main feature.
 ```
 
-If the session runs long and context is getting noisy:
+If the session runs long and context gets noisy:
 
 ```
 You: /zenflow:context-refresh
 
-[Agent writes .claude/handoffs/2026-04-03-session.md]
+[Agent writes .claude/handoffs/notifications-2026-04-04T14:30.md]
+[Captures goals, decisions, behavioral calibration, open tasks, next steps]
 
 You: /clear
-
 You: /zenflow:collab
 
-[Agent reads the handoff and resumes where you left off]
+[Agent detects handoff, restores calibration, resumes from Next Steps]
 ```
 
 ---
