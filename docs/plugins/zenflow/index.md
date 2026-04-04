@@ -40,11 +40,19 @@ idea → plan → [dispatch | exec-plan] → check-work → review
 
 See [The Pipeline](/plugins/zenflow/pipeline) for a full breakdown of each stage.
 
+## Collab — The Crown Jewel
+
+`/zenflow:collab` is where the real work happens. It opens a long-running partnership session with Claude Opus — not a task executor, but a thinking partner that explores, reasons, and delegates alongside you.
+
+The agent stays in strategist mode: it reads code with you, surfaces trade-offs, writes structured handoffs, and spawns delegates for implementation. Side issues get extracted to fresh subagents (inline or in isolated worktrees) rather than burning primary session context. When the session gets long, a context refresh sheds dead context without losing the partnership.
+
+**See [Collab](/plugins/zenflow/collab) for the full reference, session patterns, and worked examples.**
+
 ## Standalone Commands
 
 Several commands work outside the pipeline:
 
-- `/zenflow:collab` — opens a collaborative session (Opus) where you and the agent work together. Side issues are delegated to separate agents rather than handled inline.
+- `/zenflow:collab` — long-running collaborative session (Opus). See [Collab](/plugins/zenflow/collab).
 - `/zenflow:bug-fix` — runs a four-agent diagnostic pipeline to identify and fix a bug.
 - `/zenflow:audit` — audits codebase sections against your project's coding rules.
 - `/zenflow:refactor` — structured refactoring that checks for regression coverage before making changes.
