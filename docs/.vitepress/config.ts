@@ -51,6 +51,7 @@ export default defineConfig({
           { text: 'Overview', link: '/plugins/field-notes/' },
           { text: 'Entry Schema', link: '/plugins/field-notes/schema' },
           { text: 'Reading & Filtering', link: '/plugins/field-notes/usage' },
+          { text: 'Workflows & Diagrams', link: '/plugins/field-notes/workflows' },
         ],
       },
       {

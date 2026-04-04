@@ -179,6 +179,12 @@ Other zenflow integrations:
 - `zenflow:collab` delegates write entries with `origin: "delegated"`
 - `zenflow:idea` writes `exploration` type entries on completion
 
+## Workflows & Diagrams
+
+See **[docs/plugins/field-notes/workflows.md](../../docs/plugins/field-notes/workflows.md)** for workflow diagrams and usage examples.
+
+**Diagrams:** [Basic Write/Read Cycle](#) | [zenflow Integration](#) | [Session Retrospective](#) | [Filtering](#) | [Primary vs. Delegated](#) | [Weekly Health Cadence](#)
+
 ## Plugin Structure
 
 ```
