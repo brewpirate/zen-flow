@@ -3,211 +3,276 @@
 > [!WARNING]
 > All plugins are under active development. APIs and behavior may change without notice.
 
+## What is this?
+
+This is a collection of **Claude Code plugins** — add-ons that give Claude new commands, automatic behaviors, and structured workflows inside your terminal sessions.
+
+If you haven't used Claude Code before: it's a terminal tool (`claude`) that lets you pair-program with an AI model directly in your project. Plugins extend what it can do without you having to explain your workflow every session.
+
+There are three plugins here:
+
+| Plugin | What it does in one sentence |
+|--------|------------------------------|
+| **zenflow** | Guides you through building features step by step — idea, plan, code, test, review |
+| **field-notes** | Keeps a log of what Claude did each session, so nothing is forgotten |
+| **total-recall** | Helps Claude remember your project's rules and docs in long sessions |
+
+You don't need all three. Start with just `zenflow` if you want to try the workflow.
+
+---
+
 ## Prerequisites
 
-- [Claude Code](https://claude.ai/code) CLI installed and authenticated
-- A project directory with Claude Code initialized (`.claude/` folder)
+- [Claude Code](https://claude.ai/code) installed and logged in
+- A project folder where you already run `claude` (it should have a `.claude/` subfolder once initialized)
+
+---
 
 ## Installation
 
-Add the marketplace registry, then install whichever plugins you want:
+All commands below are typed into a Claude Code session (not your regular terminal). Open Claude Code in your project first, then run:
 
-```bash
+**Step 1 — Register the plugin marketplace:**
+
+```
 /plugin marketplace add brewpirate/zenflow
+```
+
+This tells Claude Code where to find the plugins. You only do this once.
+
+**Step 2 — Install the plugins you want:**
+
+```
 /plugin install zenflow@zen
 /plugin install field-notes@zen
 /plugin install total-recall@zen
+```
+
+You can install any combination. `field-notes` works well alongside `zenflow` because it automatically logs your sessions.
+
+**Step 3 — Reload so the plugins take effect:**
+
+```
 /reload-plugins
 ```
 
-The plugins are independent — you can install any subset. That said, `field-notes` integrates with `zenflow:check-work` (Gate 5 auto-invokes it), so the two are commonly installed together.
+> **What does `/reload-plugins` do?** It tells Claude Code to re-read all installed plugins. New commands won't appear until you run this.
 
-### Install only what you need
+### Not sure what to install?
 
-| Goal | Install |
-|------|---------|
-| Structured development pipeline | `zenflow` |
-| Session logging only | `field-notes` |
-| Context recall only | `total-recall` |
-| Full suite | all three |
-
-## What each plugin installs
-
-**zenflow** — Adds commands under `/zenflow:*`, three enforcement hooks, and three agents. Run `/zenflow:init` once after installing to generate a `.claude/zen.local.md` config file for your project.
-
-**field-notes** — Adds commands under `/field-notes:*` and a browser-based HTML viewer at `plugins/field-notes/scripts/journal.html`. Writes structured entries to `.claude/journal.jsonl`.
-
-**total-recall** — Adds commands under `/total-recall:*` and a background rule that instructs agents to check `.claude/recall-index.json` before re-reading files. Writes to `.claude/triggers.json` and `.claude/recall-index.json`.
+| I want to… | Install |
+|------------|---------|
+| Try a structured way to build features | `zenflow` |
+| Just keep a log of Claude sessions | `field-notes` |
+| Help Claude remember docs in long sessions | `total-recall` |
+| Get the full experience | all three |
 
 ---
 
 ## Using ZenFlow
 
-### Setup (once per project)
+ZenFlow gives Claude a structured approach to development. Instead of a freeform "build this thing" conversation, work moves through clearly defined stages — which means less going in circles and more predictable outcomes.
 
-After installing, generate the project config:
+### First-time setup (once per project)
 
 ```
 /zenflow:init
 ```
 
-This scans your project and creates `.claude/zen.local.md` with detected language, framework, documentation paths, and agent-to-domain mappings. Review it and adjust before running the pipeline.
+This reads your project and creates a config file at `.claude/zen.local.md`. The config tells Claude things like:
 
-Open the interactive menu to see all available commands:
+- What language and framework you're using
+- Where your documentation lives
+- Which parts of the codebase different agents should focus on
+
+Open the generated file and read through it. Adjust anything that looks wrong before moving on.
+
+Then open the command menu to see everything available:
 
 ```
 /zen
 ```
 
-### The development pipeline
+### How the pipeline works
 
-ZenFlow structures work through five stages:
+Think of ZenFlow as a checklist that makes sure you don't skip important steps. For any new feature or fix, work moves through five stages:
 
 ```
-/zenflow:idea → /zenflow:plan → /zenflow:dispatch (or exec-plan) → /zenflow:check-work → /zenflow:review
+1. idea  →  2. plan  →  3. execute  →  4. check-work  →  5. review
 ```
 
-**Starting a new feature:**
+**Stage 1 — Explore the idea**
 
 ```
 /zenflow:idea
 ```
 
-Describe your idea. The command picks a mode automatically — exploration (vague ideas), discovery (clear problem, unclear solution), or design (clear requirements). No code is written until you approve the design.
+Describe what you want to build. Claude will ask questions, research the codebase, and work with you to arrive at a clear design *before writing any code*. This saves time — catching a bad approach at the idea stage is much cheaper than catching it after the code is written.
 
-**Writing a plan:**
+**Stage 2 — Write the plan**
 
 ```
 /zenflow:plan
 ```
 
-Produces a step-by-step implementation plan saved to `resources/plans/`. Each step includes code, commands, and tests.
+Turns the approved design into a detailed, step-by-step implementation plan. The plan is saved to `resources/plans/` in your project so it persists across sessions.
 
-**Executing the plan:**
+**Stage 3 — Execute the plan**
 
 ```
-/zenflow:dispatch    # parallel — for independent tasks
-/zenflow:exec-plan   # sequential — for tightly coupled tasks
+/zenflow:dispatch    # use when tasks can run at the same time (faster)
+/zenflow:exec-plan   # use when each step depends on the previous one
 ```
 
-**Validating the work:**
+- `dispatch` splits the plan into parallel tasks and runs them simultaneously using multiple Claude agents. Good for independent tasks like "add auth endpoints" + "update tests" + "update docs".
+- `exec-plan` runs tasks one at a time, pausing for your review between each. Good for tightly coupled changes where order matters.
+
+**Stage 4 — Validate the work**
 
 ```
 /zenflow:check-work
 ```
 
-Runs lint, format, tests, docs check, and journal entry in sequence. A hook prevents ending the session without running this first.
+Runs five checks in order: lint, format, tests, documentation review, and a journal entry. If any check fails, Claude attempts to fix it automatically.
 
-**Reviewing the diff:**
+> **Why can't I skip this?** A built-in hook (a background enforcement rule) prevents Claude from ending the session after execution without running `check-work` first. This is intentional — it catches issues before you move on.
+
+**Stage 5 — Review the changes**
 
 ```
 /zenflow:review
 ```
 
-Dispatches a code reviewer with the git diff. Returns categorized findings (Critical / Important / Minor) and a merge verdict.
+A separate Claude agent reads the git diff and gives you a structured review: a list of findings labeled Critical, Important, or Minor, and a merge verdict.
+
+---
 
 ### Standalone commands
 
-These work independently of the pipeline:
+These can be used at any time, outside the pipeline:
 
-```
-/zenflow:collab      # Long-running collaborative session with Claude Opus
-/zenflow:bug-fix     # Four-agent bug diagnosis and fix pipeline
-/zenflow:audit       # Audit codebase against your project rules
-/zenflow:refactor    # Structured refactoring with regression safety
-/zenflow:status      # Show active plans, git status, recent journal
-```
+| Command | What it does |
+|---------|-------------|
+| `/zenflow:collab` | Opens a long collaborative session with Claude Opus. Useful for exploring unfamiliar code or thinking through a tricky design. Claude works as a thinking partner, not just a task executor. |
+| `/zenflow:bug-fix` | Diagnoses a bug using four agents in parallel — two for root cause analysis, one to write the fix, one to review it. |
+| `/zenflow:audit` | Reviews your codebase against the coding rules defined in your project. |
+| `/zenflow:refactor` | Plans and executes a refactor, checking for test coverage before making any changes. |
+| `/zenflow:status` | Shows what plans are in progress, recent git activity, and recent journal entries. |
 
 ---
 
 ## Using Field Notes
 
-### Writing entries
+Field Notes keeps a log of what happened in each Claude Code session. When a session ends, the context disappears — Field Notes captures a structured record so you (and Claude) can pick up where things left off.
 
-The journal writes automatically when `zenflow:check-work` completes (Gate 5). To write entries manually:
+### How logging works
+
+If you have both `zenflow` and `field-notes` installed, logging is **automatic** — `zenflow:check-work` writes a journal entry as its final step. You don't need to do anything.
+
+To write an entry manually (or if you're using field-notes without zenflow):
 
 ```
 /field-notes:write
 ```
 
-You'll be prompted for what was worked on, outcome, insights, and blockers. The entry is appended to `.claude/journal.jsonl`.
+Claude will ask what was worked on, what the outcome was, any blockers you hit, and what you learned. The entry is saved to `.claude/journal.jsonl` in your project.
 
-### Reading the journal
-
-```
-/field-notes:read              # Last 5 entries
-/field-notes:read 10           # Last 10 entries
-/field-notes:read today        # Today's entries
-/field-notes:read blocked      # Entries with outcome: blocked
-/field-notes:read bug-fix      # Entries of type: bug-fix
-/field-notes:read branch main  # Entries from a specific branch
-/field-notes:read search "rate limiter"  # Keyword search
-```
-
-### Patterns and retrospectives
+### Reading past sessions
 
 ```
-/field-notes:summary           # Last 7 days — hot files, blockers, health metrics
+/field-notes:read                         # The 5 most recent entries
+/field-notes:read 10                      # The 10 most recent entries
+/field-notes:read today                   # Only today's work
+/field-notes:read blocked                 # Sessions that got stuck
+/field-notes:read bug-fix                 # Bug-fix sessions only
+/field-notes:read branch feature/login    # Work on a specific branch
+/field-notes:read search "rate limiter"   # Search by keyword
+```
+
+### Spotting patterns
+
+```
+/field-notes:summary           # Last 7 days — what files keep coming up, recurring blockers
 /field-notes:summary week
 /field-notes:summary month
 /field-notes:summary all
-
-/field-notes:reflect           # End-of-session retrospective with actionable takeaways
 ```
 
-### Browser viewer
+The summary shows health metrics like your bug-fix ratio and how often sessions get blocked. High numbers here can signal a process problem worth fixing.
+
+### End-of-session retrospective
+
+```
+/field-notes:reflect
+```
+
+Reads your recent journal entries, reconstructs a timeline of the session, and identifies what went well, what was harder than expected, and what could be done differently. Ends with suggested follow-up actions (docs to update, issues to file) and asks if you want to act on them immediately.
+
+### Viewing the journal in a browser
 
 ```
 /field-notes:view
 ```
 
-Opens `plugins/field-notes/scripts/journal.html` in your browser. Pick your `journal.jsonl` file and browse with search and filter chips.
+Opens an HTML viewer where you can search, filter, and browse entries visually.
 
 ---
 
 ## Using Total Recall
 
-### Scan a file
+Claude Code sessions have a **context window** — a limit on how much text the model can hold in memory at once. In a long session, files and rules loaded early in the conversation get "pushed back" as new content is added. The model doesn't forget them, but may give them less attention.
 
-Generate trigger phrases for a single file:
+Total Recall addresses this by generating short **trigger phrases** for your project files. A trigger phrase is a 1–6 word description that represents the key concept of a file. When Claude needs to refer to a rule or document, it can use the trigger phrase (5 tokens) rather than re-reading the whole file (hundreds or thousands of tokens).
 
-```
-/total-recall:scan .claude/rules/my-rule.md --models sonnet
-```
+> **Important:** Trigger generation is validated to produce accurate, meaningful phrases. Whether they actually improve recall in long sessions is still being tested — see [Test Results](/plugins/total-recall/test-results) for the full picture.
 
-This runs 5 study agents in parallel, each independently describing the file in a few words. Terms that appear across most agents become the trigger phrase.
+### Setup (do this once, then repeat when files change)
 
-### Seed all rules and docs at once
+**Step 1 — Generate trigger phrases for all your rules and docs:**
 
 ```
 /total-recall:seed --models sonnet
 ```
 
-Batch-scans your rules, skills, and documentation directories. Use `--models sonnet,opus` to generate model-specific triggers for both.
+This scans your `.claude/rules/` folder, skills, and any documentation. It runs 5 independent study agents per file — each reads the file and describes it in a few words. The words that appear most consistently across agents become the trigger phrase.
 
-### Build the index
+Use `--models sonnet,opus` if you use Claude Opus in your sessions too, since each model develops slightly different internal descriptions.
 
-After scanning, rebuild the reverse lookup so agents can find files by keyword:
+**Step 2 — Build the lookup index:**
 
 ```
 /total-recall:index
 ```
 
-### View and manage triggers
+Creates a searchable index at `.claude/recall-index.json`. Once this exists, a background rule instructs Claude to check the index before re-reading any file — so recall becomes automatic.
+
+**Step 3 — Check what was generated:**
 
 ```
-/total-recall:list                   # Show all triggers
-/total-recall:list error-handling    # Filter by keyword
-/total-recall:forget .claude/rules/old-rule.md  # Remove triggers for a file
-/total-recall:compare .claude/rules/my-rule.md  # Compare triggers across all three models
+/total-recall:list
+/total-recall:list error-handling    # Filter to entries matching a keyword
 ```
 
-### How triggers are used
+### Keeping triggers up to date
 
-Once the index is built, a rule installed by the plugin instructs agents to check `.claude/recall-index.json` before re-reading files. When a relevant term is found, the agent uses the stored trigger phrase instead of re-reading.
-
-You can also inject trigger phrases manually:
+When you edit a file, re-scan it and rebuild the index:
 
 ```
-Don't forget: broken windows code quality ratchet. Now implement the user profile endpoint.
+/total-recall:scan .claude/rules/my-rule.md --models sonnet
+/total-recall:index
 ```
+
+When you delete a file:
+
+```
+/total-recall:forget .claude/rules/old-rule.md
+/total-recall:index
+```
+
+### Comparing how models describe a file
+
+```
+/total-recall:compare .claude/rules/error-handling.md
+```
+
+Runs all three models (haiku, sonnet, opus) on the same file. Useful if you want to see how differently they describe the same content, and decide which models to generate triggers for.

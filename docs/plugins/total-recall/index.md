@@ -1,106 +1,133 @@
 # Total Recall
 
-Total Recall generates short "trigger phrases" for files by running multiple study agents that each independently describe the same file in a few words. Terms that appear consistently across agents — convergent terms — become the trigger phrase for that file.
-
-The idea is that these phrases, derived from how the model itself describes the content, can be injected later into prompts to help the model refocus on files it loaded earlier but has since deprioritized in a long context.
+Total Recall helps Claude remember your project's rules and documentation in long sessions.
 
 > [!WARNING]
-> The trigger generation mechanism is validated (see [Test Results](/plugins/total-recall/test-results)), but whether injecting these phrases actually improves recall in real sessions has not been conclusively demonstrated. Synthetic behavioral tests showed no measurable effect. Real-session instrumentation is needed.
+> The trigger generation works reliably (see [Test Results](/plugins/total-recall/test-results)), but whether it measurably improves Claude's behavior in real sessions has not been conclusively demonstrated. Use it as a low-cost experiment rather than a guaranteed fix.
 
-## The Problem
+## The problem it solves
 
-Rules, skills, and documentation loaded early in a long context window get pushed into the background as newer content is added. Re-reading them costs tokens. Summarizing them loses specifics. The question this plugin tries to answer: is there a cheaper way to bring key content back into active attention?
+Claude Code sessions have a **context window** — a limit to how much text the model can hold in active memory at once. In a short session this isn't an issue. In a long one — say, 45 minutes of working through a complex feature — content that was loaded early (your project rules, coding standards, architecture docs) can get "pushed back" as newer content accumulates.
 
-## The Approach
+The model doesn't forget the files entirely, but may pay them less attention when generating responses.
 
-Language models have consistent associations with content patterns from training. If you ask multiple independent agents to describe the same file in a few words, the terms that appear across most of them are the ones most strongly encoded in the model's weights — the model's own "lookup keys" for that content.
+**The expensive fix:** Re-read the files again mid-session. This costs tokens (which affects speed and cost) and makes the session longer.
 
-A trigger phrase built from these convergent terms doesn't summarize the file — it's an attempt to activate associations the model already has. 5 tokens rather than re-reading 1,000.
+**What Total Recall tries instead:** Generate a very short phrase — 1 to 6 words — that represents the core concept of each file. Store these phrases in an index. When Claude needs to refer to a rule, it checks the index first and uses the stored phrase instead of re-reading the whole file.
 
-One notable property: **different models converge on different terms for the same file**. Sonnet and Opus independently reading the same rule file will often produce different trigger phrases. This is why triggers are stored per-model. See [Cross-Model Results](/plugins/total-recall/test-results#cross-model-comparison) for detail.
+Think of it like a sticky note on your desk vs. going back to the original reference manual.
+
+## How trigger phrases are generated
+
+When you run a scan on a file, Total Recall spawns **5 independent study agents** in parallel. Each agent reads the file and returns a short phrase describing it — with no coordination between agents.
+
+The phrases that appear across most agents are the ones the model most strongly associates with that content. Those convergent terms become the trigger phrase.
+
+Example — a rule file about code quality might produce these five independent phrases:
+
+```
+"broken windows code quality"
+"broken windows quality ratchet"
+"code quality ratchet standard"
+"broken windows quality enforcement"
+"ratchet code quality rule"
+```
+
+Convergent terms: `broken`, `windows`, `quality`, `ratchet` → trigger: `"broken windows code quality ratchet"`
+
+One interesting side effect: **different Claude models generate different trigger phrases for the same file.** Sonnet and Opus have different internal representations of the same content, so they converge on different terms. This is why you can generate model-specific triggers with `--models sonnet` or `--models opus`.
 
 ## Installation
 
-```bash
+Type these commands inside a Claude Code session:
+
+```
 /plugin marketplace add brewpirate/zenflow
 /plugin install total-recall@zen
 /reload-plugins
 ```
 
-## Quick start
+## Setup (once, then update when files change)
 
-**Step 1** — Scan your rules and docs to generate trigger phrases:
+**Step 1 — Generate trigger phrases for your rules and docs:**
 
 ```
 /total-recall:seed --models sonnet
 ```
 
-This batch-scans your `.claude/rules/`, skills, and documentation. Use `--models sonnet,opus` if your agents use both models.
+This scans your `.claude/rules/` folder, skills, and documentation. It takes a few minutes because it runs 5 agents per file. Use `--models sonnet,opus` if you also use Claude Opus in your sessions.
 
-**Step 2** — Build the reverse-lookup index:
+**Step 2 — Build the lookup index:**
 
 ```
 /total-recall:index
 ```
 
-Once built, a rule installed by the plugin instructs agents to check the index before re-reading files. No further action needed — recall is automatic from this point.
+Creates `.claude/recall-index.json` — a searchable map of trigger words to files. Once this exists, a background rule installed by the plugin tells Claude to check this index before re-reading any file.
 
-**Step 3 (optional)** — Verify what was generated:
+**Step 3 — Verify what was generated:**
 
 ```
 /total-recall:list
-/total-recall:list error-handling
 ```
 
-### Scanning a single file
+Shows all triggers and their confidence scores. A score close to 1.0 means agents agreed strongly. A lower score (below 0.7) can mean the file covers multiple topics — worth splitting if you see it.
+
+## Commands
+
+| Command | What it does |
+|---------|-------------|
+| `/total-recall:scan <path> [--models m1,m2]` | Generate a trigger phrase for one file or directory |
+| `/total-recall:seed [path] [--models m1,m2]` | Batch-generate triggers for all rules, skills, and docs |
+| `/total-recall:index` | Rebuild the lookup index after scanning |
+| `/total-recall:list [filter]` | Show all stored triggers |
+| `/total-recall:forget <path>` | Remove triggers for a file you've deleted or renamed |
+| `/total-recall:compare <path>` | See how haiku, sonnet, and opus each describe the same file |
+
+## Keeping triggers current
+
+Triggers don't update automatically when you edit a file. After making changes:
 
 ```
-/total-recall:scan .claude/rules/error-handling.md --models sonnet
-```
-
-Run `/total-recall:index` again after scanning new files to update the index.
-
-### Keeping triggers current
-
-Re-scan a file after editing it:
-
-```
-/total-recall:scan .claude/rules/updated-rule.md --models sonnet
+/total-recall:scan .claude/rules/my-rule.md --models sonnet
 /total-recall:index
 ```
 
-Remove triggers for a deleted file:
+After deleting a file:
 
 ```
 /total-recall:forget .claude/rules/old-rule.md
 /total-recall:index
 ```
 
-### Comparing models
+## Comparing models
 
 ```
 /total-recall:compare .claude/rules/error-handling.md
 ```
 
-Runs all three models (haiku/sonnet/opus) on the same file and shows how their trigger phrases differ. Useful for deciding which models to generate triggers for.
+Runs all three models on the same file and shows the different phrases each produces. Useful for understanding whether to generate model-specific triggers or whether one model's trigger is good enough for all.
 
-## Commands
-
-| Command | What it does |
-|---------|-------------|
-| `/total-recall:scan <path> [--models m1,m2]` | Study a file or directory and generate trigger phrases |
-| `/total-recall:seed [path] [--models m1,m2]` | Batch-scan docs, rules, skills, and project knowledge |
-| `/total-recall:list [filter]` | Show all stored triggers |
-| `/total-recall:index` | Rebuild the reverse lookup index from stored triggers |
-| `/total-recall:forget <path>` | Remove triggers for a file or glob pattern |
-| `/total-recall:compare <path>` | Run all three models (haiku/sonnet/opus) for comparison |
-
-## Storage
+## What gets stored
 
 Two files in `.claude/`:
 
-**`.claude/triggers.json`** — stores per-model trigger phrases for each scanned file
+**`triggers.json`** — the trigger phrase for each scanned file, organized by model
 
-**`.claude/recall-index.json`** — a reverse lookup: word → list of files that have that word in their trigger phrases, organized by model
+**`recall-index.json`** — a reverse lookup: each word in any trigger phrase maps back to the files it came from, organized by model
 
-The plugin also installs a rule (`rules/recall-index.md`) that instructs agents to check the recall index before re-reading files. The rule tells agents to look up relevant terms under their own model's section of the index and use the trigger phrase instead of re-reading the file if one exists.
+The plugin also installs a rule file (`rules/recall-index.md`) that instructs Claude to check this index before re-reading a file. When a matching entry is found, Claude uses the trigger phrase instead — saving context.
+
+## What is and isn't proven
+
+**Proven:**
+- Trigger generation reliably produces short, semantically meaningful phrases
+- Confidence scores correctly identify unfocused or multi-topic files
+- Different models generate different triggers for the same content
+- Opus produces the most stable, consistent output
+
+**Not yet proven:**
+- Whether trigger injection measurably improves Claude's behavior in real long sessions
+- Whether the attention effects this is designed to address are significant in practice with current 200K+ token context windows
+
+See [Test Results](/plugins/total-recall/test-results) for the full data.

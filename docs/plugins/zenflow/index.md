@@ -1,8 +1,8 @@
 # ZenFlow
 
-ZenFlow is a Claude Code plugin that structures the development process into discrete stages. Rather than a single open-ended session, each piece of work moves through defined steps: idea, plan, execution, validation, and review. Each stage is a separate command with its own inputs, outputs, and quality expectations.
+ZenFlow is a Claude Code plugin that gives your development sessions structure. Instead of a single open-ended "build this" conversation, work moves through defined stages: explore the idea, write a plan, execute it, validate everything, then review. Each stage is a separate command with clear inputs and outputs.
 
-The plugin includes enforcement hooks that prevent skipping stages — for example, you cannot end an execution session without running `check-work` first.
+The key idea: **you never write code before you have a plan, and you never end a session without checking your work.** Enforcement hooks (background rules) make this automatic — Claude literally cannot skip the validation step.
 
 > ZenFlow is derived from [Superpowers](https://github.com/obra/superpowers) by Jesse Vincent.
 
@@ -11,71 +11,84 @@ The plugin includes enforcement hooks that prevent skipping stages — for examp
 
 ## Installation
 
-```bash
+Type these commands inside a Claude Code session (not your regular terminal):
+
+```
 /plugin marketplace add brewpirate/zenflow
 /plugin install zenflow@zen
 /reload-plugins
 ```
 
-Installing `field-notes` alongside is recommended — `zenflow:check-work` invokes it automatically in Gate 5:
+`field-notes` works well alongside zenflow — it automatically logs each session as zenflow's final validation step. Install it too if you want persistent session history:
 
-```bash
+```
 /plugin install field-notes@zen
 /reload-plugins
 ```
 
-## Setup (once per project)
+## First-time setup
 
-After installing, generate the project config:
+After installing, run this once in your project:
 
 ```
 /zenflow:init
 ```
 
-This creates `.claude/zen.local.md` with YAML frontmatter for structured settings and a markdown body for freeform notes. It auto-detects your project's language, framework, documentation paths, and maps codebase sections to agents. Review the generated file and adjust before running the pipeline.
+This scans your project and creates a config file at `.claude/zen.local.md`. Open that file and check what it generated — it auto-detects your language, framework, and doc locations, but you may want to adjust some values before using the pipeline.
 
-Then open the interactive menu to see all available commands:
+Then open the interactive command menu:
 
 ```
 /zen
 ```
 
-## Pipeline
+This lists every available command with a short description. Good starting point if you're not sure what to run next.
 
-The core workflow moves through five stages:
+## The pipeline
+
+ZenFlow structures work into five sequential stages. Think of it as a checklist that Claude enforces for you:
 
 ```
 idea → plan → [dispatch | exec-plan] → check-work → review
 ```
 
-See [The Pipeline](/plugins/zenflow/pipeline) for a full breakdown of each stage.
+For a detailed breakdown of each stage with examples, see [The Pipeline](/plugins/zenflow/pipeline).
 
-## Collab — The Crown Jewel
+## Collab — working with Claude as a partner
 
-`/zenflow:collab` is where the real work happens. It opens a long-running partnership session with Claude Opus — not a task executor, but a thinking partner that explores, reasons, and delegates alongside you.
+`/zenflow:collab` is different from the pipeline. It opens a long-running session with Claude Opus where you work together interactively — exploring the codebase, thinking through designs, troubleshooting. Claude acts as a thinking partner rather than a task executor.
 
-The agent stays in strategist mode: it reads code with you, surfaces trade-offs, writes structured handoffs, and spawns delegates for implementation. Side issues get extracted to fresh subagents (inline or in isolated worktrees) rather than burning primary session context. When the session gets long, a context refresh sheds dead context without losing the partnership.
+When a side problem comes up mid-session, collab delegates it to a separate agent (either inline or in an isolated git worktree) instead of handling it inline. This keeps the main session focused and prevents context from getting cluttered.
 
-**See [Collab](/plugins/zenflow/collab) for the full reference, session patterns, and worked examples.**
+When the session runs long, `/zenflow:context-refresh` writes a structured handoff document so you can run `/clear` and resume without losing your place.
 
-## Standalone Commands
+**See [Collab](/plugins/zenflow/collab) for the full reference and examples.**
 
-Several commands work outside the pipeline:
+## Standalone commands
 
-- `/zenflow:collab` — long-running collaborative session (Opus). See [Collab](/plugins/zenflow/collab).
-- `/zenflow:bug-fix` — runs a four-agent diagnostic pipeline to identify and fix a bug.
-- `/zenflow:audit` — audits codebase sections against your project's coding rules.
-- `/zenflow:refactor` — structured refactoring that checks for regression coverage before making changes.
-- `/zenflow:status` — shows active plans, git status, and recent journal entries.
+These work independently of the pipeline — run them any time:
+
+| Command | What it does |
+|---------|-------------|
+| `/zenflow:collab` | Long-running collaborative session with Claude Opus |
+| `/zenflow:bug-fix` | Four-agent pipeline: two diagnose in parallel, one writes the fix, one reviews it |
+| `/zenflow:audit` | Reviews your codebase against the coding rules in `.claude/rules/` |
+| `/zenflow:audit changed` | Same, but only for files changed relative to main |
+| `/zenflow:refactor` | Plans a refactor, checks regression test coverage, then executes |
+| `/zenflow:status` | Shows in-progress plans, git status, and recent journal entries |
+| `/zenflow:status recent` | Verifies recent work was completed by inspecting commits and tests |
+| `/zenflow:docs` | Identifies stale documentation given recent changes and updates it |
 
 ## Hooks
 
-Three enforcement hooks install automatically with the plugin:
+Hooks are background rules that run automatically — you don't invoke them directly. ZenFlow installs three:
 
-| Hook | Type | Behavior |
-|------|------|----------|
-| `enforce-plan-mode-tools` | Stop | In plan mode, prevents ending a turn without calling `ExitPlanMode` or `AskUserQuestion` |
-| `enforce-work-validation` | Stop | After `exec-plan` or `dispatch`, prevents finishing without running `check-work` |
-| `enforce-local-plans` | PreToolUse | Redirects plan writes from `~/.claude/plans/` to the project's `resources/plans/` directory |
+| Hook | What it prevents |
+|------|-----------------|
+| `enforce-plan-mode-tools` | Ending a planning turn without exiting plan mode or asking a question — keeps the planning phase disciplined |
+| `enforce-work-validation` | Ending an execution session without running `check-work` — ensures nothing ships without validation |
+| `enforce-local-plans` | Writing plan files to `~/.claude/plans/` — redirects them to your project's `resources/plans/` so plans stay in the repo |
+
+If Claude tries to skip a required step, the hook stops it and explains why. This is by design.
 
 See [Hooks](/plugins/zenflow/hooks) for more detail.
