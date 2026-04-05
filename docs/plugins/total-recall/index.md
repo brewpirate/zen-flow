@@ -1,29 +1,23 @@
 # Total Recall
 
-Total Recall helps Claude remember your project's rules and documentation in long sessions.
+Total Recall generates short "trigger phrases" for your project's files — rules, documentation, skills — by sampling how the model itself describes them. Those phrases can be injected back into future prompts to bring early-context content back into active attention without re-reading the full file.
 
 > [!WARNING]
 > The trigger generation works reliably (see [Test Results](/plugins/total-recall/test-results)), but whether it measurably improves Claude's behavior in real sessions has not been conclusively demonstrated. Use it as a low-cost experiment rather than a guaranteed fix.
 
-## The problem it solves
+## The problem
 
-Claude Code sessions have a **context window** — a limit to how much text the model can hold in active memory at once. In a short session this isn't an issue. In a long one — say, 45 minutes of working through a complex feature — content that was loaded early (your project rules, coding standards, architecture docs) can get "pushed back" as newer content accumulates.
+Rules, skills, and documentation loaded early in a long context window get pushed into the background as newer content accumulates. Re-reading them mid-session costs tokens and makes sessions longer. Summarizing them loses specifics. The question this plugin tries to answer: is there a cheaper way to bring key content back into active attention?
 
-The model doesn't forget the files entirely, but may pay them less attention when generating responses.
+## The approach
 
-**The expensive fix:** Re-read the files again mid-session. This costs tokens (which affects speed and cost) and makes the session longer.
+Language models have consistent associations with content patterns from training. If you ask multiple independent agents to describe the same file in a few words, the terms that appear across most of them are the ones most strongly encoded in the model's weights — the model's own "lookup keys" for that content.
 
-**What Total Recall tries instead:** Generate a very short phrase — 1 to 6 words — that represents the core concept of each file. Store these phrases in an index. When Claude needs to refer to a rule, it checks the index first and uses the stored phrase instead of re-reading the whole file.
+A trigger phrase built from these convergent terms doesn't summarize the file — it's an attempt to activate associations the model already has. 5 tokens rather than re-reading 1,000.
 
-Think of it like a sticky note on your desk vs. going back to the original reference manual.
+**How convergence sampling works:** When you scan a file, Total Recall spawns 5 independent study agents in parallel. Each reads the file and returns a short phrase — 1 to 6 words — with no coordination between agents. Terms that appear across most agents become the trigger phrase.
 
-## How trigger phrases are generated
-
-When you run a scan on a file, Total Recall spawns **5 independent study agents** in parallel. Each agent reads the file and returns a short phrase describing it — with no coordination between agents.
-
-The phrases that appear across most agents are the ones the model most strongly associates with that content. Those convergent terms become the trigger phrase.
-
-Example — a rule file about code quality might produce these five independent phrases:
+Example — a rule file about code quality might produce these five independent descriptions:
 
 ```
 "broken windows code quality"
@@ -35,7 +29,11 @@ Example — a rule file about code quality might produce these five independent 
 
 Convergent terms: `broken`, `windows`, `quality`, `ratchet` → trigger: `"broken windows code quality ratchet"`
 
-One interesting side effect: **different Claude models generate different trigger phrases for the same file.** Sonnet and Opus have different internal representations of the same content, so they converge on different terms. This is why you can generate model-specific triggers with `--models sonnet` or `--models opus`.
+Notice that "ratchet" appears in the trigger even though it may appear only once in the source file — TF-IDF would discard it as rare. Convergence sampling surfaces conceptual salience, not keyword frequency.
+
+**Model-specific triggers:** Different models converge on different terms for the same file. Sonnet and Opus have different internal representations of the same content. This is why triggers are stored per-model, and why `--models sonnet,opus` generates separate phrases for each. See [Cross-Model Results](/plugins/total-recall/test-results#cross-model-comparison) for detail.
+
+**A secondary use — resonance linting:** Low confidence scores (below 0.7) mean agents disagreed significantly about what a file is "about." That disagreement is diagnostic: a rule that's hard for the model to summarize is probably doing too many things. In testing, the lowest-scoring file (0.80) turned out to cover two distinct topics — exactly what low confidence predicts.
 
 ## Installation
 

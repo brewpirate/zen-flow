@@ -1,19 +1,15 @@
 # Field Notes
 
-Field Notes keeps a log of what happened in each Claude Code session. After a session ends, the conversation context disappears — Field Notes saves a structured record of what was worked on, what the outcome was, and what was learned, so the next session (or the next person) doesn't have to start from scratch.
+Field Notes appends structured log entries to a `.claude/journal.jsonl` file after work sessions. It provides commands to write entries, filter and read past entries, summarize patterns across sessions, and run end-of-session retrospectives.
 
 > [!WARNING]
 > This plugin is under active development. APIs, commands, and behavior may change without notice.
 
-## Why bother logging?
+## Why
 
-When you use Claude Code, the AI builds up context about your project during the session. When the session ends, that context is gone. The next time you open a session, Claude starts fresh.
+When a Claude Code session ends, the context is gone. Field Notes captures a structured record of what happened — what was worked on, what went wrong, what was learned — so the next session or the next agent doesn't start from scratch.
 
-Field Notes gives you (and Claude) a way to pick up where things left off:
-
-- **For you:** Filter by date, branch, or outcome to see exactly what happened and when
-- **For Claude:** Read recent entries to reconstruct context at the start of a new session
-- **For your team:** The journal file can be committed to the repo so everyone sees what agents have been doing
+The journal is also useful for humans. You can filter by branch, outcome, or date to see exactly what agents have been doing. Over time, summary and reflect commands surface patterns: which files keep causing problems, which blockers recur, whether the bug-fix ratio is trending in the wrong direction.
 
 ## Installation
 
@@ -140,8 +136,20 @@ You can commit this file to your repository or add it to `.gitignore` depending 
 
 ## Browser viewer
 
+The plugin includes an HTML viewer at `plugins/field-notes/scripts/journal.html`. Open it in a browser, pick your `journal.jsonl` file, and browse entries with search and filter chips.
+
 ```
 /field-notes:view
 ```
 
-Opens an HTML viewer where you can browse entries visually with search and filter options. Shows a stats bar (entry count, completed, blocked, delegated) and color-codes entries by outcome.
+Or open it directly from the terminal without a server:
+
+```bash
+xdg-open "file://$(realpath scripts/journal.html)#$(base64 -w0 .claude/journal.jsonl)"
+```
+
+The viewer shows:
+- A stats bar (entry count, completed, blocked, delegated)
+- Filter chips for type, outcome, and origin
+- Full-text search across all fields
+- Color-coded entries by outcome
