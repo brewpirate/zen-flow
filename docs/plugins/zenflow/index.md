@@ -14,13 +14,17 @@ The plugin includes enforcement hooks that prevent skipping stages — for examp
 ```bash
 /plugin marketplace add brewpirate/zenflow
 /plugin install zenflow@zen
+/reload-plugins
+```
+
+Installing `field-notes` alongside is recommended — `zenflow:check-work` invokes it automatically in Gate 5:
+
+```bash
 /plugin install field-notes@zen
 /reload-plugins
 ```
 
-Installing `field-notes` alongside is recommended — `zenflow:check-work` invokes it automatically in Gate 5.
-
-## Setup
+## Setup (once per project)
 
 After installing, generate the project config:
 
@@ -29,6 +33,12 @@ After installing, generate the project config:
 ```
 
 This creates `.claude/zen.local.md` with YAML frontmatter for structured settings and a markdown body for freeform notes. It auto-detects your project's language, framework, documentation paths, and maps codebase sections to agents. Review the generated file and adjust before running the pipeline.
+
+Then open the interactive menu to see all available commands:
+
+```
+/zen
+```
 
 ## Pipeline
 

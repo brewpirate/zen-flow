@@ -19,6 +19,36 @@ The journal is also useful for humans. You can filter by branch, outcome, or dat
 /reload-plugins
 ```
 
+## Quick start
+
+Write an entry at the end of a work session:
+
+```
+/field-notes:write
+```
+
+You'll be prompted for what was worked on, the outcome, any blockers, and what you learned. The entry is appended to `.claude/journal.jsonl`.
+
+Read recent entries:
+
+```
+/field-notes:read
+/field-notes:read today
+/field-notes:read blocked
+```
+
+Review patterns across the last week:
+
+```
+/field-notes:summary
+```
+
+Run an end-of-session retrospective:
+
+```
+/field-notes:reflect
+```
+
 ## Commands
 
 | Command | What it does |

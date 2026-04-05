@@ -27,6 +27,63 @@ One notable property: **different models converge on different terms for the sam
 /reload-plugins
 ```
 
+## Quick start
+
+**Step 1** — Scan your rules and docs to generate trigger phrases:
+
+```
+/total-recall:seed --models sonnet
+```
+
+This batch-scans your `.claude/rules/`, skills, and documentation. Use `--models sonnet,opus` if your agents use both models.
+
+**Step 2** — Build the reverse-lookup index:
+
+```
+/total-recall:index
+```
+
+Once built, a rule installed by the plugin instructs agents to check the index before re-reading files. No further action needed — recall is automatic from this point.
+
+**Step 3 (optional)** — Verify what was generated:
+
+```
+/total-recall:list
+/total-recall:list error-handling
+```
+
+### Scanning a single file
+
+```
+/total-recall:scan .claude/rules/error-handling.md --models sonnet
+```
+
+Run `/total-recall:index` again after scanning new files to update the index.
+
+### Keeping triggers current
+
+Re-scan a file after editing it:
+
+```
+/total-recall:scan .claude/rules/updated-rule.md --models sonnet
+/total-recall:index
+```
+
+Remove triggers for a deleted file:
+
+```
+/total-recall:forget .claude/rules/old-rule.md
+/total-recall:index
+```
+
+### Comparing models
+
+```
+/total-recall:compare .claude/rules/error-handling.md
+```
+
+Runs all three models (haiku/sonnet/opus) on the same file and shows how their trigger phrases differ. Useful for deciding which models to generate triggers for.
+
 ## Commands
 
 | Command | What it does |
@@ -47,30 +104,3 @@ Two files in `.claude/`:
 **`.claude/recall-index.json`** — a reverse lookup: word → list of files that have that word in their trigger phrases, organized by model
 
 The plugin also installs a rule (`rules/recall-index.md`) that instructs agents to check the recall index before re-reading files. The rule tells agents to look up relevant terms under their own model's section of the index and use the trigger phrase instead of re-reading the file if one exists.
-
-## Quick start
-
-Scan a single rule file:
-
-```
-/total-recall:scan .claude/rules/error-handling.md --models sonnet
-```
-
-Scan all rules and docs at once:
-
-```
-/total-recall:seed --models sonnet,opus
-```
-
-Rebuild the word index after scanning:
-
-```
-/total-recall:index
-```
-
-View stored triggers:
-
-```
-/total-recall:list
-/total-recall:list error-handling
-```
