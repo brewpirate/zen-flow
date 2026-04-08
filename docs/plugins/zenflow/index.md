@@ -6,6 +6,8 @@ The plugin includes enforcement hooks that prevent skipping stages — for examp
 
 > ZenFlow is derived from [Superpowers](https://github.com/obra/superpowers) by Jesse Vincent.
 
+**[Read the Philosophy](/plugins/zenflow/philosophy)** — Why zenflow frames human-AI interaction as a practice, not a productivity hack.
+
 > [!WARNING]
 > This plugin is under active development. APIs, commands, and behavior may change without notice.
 

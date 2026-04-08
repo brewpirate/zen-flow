@@ -8,6 +8,8 @@ ZenFlow is derived from [Superpowers](https://github.com/obra/superpowers) by Je
 
 ## Philosophy
 
+> **Deep dive:** [Philosophy (Human)](PHILOSOPHY-HUMAN.md) | [Philosophy (Agent)](PHILOSOPHY-AGENT.md)
+
 Every feature follows the same path: **idea → plan → execute → validate → review**. Each step has a dedicated skill with clear inputs, outputs, and quality gates. Skip a step and a hook blocks you. Follow the flow and you get consistent, high-quality results regardless of task complexity.
 
 Zen Flow is opinionated about process but flexible about execution. You can run the full pipeline or invoke individual skills as needed.
@@ -30,16 +32,6 @@ Run `/zen` to see the interactive menu, or invoke any skill directly:
 /zenflow:plan
 /zenflow:dispatch
 ```
-
-## The Marketplace
-
-Three plugins, one marketplace:
-
-| Plugin | Skills | Purpose |
-|--------|--------|---------|
-| **zenflow** | 15 skills, 3 agents, 13 commands, 3 hooks | The development workflow |
-| **field-notes** | 5 skills, 4 commands, HTML viewer | Structured work logging |
-| **total-recall** | 7 skills, 6 agents, 7 commands | Semantic file triggers via convergence sampling |
 
 ## The Pipeline
 

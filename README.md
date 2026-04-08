@@ -22,6 +22,13 @@ Three plugins, one marketplace:
 | **[field-notes](plugins/field-notes/README.md)** | Structured work journal for Claude Code agents. 5 skills, 4 commands. Write entries, read history, surface patterns, and run end-of-session retrospectives. Stored as append-only JSONL with a browser-based viewer. |
 | **[total-recall](plugins/total-recall/README.md)** | **Experimental.** 5 tokens to recall a 1000-token file. Samples model associations to generate training-data-resonant trigger phrases — cheap attention reweighting for files lost in long contexts. Convergence sampling validated (0.93 avg confidence across 26 files); behavioral efficacy unproven. |
 
+## Philosophy
+
+zenflow is built on a collaboration-first philosophy — treating human-AI interaction as a deliberate practice rather than disposable extraction. Read the full philosophy:
+
+- **[Philosophy (Human)](plugins/zenflow/PHILOSOPHY-HUMAN.md)** — Why intentional collaboration matters for the builder
+- **[Philosophy (Agent)](plugins/zenflow/PHILOSOPHY-AGENT.md)** — The collaboration principles the agent works from
+
 ## Plugin Structure
 
 ```

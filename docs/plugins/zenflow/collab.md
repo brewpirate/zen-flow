@@ -6,6 +6,8 @@
 
 ## The Philosophy
 
+> For the full philosophy behind zenflow, see [Philosophy](/plugins/zenflow/philosophy). For the agent's collaboration principles, see [Philosophy (Agent)](/plugins/zenflow/philosophy-agent).
+
 Most AI interactions are one-shot: you give a task, the agent executes, the context is gone. Collab is the opposite — an extended partnership that compounds over time. The shared context you build together is the asset.
 
 The agent's role in collab is **strategist, not executor**. It explores, challenges, and surfaces decisions. It does not write code directly. When implementation is needed, it writes a clear handoff and delegates to a fresh subagent. This keeps the primary session focused and the context clean.

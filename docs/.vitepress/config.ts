@@ -36,6 +36,8 @@ export default defineConfig({
         collapsed: false,
         items: [
           { text: 'Overview', link: '/plugins/zenflow/' },
+          { text: 'Philosophy', link: '/plugins/zenflow/philosophy' },
+          { text: 'Philosophy (Agent)', link: '/plugins/zenflow/philosophy-agent' },
           { text: 'The Pipeline', link: '/plugins/zenflow/pipeline' },
           { text: 'Collab', link: '/plugins/zenflow/collab' },
           { text: 'Skills Reference', link: '/plugins/zenflow/skills' },
