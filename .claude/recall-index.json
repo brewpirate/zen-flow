@@ -1,0 +1,435 @@
+{
+  "version": 2,
+  "builtAt": "2026-04-09T00:00:00.000Z",
+  "triggerCount": 25,
+  "models": {
+    "opus": {
+      "reverse": {
+        "files": ["plugins/total-recall/skills/index/SKILL.md"],
+        "phrase": "reverse word index builder",
+        "weight": 0.95
+      },
+      "word": {
+        "files": ["plugins/total-recall/skills/index/SKILL.md"],
+        "phrase": "reverse word index builder",
+        "weight": 0.92
+      },
+      "builder": {
+        "files": ["plugins/total-recall/skills/index/SKILL.md"],
+        "phrase": "reverse word index builder",
+        "weight": 0.85
+      },
+      "researcher": {
+        "files": ["plugins/total-recall/skills/scan/SKILL.md"],
+        "phrase": "spawn researcher trigger generation",
+        "weight": 0.95
+      },
+      "generation": {
+        "files": ["plugins/total-recall/skills/scan/SKILL.md"],
+        "phrase": "spawn researcher trigger generation",
+        "weight": 0.92
+      },
+      "spawn": {
+        "files": ["plugins/total-recall/skills/scan/SKILL.md"],
+        "phrase": "spawn researcher trigger generation",
+        "weight": 0.80
+      },
+      "remove": {
+        "files": ["plugins/total-recall/skills/forget/SKILL.md"],
+        "phrase": "remove trigger entries glob",
+        "weight": 0.92
+      },
+      "entry": {
+        "files": ["plugins/total-recall/skills/forget/SKILL.md"],
+        "phrase": "remove trigger entries glob",
+        "weight": 0.90
+      },
+      "glob": {
+        "files": ["plugins/total-recall/skills/forget/SKILL.md"],
+        "phrase": "remove trigger entries glob",
+        "weight": 0.88
+      },
+      "pattern": {
+        "files": ["plugins/total-recall/skills/forget/SKILL.md"],
+        "phrase": "remove trigger entries glob",
+        "weight": 0.90
+      },
+      "cross-model": {
+        "files": ["plugins/total-recall/skills/compare/SKILL.md"],
+        "phrase": "cross model trigger comparison",
+        "weight": 0.95
+      },
+      "comparison": {
+        "files": ["plugins/total-recall/skills/compare/SKILL.md"],
+        "phrase": "cross model trigger comparison",
+        "weight": 0.95
+      },
+      "display": {
+        "files": ["plugins/total-recall/skills/list/SKILL.md"],
+        "phrase": "display stored triggers table",
+        "weight": 0.92
+      },
+      "stored": {
+        "files": ["plugins/total-recall/skills/list/SKILL.md"],
+        "phrase": "display stored triggers table",
+        "weight": 0.92
+      },
+      "table": {
+        "files": ["plugins/total-recall/skills/list/SKILL.md"],
+        "phrase": "display stored triggers table",
+        "weight": 0.88
+      },
+      "bootstrap": {
+        "files": ["plugins/total-recall/skills/seed/SKILL.md"],
+        "phrase": "bootstrap triggers from docs",
+        "weight": 0.95
+      },
+      "seed": {
+        "files": ["plugins/total-recall/skills/seed/SKILL.md"],
+        "phrase": "bootstrap triggers from docs",
+        "weight": 0.95
+      },
+      "implementer": {
+        "files": ["plugins/zenflow/skills/dispatch/implementer-prompt.md"],
+        "phrase": "subagent implementer task template",
+        "weight": 0.95
+      },
+      "spec": {
+        "files": ["plugins/zenflow/skills/dispatch/spec-reviewer-prompt.md"],
+        "phrase": "spec compliance reviewer template",
+        "weight": 0.95
+      },
+      "compliance": {
+        "files": ["plugins/zenflow/skills/dispatch/spec-reviewer-prompt.md"],
+        "phrase": "spec compliance reviewer template",
+        "weight": 0.95
+      },
+      "production": {
+        "files": ["plugins/zenflow/skills/review/code-reviewer.md"],
+        "phrase": "code review production readiness",
+        "weight": 0.90
+      },
+      "readiness": {
+        "files": ["plugins/zenflow/skills/review/code-reviewer.md"],
+        "phrase": "code review production readiness",
+        "weight": 0.92
+      },
+      "severity": {
+        "files": ["plugins/zenflow/skills/review/code-reviewer.md"],
+        "phrase": "code review production readiness",
+        "weight": 0.90
+      },
+      "gates": {
+        "files": ["plugins/zenflow/skills/check-work/SKILL.md"],
+        "phrase": "quality gates lint test journal",
+        "weight": 0.95
+      },
+      "lint": {
+        "files": ["plugins/zenflow/skills/check-work/SKILL.md"],
+        "phrase": "quality gates lint test journal",
+        "weight": 0.95
+      },
+      "bite-sized": {
+        "files": ["plugins/zenflow/skills/plan/SKILL.md"],
+        "phrase": "bite-sized tdd implementation plan",
+        "weight": 0.95
+      },
+      "implementation": {
+        "files": ["plugins/zenflow/skills/plan/SKILL.md"],
+        "phrase": "bite-sized tdd implementation plan",
+        "weight": 0.90
+      },
+      "codebase": {
+        "files": ["plugins/zenflow/skills/init/SKILL.md"],
+        "phrase": "codebase scan generate zen config",
+        "weight": 0.92
+      },
+      "generate": {
+        "files": ["plugins/zenflow/skills/init/SKILL.md"],
+        "phrase": "codebase scan generate zen config",
+        "weight": 0.90
+      },
+      "zen": {
+        "files": ["plugins/zenflow/skills/init/SKILL.md", "plugins/zenflow/skills/docs/SKILL.md"],
+        "phrase": "codebase scan generate zen config",
+        "weight": 0.55
+      },
+      "exploration": {
+        "files": ["plugins/zenflow/skills/idea/SKILL.md"],
+        "phrase": "exploration discovery design brainstorm",
+        "weight": 0.95
+      },
+      "discovery": {
+        "files": ["plugins/zenflow/skills/idea/SKILL.md"],
+        "phrase": "exploration discovery design brainstorm",
+        "weight": 0.95
+      },
+      "design": {
+        "files": ["plugins/zenflow/skills/idea/SKILL.md"],
+        "phrase": "exploration discovery design brainstorm",
+        "weight": 0.90
+      },
+      "idea": {
+        "files": ["plugins/zenflow/skills/idea/SKILL.md"],
+        "phrase": "exploration discovery design brainstorm",
+        "weight": 0.90
+      },
+      "brainstorm": {
+        "files": ["plugins/zenflow/skills/idea/SKILL.md"],
+        "phrase": "exploration discovery design brainstorm",
+        "weight": 0.95
+      },
+      "refactor": {
+        "files": ["plugins/zenflow/skills/refactor/SKILL.md"],
+        "phrase": "structured refactor regression coverage",
+        "weight": 0.95
+      },
+      "regression": {
+        "files": ["plugins/zenflow/skills/refactor/SKILL.md"],
+        "phrase": "structured refactor regression coverage",
+        "weight": 0.95
+      },
+      "structured": {
+        "files": ["plugins/zenflow/skills/refactor/SKILL.md"],
+        "phrase": "structured refactor regression coverage",
+        "weight": 0.90
+      },
+      "documentation": {
+        "files": ["plugins/zenflow/skills/docs/SKILL.md"],
+        "phrase": "documentation zen config paths",
+        "weight": 0.92
+      },
+      "paths": {
+        "files": ["plugins/zenflow/skills/docs/SKILL.md"],
+        "phrase": "documentation zen config paths",
+        "weight": 0.90
+      },
+      "collab": {
+        "files": ["plugins/zenflow/skills/collab/SKILL.md"],
+        "phrase": "collaborative session delegate partnership",
+        "weight": 0.95
+      },
+      "session": {
+        "files": ["plugins/zenflow/skills/collab/SKILL.md"],
+        "phrase": "collaborative session delegate partnership",
+        "weight": 0.90
+      },
+      "delegation": {
+        "files": ["plugins/zenflow/skills/collab/SKILL.md"],
+        "phrase": "collaborative session delegate partnership",
+        "weight": 0.95
+      },
+      "partnership": {
+        "files": ["plugins/zenflow/skills/collab/SKILL.md"],
+        "phrase": "collaborative session delegate partnership",
+        "weight": 0.95
+      },
+      "thinking": {
+        "files": ["plugins/zenflow/skills/collab/SKILL.md"],
+        "phrase": "collaborative session delegate partnership",
+        "weight": 0.85
+      },
+      "audit": {
+        "files": ["plugins/zenflow/skills/audit/SKILL.md"],
+        "phrase": "parallel audit agents standards",
+        "weight": 0.95
+      },
+      "standards": {
+        "files": ["plugins/zenflow/skills/audit/SKILL.md"],
+        "phrase": "parallel audit agents standards",
+        "weight": 0.95
+      },
+      "sections": {
+        "files": ["plugins/zenflow/skills/audit/SKILL.md"],
+        "phrase": "parallel audit agents standards",
+        "weight": 0.90
+      },
+      "execute": {
+        "files": ["plugins/zenflow/skills/exec-plan/SKILL.md"],
+        "phrase": "execute plan sequential checkpoints",
+        "weight": 0.92
+      },
+      "checkpoints": {
+        "files": ["plugins/zenflow/skills/exec-plan/SKILL.md"],
+        "phrase": "execute plan sequential checkpoints",
+        "weight": 0.95
+      },
+      "sequential": {
+        "files": ["plugins/zenflow/skills/exec-plan/SKILL.md"],
+        "phrase": "execute plan sequential checkpoints",
+        "weight": 0.95
+      },
+      "context": {
+        "files": ["plugins/zenflow/skills/context-refresh/SKILL.md"],
+        "phrase": "context refresh handoff clear resume",
+        "weight": 0.92
+      },
+      "refresh": {
+        "files": ["plugins/zenflow/skills/context-refresh/SKILL.md"],
+        "phrase": "context refresh handoff clear resume",
+        "weight": 0.95
+      },
+      "handoff": {
+        "files": ["plugins/zenflow/skills/context-refresh/SKILL.md"],
+        "phrase": "context refresh handoff clear resume",
+        "weight": 0.95
+      },
+      "resume": {
+        "files": ["plugins/zenflow/skills/context-refresh/SKILL.md"],
+        "phrase": "context refresh handoff clear resume",
+        "weight": 0.92
+      },
+      "diagnostic": {
+        "files": ["plugins/zenflow/skills/bug-fix/SKILL.md"],
+        "phrase": "parallel diagnosis detective coordinator fix",
+        "weight": 0.95
+      },
+      "pipeline": {
+        "files": ["plugins/zenflow/skills/bug-fix/SKILL.md"],
+        "phrase": "parallel diagnosis detective coordinator fix",
+        "weight": 0.90
+      },
+      "bug": {
+        "files": ["plugins/zenflow/skills/bug-fix/SKILL.md"],
+        "phrase": "parallel diagnosis detective coordinator fix",
+        "weight": 0.95
+      },
+      "fix": {
+        "files": ["plugins/zenflow/skills/bug-fix/SKILL.md"],
+        "phrase": "parallel diagnosis detective coordinator fix",
+        "weight": 0.90
+      },
+      "detective": {
+        "files": ["plugins/zenflow/skills/bug-fix/SKILL.md"],
+        "phrase": "parallel diagnosis detective coordinator fix",
+        "weight": 0.85
+      },
+      "status": {
+        "files": ["plugins/zenflow/skills/status/SKILL.md"],
+        "phrase": "project status plans git journal",
+        "weight": 0.92
+      },
+      "plans": {
+        "files": ["plugins/zenflow/skills/status/SKILL.md"],
+        "phrase": "project status plans git journal",
+        "weight": 0.92
+      },
+      "git": {
+        "files": ["plugins/zenflow/skills/status/SKILL.md"],
+        "phrase": "project status plans git journal",
+        "weight": 0.92
+      },
+      "two-stage": {
+        "files": ["plugins/zenflow/skills/dispatch/SKILL.md"],
+        "phrase": "subagent dispatch two-stage review",
+        "weight": 0.95
+      },
+      "testing": {
+        "files": ["plugins/zenflow/skills/testing-anti-patterns/SKILL.md"],
+        "phrase": "testing anti-patterns mock behavior",
+        "weight": 0.95
+      },
+      "anti-patterns": {
+        "files": ["plugins/zenflow/skills/testing-anti-patterns/SKILL.md"],
+        "phrase": "testing anti-patterns mock behavior",
+        "weight": 0.95
+      },
+      "mock": {
+        "files": ["plugins/zenflow/skills/testing-anti-patterns/SKILL.md"],
+        "phrase": "testing anti-patterns mock behavior",
+        "weight": 0.95
+      },
+      "tdd": {
+        "files": ["plugins/zenflow/skills/plan/SKILL.md", "plugins/zenflow/skills/testing-anti-patterns/SKILL.md"],
+        "phrase": "bite-sized tdd implementation plan",
+        "weight": 0.55
+      },
+      "model": {
+        "files": ["plugins/total-recall/skills/index/SKILL.md", "plugins/total-recall/skills/compare/SKILL.md"],
+        "phrase": "reverse word index builder",
+        "weight": 0.55
+      },
+      "scan": {
+        "files": ["plugins/total-recall/skills/scan/SKILL.md", "plugins/zenflow/skills/init/SKILL.md"],
+        "phrase": "spawn researcher trigger generation",
+        "weight": 0.55
+      },
+      "config": {
+        "files": ["plugins/zenflow/skills/init/SKILL.md", "plugins/zenflow/skills/docs/SKILL.md"],
+        "phrase": "codebase scan generate zen config",
+        "weight": 0.55
+      },
+      "parallel": {
+        "files": ["plugins/zenflow/skills/audit/SKILL.md", "plugins/zenflow/skills/bug-fix/SKILL.md"],
+        "phrase": "parallel audit agents standards",
+        "weight": 0.55
+      },
+      "journal": {
+        "files": ["plugins/zenflow/skills/check-work/SKILL.md", "plugins/zenflow/skills/status/SKILL.md"],
+        "phrase": "quality gates lint test journal",
+        "weight": 0.55
+      },
+      "behavior": {
+        "files": ["plugins/zenflow/skills/refactor/SKILL.md", "plugins/zenflow/skills/testing-anti-patterns/SKILL.md"],
+        "phrase": "structured refactor regression coverage",
+        "weight": 0.55
+      },
+      "quality": {
+        "files": ["plugins/zenflow/skills/check-work/SKILL.md", "plugins/zenflow/skills/dispatch/code-quality-reviewer-prompt.md"],
+        "phrase": "quality gates lint test journal",
+        "weight": 0.55
+      },
+      "reviewer": {
+        "files": ["plugins/zenflow/skills/dispatch/spec-reviewer-prompt.md", "plugins/zenflow/skills/dispatch/code-quality-reviewer-prompt.md"],
+        "phrase": "spec compliance reviewer template",
+        "weight": 0.50
+      },
+      "subagent": {
+        "files": ["plugins/zenflow/skills/dispatch/implementer-prompt.md", "plugins/zenflow/skills/review/SKILL.md", "plugins/zenflow/skills/dispatch/SKILL.md"],
+        "phrase": "subagent implementer task template",
+        "weight": 0.40
+      },
+      "dispatch": {
+        "files": ["plugins/zenflow/skills/dispatch/implementer-prompt.md", "plugins/zenflow/skills/review/SKILL.md", "plugins/zenflow/skills/dispatch/code-quality-reviewer-prompt.md", "plugins/zenflow/skills/dispatch/SKILL.md"],
+        "phrase": "subagent dispatch two-stage review",
+        "weight": 0.30
+      },
+      "template": {
+        "files": ["plugins/zenflow/skills/dispatch/implementer-prompt.md", "plugins/zenflow/skills/dispatch/spec-reviewer-prompt.md", "plugins/zenflow/skills/dispatch/code-quality-reviewer-prompt.md"],
+        "phrase": "subagent implementer task template",
+        "weight": 0.35
+      },
+      "review": {
+        "files": ["plugins/zenflow/skills/review/code-reviewer.md", "plugins/zenflow/skills/review/SKILL.md", "plugins/zenflow/skills/dispatch/SKILL.md"],
+        "phrase": "dispatch code reviewer subagent",
+        "weight": 0.35
+      },
+      "code": {
+        "files": ["plugins/zenflow/skills/review/code-reviewer.md", "plugins/zenflow/skills/review/SKILL.md", "plugins/zenflow/skills/dispatch/code-quality-reviewer-prompt.md"],
+        "phrase": "code review production readiness",
+        "weight": 0.35
+      },
+      "task": {
+        "files": ["plugins/zenflow/skills/dispatch/implementer-prompt.md", "plugins/zenflow/skills/exec-plan/SKILL.md", "plugins/zenflow/skills/dispatch/SKILL.md"],
+        "phrase": "subagent implementer task template",
+        "weight": 0.35
+      },
+      "tasks": {
+        "files": ["plugins/zenflow/skills/plan/SKILL.md", "plugins/zenflow/skills/exec-plan/SKILL.md", "plugins/zenflow/skills/status/SKILL.md"],
+        "phrase": "bite-sized tdd implementation plan",
+        "weight": 0.35
+      },
+      "plan": {
+        "files": ["plugins/zenflow/skills/plan/SKILL.md", "plugins/zenflow/skills/exec-plan/SKILL.md"],
+        "phrase": "bite-sized tdd implementation plan",
+        "weight": 0.55
+      },
+      "agents": {
+        "files": ["plugins/zenflow/skills/init/SKILL.md", "plugins/zenflow/skills/audit/SKILL.md", "plugins/zenflow/skills/bug-fix/SKILL.md"],
+        "phrase": "parallel audit agents standards",
+        "weight": 0.35
+      }
+    }
+  },
+  "crossModel": {}
+}

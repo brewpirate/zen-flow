@@ -12,6 +12,12 @@ skills:
   - zenflow:check-work
   - zenflow:review
   - testing-anti-patterns
+hooks:
+  Stop:
+    - hooks:
+        - type: command
+          command: "bash ${CLAUDE_PLUGIN_ROOT}/hooks/scripts/enforce-work-validation.sh"
+          timeout: 10
 ---
 
 # Collab Delegate

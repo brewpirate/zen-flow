@@ -33,6 +33,12 @@ Focuses on root cause analysis. Given a bug description or error trace, it trace
 
 Focuses on cascade risk — what else might break if this bug is fixed a certain way, and what are the downstream effects of the proposed change. Runs in parallel with `error-detective`.
 
+## code-reviewer (skill-internal)
+
+**Spawned by:** `/zenflow:review`
+
+Not a standalone agent — this is an inline prompt template used by the review skill to evaluate diffs. It checks production readiness, categorizes findings by severity, and produces a structured review. Defined in `plugins/zenflow/skills/review/code-reviewer.md`.
+
 ---
 
 ## Custom agent assignments

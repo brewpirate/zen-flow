@@ -19,7 +19,7 @@ The plugins are independent — you can install any subset. That said, `field-no
 
 ## What each plugin installs
 
-**zenflow** — adds commands under `/zenflow:*`, three enforcement hooks, and three agents. Requires `/zenflow:init` to generate a `.claude/zen.local.md` config file for your project before use.
+**zenflow** — adds commands under `/zenflow:*`, three enforcement hooks, and three agents. Includes `/zenflow:collab` for extended pair-programming sessions. Requires `/zenflow:init` to generate a `.claude/zen.local.md` config file for your project before use.
 
 **field-notes** — adds commands under `/field-notes:*` and a browser-based HTML viewer at `plugins/field-notes/scripts/journal.html`. Writes to `.claude/journal.jsonl`.
 
@@ -35,11 +35,7 @@ After installing, generate the config file:
 
 This scans your project and creates `.claude/zen.local.md` with detected language, framework, documentation paths, and agent-to-domain mappings. Review it and adjust as needed before running the pipeline.
 
-Then open the interactive menu to see all available commands:
-
-```
-/zen
-```
+Then explore available commands under `/zenflow:*` — try `/zenflow:collab` for a collaborative session or `/zenflow:status` for a project snapshot.
 
 ## First steps with Field Notes
 

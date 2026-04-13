@@ -8,7 +8,7 @@ This is the human-facing philosophy. For what the agent receives as its collabor
 
 zenflow is not a productivity tool. It's a discipline.
 
-It began as a fork of [superpowers](https://github.com/cline/superpowers) — a Claude Code plugin for enhanced agent capabilities. But the further we pushed into human-AI collaboration, the clearer it became that the missing piece was never the agent's capability. It was the human's relationship to the work.
+It began as a fork of [superpowers](https://github.com/obra/superpowers) — a Claude Code plugin for enhanced agent capabilities. But the further we pushed into human-AI collaboration, the clearer it became that the missing piece was never the agent's capability. It was the human's relationship to the work.
 
 ---
 

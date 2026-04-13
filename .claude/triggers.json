@@ -1,0 +1,305 @@
+{
+  "version": 2,
+  "triggers": {
+    "plugins/total-recall/skills/index/SKILL.md": {
+      "models": {
+        "opus": {
+          "phrase": "reverse word index builder",
+          "samples": ["reverse lookup word index builder", "trigger word reverse index model-aware", "build recall index word mapping", "word file reverse index weights", "model-scoped reverse word index"],
+          "convergence": ["reverse", "word", "index", "model"],
+          "confidence": 0.92,
+          "phases": 1
+        }
+      },
+      "scannedAt": "2026-04-09T00:00:00.000Z"
+    },
+    "plugins/total-recall/skills/scan/SKILL.md": {
+      "models": {
+        "opus": {
+          "phrase": "spawn researcher trigger generation",
+          "samples": ["scan files generate trigger phrases", "researcher agent trigger phrase generation", "model-scoped trigger phrase scanning", "spawn study agents convergent triggers", "trigger generation researcher convergence"],
+          "convergence": ["trigger", "generation", "researcher", "scan"],
+          "confidence": 0.90,
+          "phases": 1
+        }
+      },
+      "scannedAt": "2026-04-09T00:00:00.000Z"
+    },
+    "plugins/total-recall/skills/forget/SKILL.md": {
+      "models": {
+        "opus": {
+          "phrase": "remove trigger entries glob",
+          "samples": ["forget remove trigger phrases", "delete triggers glob pattern match", "remove trigger entries from json", "forget stored triggers by path", "remove matching trigger entries"],
+          "convergence": ["remove", "trigger", "entries", "pattern"],
+          "confidence": 0.88,
+          "phases": 1
+        }
+      },
+      "scannedAt": "2026-04-09T00:00:00.000Z"
+    },
+    "plugins/total-recall/skills/compare/SKILL.md": {
+      "models": {
+        "opus": {
+          "phrase": "cross model trigger comparison",
+          "samples": ["cross-model trigger phrase comparison", "compare haiku sonnet opus triggers", "model size trigger comparison table", "cross-model convergence comparison experiment", "compare triggers across model sizes"],
+          "convergence": ["cross-model", "comparison", "trigger", "model"],
+          "confidence": 0.95,
+          "phases": 1
+        }
+      },
+      "scannedAt": "2026-04-09T00:00:00.000Z"
+    },
+    "plugins/total-recall/skills/list/SKILL.md": {
+      "models": {
+        "opus": {
+          "phrase": "display stored triggers table",
+          "samples": ["list display stored trigger phrases", "show triggers formatted table", "display triggers json table output", "list all stored triggers filtered", "show trigger phrases table format"],
+          "convergence": ["display", "stored", "triggers", "table"],
+          "confidence": 0.93,
+          "phases": 1
+        }
+      },
+      "scannedAt": "2026-04-09T00:00:00.000Z"
+    },
+    "plugins/total-recall/skills/seed/SKILL.md": {
+      "models": {
+        "opus": {
+          "phrase": "bootstrap triggers from docs",
+          "samples": ["seed bootstrap triggers from documentation", "auto-discover docs seed triggers", "bootstrap trigger index from prompts", "seed project knowledge trigger phrases", "bootstrap triggers docs skills prompts"],
+          "convergence": ["bootstrap", "triggers", "docs", "seed"],
+          "confidence": 0.92,
+          "phases": 1
+        }
+      },
+      "scannedAt": "2026-04-09T00:00:00.000Z"
+    },
+    "plugins/zenflow/skills/dispatch/implementer-prompt.md": {
+      "models": {
+        "opus": {
+          "phrase": "subagent implementer task template",
+          "samples": ["implementer subagent dispatch template", "task implementation prompt template", "subagent worker dispatch instructions", "implementer self-review escalation template", "fresh agent task prompt"],
+          "convergence": ["implementer", "subagent", "template", "task", "dispatch"],
+          "confidence": 0.85,
+          "phases": 1
+        }
+      },
+      "scannedAt": "2026-04-09T00:00:00.000Z"
+    },
+    "plugins/zenflow/skills/dispatch/spec-reviewer-prompt.md": {
+      "models": {
+        "opus": {
+          "phrase": "spec compliance reviewer template",
+          "samples": ["spec compliance verification prompt", "spec reviewer subagent template", "implementation spec compliance checker", "verify implementer matches specification", "spec compliance review dispatch"],
+          "convergence": ["spec", "compliance", "reviewer", "template"],
+          "confidence": 0.90,
+          "phases": 1
+        }
+      },
+      "scannedAt": "2026-04-09T00:00:00.000Z"
+    },
+    "plugins/zenflow/skills/review/code-reviewer.md": {
+      "models": {
+        "opus": {
+          "phrase": "code review production readiness",
+          "samples": ["code review agent checklist", "production readiness code reviewer", "git diff code review template", "severity categorized code review", "code quality review agent prompt"],
+          "convergence": ["code", "review", "production", "readiness", "severity"],
+          "confidence": 0.90,
+          "phases": 1
+        }
+      },
+      "scannedAt": "2026-04-09T00:00:00.000Z"
+    },
+    "plugins/zenflow/skills/check-work/SKILL.md": {
+      "models": {
+        "opus": {
+          "phrase": "quality gates lint test journal",
+          "samples": ["five quality gates validation skill", "lint format test docs journal gates", "check-work quality gate pipeline", "post-implementation validation gates", "automated quality gate runner"],
+          "convergence": ["quality", "gates", "lint", "test", "journal"],
+          "confidence": 0.92,
+          "phases": 1
+        }
+      },
+      "scannedAt": "2026-04-09T00:00:00.000Z"
+    },
+    "plugins/zenflow/skills/plan/SKILL.md": {
+      "models": {
+        "opus": {
+          "phrase": "bite-sized tdd implementation plan",
+          "samples": ["junior developer implementation plan", "bite-sized task plan with tdd", "detailed implementation plan writing", "plan with checkpoints and verification", "no placeholders implementation planning"],
+          "convergence": ["plan", "implementation", "bite-sized", "tdd", "tasks"],
+          "confidence": 0.90,
+          "phases": 1
+        }
+      },
+      "scannedAt": "2026-04-09T00:00:00.000Z"
+    },
+    "plugins/zenflow/skills/init/SKILL.md": {
+      "models": {
+        "opus": {
+          "phrase": "codebase scan generate zen config",
+          "samples": ["init scan codebase generate config", "zen local md config generation", "codebase scan agent discovery init", "project onboarding config generator", "scan codebase match agents config"],
+          "convergence": ["scan", "codebase", "config", "generate", "agents"],
+          "confidence": 0.88,
+          "phases": 1
+        }
+      },
+      "scannedAt": "2026-04-09T00:00:00.000Z"
+    },
+    "plugins/zenflow/skills/idea/SKILL.md": {
+      "models": {
+        "opus": {
+          "phrase": "exploration discovery design brainstorm",
+          "samples": ["idea brainstorm into design spec", "exploration discovery design modes", "collaborative idea maturity assessment", "pre-implementation design brainstorming", "vague idea to concrete design"],
+          "convergence": ["exploration", "discovery", "design", "idea", "brainstorm"],
+          "confidence": 0.88,
+          "phases": 1
+        }
+      },
+      "scannedAt": "2026-04-09T00:00:00.000Z"
+    },
+    "plugins/zenflow/skills/refactor/SKILL.md": {
+      "models": {
+        "opus": {
+          "phrase": "structured refactor regression coverage",
+          "samples": ["behavior-preserving refactor pipeline", "structured refactoring with regression tests", "refactor analyze propose execute validate", "code refactor regression safety net", "refactoring without changing behavior"],
+          "convergence": ["refactor", "regression", "behavior", "structured"],
+          "confidence": 0.90,
+          "phases": 1
+        }
+      },
+      "scannedAt": "2026-04-09T00:00:00.000Z"
+    },
+    "plugins/zenflow/skills/docs/SKILL.md": {
+      "models": {
+        "opus": {
+          "phrase": "documentation zen config paths",
+          "samples": ["documentation update from zen config", "docs skill zen local md paths", "create update project documentation", "config-driven documentation generation", "documentation accuracy over completeness"],
+          "convergence": ["documentation", "config", "zen", "paths", "update"],
+          "confidence": 0.85,
+          "phases": 1
+        }
+      },
+      "scannedAt": "2026-04-09T00:00:00.000Z"
+    },
+    "plugins/zenflow/skills/collab/SKILL.md": {
+      "models": {
+        "opus": {
+          "phrase": "collaborative session delegate partnership",
+          "samples": ["extended collab session with delegation", "thinking partner not code generator", "collaborative working session delegation", "strategist partnership delegate subagents", "collab session context protection delegation"],
+          "convergence": ["collab", "session", "delegation", "partnership", "thinking"],
+          "confidence": 0.90,
+          "phases": 1
+        }
+      },
+      "scannedAt": "2026-04-09T00:00:00.000Z"
+    },
+    "plugins/zenflow/skills/review/SKILL.md": {
+      "models": {
+        "opus": {
+          "phrase": "dispatch code reviewer subagent",
+          "samples": ["request code review dispatch subagent", "review early review often skill", "code reviewer dispatch with shas", "review before merge mandatory", "code review subagent dispatch protocol"],
+          "convergence": ["review", "dispatch", "code", "subagent"],
+          "confidence": 0.88,
+          "phases": 1
+        }
+      },
+      "scannedAt": "2026-04-09T00:00:00.000Z"
+    },
+    "plugins/zenflow/skills/audit/SKILL.md": {
+      "models": {
+        "opus": {
+          "phrase": "parallel audit agents standards",
+          "samples": ["codebase audit parallel specialist agents", "audit sections against configurable standards", "parallel auditor dispatch per section", "code standards audit with agents", "section audit rules severity report"],
+          "convergence": ["audit", "parallel", "agents", "standards", "sections"],
+          "confidence": 0.92,
+          "phases": 1
+        }
+      },
+      "scannedAt": "2026-04-09T00:00:00.000Z"
+    },
+    "plugins/zenflow/skills/exec-plan/SKILL.md": {
+      "models": {
+        "opus": {
+          "phrase": "execute plan sequential checkpoints",
+          "samples": ["load plan execute tasks sequentially", "exec-plan with review checkpoints", "plan execution with check-work mandatory", "sequential task execution with verification", "execute implementation plan skill"],
+          "convergence": ["execute", "plan", "tasks", "checkpoints", "sequential"],
+          "confidence": 0.88,
+          "phases": 1
+        }
+      },
+      "scannedAt": "2026-04-09T00:00:00.000Z"
+    },
+    "plugins/zenflow/skills/context-refresh/SKILL.md": {
+      "models": {
+        "opus": {
+          "phrase": "context refresh handoff clear resume",
+          "samples": ["shed context write handoff document", "context refresh mid-session clear resume", "handoff document for clear resumption", "context refresh behavioral calibration", "session context shed and resume"],
+          "convergence": ["context", "refresh", "handoff", "clear", "resume"],
+          "confidence": 0.95,
+          "phases": 1
+        }
+      },
+      "scannedAt": "2026-04-09T00:00:00.000Z"
+    },
+    "plugins/zenflow/skills/bug-fix/SKILL.md": {
+      "models": {
+        "opus": {
+          "phrase": "parallel diagnosis detective coordinator fix",
+          "samples": ["four agent bug fix pipeline", "parallel diagnostic agents bug fix", "detective coordinator specialist reviewer pipeline", "bug diagnosis parallel agents minimal fix", "reproduce diagnose fix review pipeline"],
+          "convergence": ["parallel", "diagnostic", "agents", "pipeline", "bug", "fix"],
+          "confidence": 0.92,
+          "phases": 1
+        }
+      },
+      "scannedAt": "2026-04-09T00:00:00.000Z"
+    },
+    "plugins/zenflow/skills/status/SKILL.md": {
+      "models": {
+        "opus": {
+          "phrase": "project status plans git journal",
+          "samples": ["quick project status snapshot skill", "status plans tasks git journal", "deep verification validate plan tasks", "project status with recent validation", "status git plans tasks session journal"],
+          "convergence": ["status", "plans", "git", "journal", "tasks"],
+          "confidence": 0.90,
+          "phases": 1
+        }
+      },
+      "scannedAt": "2026-04-09T00:00:00.000Z"
+    },
+    "plugins/zenflow/skills/dispatch/code-quality-reviewer-prompt.md": {
+      "models": {
+        "opus": {
+          "phrase": "code quality reviewer dispatch template",
+          "samples": ["code quality reviewer prompt template", "quality review after spec compliance", "code quality reviewer subagent dispatch", "post-spec quality review template", "code quality review responsibility check"],
+          "convergence": ["code", "quality", "reviewer", "template"],
+          "confidence": 0.90,
+          "phases": 1
+        }
+      },
+      "scannedAt": "2026-04-09T00:00:00.000Z"
+    },
+    "plugins/zenflow/skills/dispatch/SKILL.md": {
+      "models": {
+        "opus": {
+          "phrase": "subagent dispatch two-stage review",
+          "samples": ["subagent-driven development dispatch skill", "dispatch implementer two-stage review", "fresh subagent per task dispatch", "subagent dispatch spec quality review", "task dispatch implement review pipeline"],
+          "convergence": ["subagent", "dispatch", "review", "task", "two-stage"],
+          "confidence": 0.92,
+          "phases": 1
+        }
+      },
+      "scannedAt": "2026-04-09T00:00:00.000Z"
+    },
+    "plugins/zenflow/skills/testing-anti-patterns/SKILL.md": {
+      "models": {
+        "opus": {
+          "phrase": "testing anti-patterns mock behavior",
+          "samples": ["testing anti-patterns mock behavior", "test real behavior not mocks", "mock anti-patterns tdd prevention", "testing anti-patterns production pollution", "mock isolation not test subject"],
+          "convergence": ["testing", "anti-patterns", "mock", "behavior", "tdd"],
+          "confidence": 0.95,
+          "phases": 1
+        }
+      },
+      "scannedAt": "2026-04-09T00:00:00.000Z"
+    }
+  }
+}

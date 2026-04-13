@@ -139,7 +139,21 @@ When delegating, create a structured handoff:
 [What "fixed" looks like]
 ```
 
-**2. Delegate to a fresh agent:**
+**2. Announce the delegation to the user:**
+
+Before spawning any delegate, tell the user exactly what's happening:
+
+```
+**Delegation announcement:**
+- **Agent type:** [general-purpose, error-detective, code-reviewer, etc.]
+- **Skills available:** [list any skills the delegate can invoke, or "none"]
+- **Working location:** [inline on <branch> / worktree at <path>]
+- **Files affected:** [list key files the delegate will modify]
+```
+
+This is not optional. The user should never wonder what agent is running, where it's working, or what it has access to.
+
+**3. Delegate to a fresh agent:**
 
 Use the `Agent` tool to spawn a **collab-delegate** agent (defined in this plugin). For simple, focused fixes:
 
@@ -204,11 +218,11 @@ The worktree delegate:
 - **Inline** — small fixes, quick turnaround, you want to see the diff immediately
 - **Worktree** — multi-file changes, you don't want to block on it, PR-based review preferred
 
-**3. Continue working:**
+**4. Continue working:**
 
 Don't wait for the delegated agent unless the primary work depends on the fix. If it does, note it and move to the next independent piece of work.
 
-**4. Check back:**
+**5. Check back:**
 
 When the delegated agent completes, review the fix briefly:
 - Does it look reasonable?

@@ -32,14 +32,3 @@ features:
     link: /plugins/total-recall/
     linkText: Documentation
 ---
-
-> [!WARNING]
-> All plugins in this marketplace are under active development. APIs, commands, and behavior may change without notice.
-
-## Plugins
-
-| Plugin | What it does |
-|--------|-------------|
-| **[zenflow](/plugins/zenflow/)** | A structured pipeline for going from idea to reviewed code. 15 commands, 3 agents, 3 enforcement hooks. |
-| **[field-notes](/plugins/field-notes/)** | Appends structured entries to a `.claude/journal.jsonl` file after work sessions. 5 commands, HTML viewer. |
-| **[total-recall](/plugins/total-recall/)** | Generates model-specific trigger phrases for files using convergence sampling. 6 commands, 3 agents. |
