@@ -1,23 +1,8 @@
 # Agents
 
-ZenFlow includes three agents that are spawned by specific commands. They are not invoked directly — each one is launched as a subagent by the skill that needs it.
+ZenFlow includes two agents that are spawned by specific skills. They are not invoked directly — each one is launched as a subagent by the skill that needs it.
 
-> **Note:** `/zenflow:review` and its `code-reviewer` prompt template were removed on 2026-04-15 — see issue [#10](https://github.com/brewpirate/zen-flow/issues/10) for the preserved content.
-
-## collab-delegate
-
-**Model:** Opus  
-**Spawned by:** `/zenflow:collab`
-
-When a side problem comes up during a collab session, the delegate agent handles it instead of the primary session. This keeps the main session focused and prevents its context from filling up with unrelated debugging work.
-
-The delegate:
-
-- **Loads all project rules before starting** — globs `.claude/rules/*.md` and reads every file, announcing each one
-- **Has access to zenflow skills** — can invoke `zenflow:plan` and `zenflow:check-work`
-- **Receives a structured handoff** — context, reproduction steps, relevant files, and what was already tried
-- **Can work in a worktree** — if the issue is large enough, the delegate gets an isolated branch, commits freely, and submits a PR for review rather than working in the main directory
-- **Can escalate** — reports `BLOCKED` with a clear explanation if the handoff context is insufficient, rather than making assumptions
+> **Note:** The `collab-delegate` agent was removed in favor of the 3-agent issue-driven workflow — see issue [#13](https://github.com/brewpirate/zen-flow/issues/13). Implementation work is now handled by the Builder skill (`/zenflow:build`) launched by the user.
 
 ## error-detective
 
