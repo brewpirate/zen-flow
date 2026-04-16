@@ -56,9 +56,10 @@ Several commands work outside the pipeline:
 
 - `/zenflow:collab` — long-running collaborative session (Opus). See [Collab](/plugins/zenflow/collab).
 - `/zenflow:bug-fix` — runs a four-agent diagnostic pipeline to identify and fix a bug.
-- `/zenflow:audit` — audits codebase sections against your project's coding rules.
-- `/zenflow:refactor` — structured refactoring that checks for regression coverage before making changes.
-- `/zenflow:status` — shows active plans, git status, and recent journal entries.
+- `/zenflow:docs` — creates or updates project documentation.
+- `/zenflow:context-refresh` — sheds accumulated context mid-session via a structured handoff.
+
+> **Temporarily removed:** `/zenflow:audit`, `/zenflow:refactor`, `/zenflow:review`, `/zenflow:status`, and the `testing-anti-patterns` skill were pruned on 2026-04-15 — tracked in issues [#8](https://github.com/brewpirate/zen-flow/issues/8)–[#12](https://github.com/brewpirate/zen-flow/issues/12) for restoration.
 
 ## Hooks
 

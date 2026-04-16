@@ -1,6 +1,6 @@
 # The Pipeline
 
-The ZenFlow pipeline moves work through five stages. Each stage has a defined purpose, and hooks prevent skipping the validation stage.
+The ZenFlow pipeline moves work through four stages. Each stage has a defined purpose, and hooks prevent skipping the validation stage.
 
 ## Stage 1 — Idea (`/zenflow:idea`)
 
@@ -58,13 +58,6 @@ Gates that fail are auto-fixed where possible. For failures that require judgmen
 
 A Stop hook prevents ending an execution session without running this command.
 
-## Stage 5 — Review (`/zenflow:review`)
-
-Dispatches a code reviewer subagent with the git diff. The reviewer outputs:
-
-- A list of issues categorized as **Critical**, **Important**, or **Minor**, each with a `file:line` reference
-- A clear merge verdict: ready to merge, needs changes, or blocked
-
 ---
 
 ## Standalone Commands
@@ -95,25 +88,12 @@ Runs a four-agent pipeline:
 2. A specialist writes a minimal fix with a regression test
 3. A reviewer verifies the fix
 
-### `/zenflow:audit`
-
-Audits sections of your codebase against the rules defined in `.claude/rules/`. Dispatches one specialist agent per section in parallel.
-
-- `/zenflow:audit` — audits the entire codebase
-- `/zenflow:audit changed` — audits only files modified relative to main
-
-The sections and rules are configured in `.claude/zen.local.md` under the `agents` key.
-
-### `/zenflow:refactor`
-
-Structured refactoring pipeline. The agent analyzes the target code, proposes changes with before/after examples, verifies regression test coverage exists, then executes. Internal API changes are in scope; external-facing API changes are not.
-
-### `/zenflow:status`
-
-Shows current project state: active plans (any with `status != complete` in frontmatter), task progress, git status, recent session history, and recent journal entries.
-
-`/zenflow:status recent` — verifies tasks completed in the last 72 hours by inspecting tests, commits, and files, then stamps plans with `validated` frontmatter.
-
 ### `/zenflow:docs`
 
 Reads `.claude/zen.local.md` to find documentation paths, assesses which docs are stale given recent changes, asks which ones to update, and writes the updates.
+
+---
+
+## Temporarily removed commands
+
+`/zenflow:audit`, `/zenflow:refactor`, `/zenflow:review`, and `/zenflow:status` were pruned on 2026-04-15 pending redesign. Full skill bodies are preserved in GitHub issues [#8](https://github.com/brewpirate/zen-flow/issues/8) (audit), [#9](https://github.com/brewpirate/zen-flow/issues/9) (refactor), [#10](https://github.com/brewpirate/zen-flow/issues/10) (review), and [#11](https://github.com/brewpirate/zen-flow/issues/11) (status).

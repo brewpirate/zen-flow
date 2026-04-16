@@ -2,6 +2,8 @@
 
 ZenFlow includes three agents that are spawned by specific commands. They are not invoked directly — each one is launched as a subagent by the skill that needs it.
 
+> **Note:** `/zenflow:review` and its `code-reviewer` prompt template were removed on 2026-04-15 — see issue [#10](https://github.com/brewpirate/zen-flow/issues/10) for the preserved content.
+
 ## collab-delegate
 
 **Model:** Opus  
@@ -12,7 +14,7 @@ When a side problem comes up during a collab session, the delegate agent handles
 The delegate:
 
 - **Loads all project rules before starting** — globs `.claude/rules/*.md` and reads every file, announcing each one
-- **Has access to zenflow skills** — can invoke `zenflow:plan`, `zenflow:check-work`, `zenflow:review`, and the testing-anti-patterns rule
+- **Has access to zenflow skills** — can invoke `zenflow:plan` and `zenflow:check-work`
 - **Receives a structured handoff** — context, reproduction steps, relevant files, and what was already tried
 - **Can work in a worktree** — if the issue is large enough, the delegate gets an isolated branch, commits freely, and submits a PR for review rather than working in the main directory
 - **Can escalate** — reports `BLOCKED` with a clear explanation if the handoff context is insufficient, rather than making assumptions
@@ -32,12 +34,6 @@ Focuses on root cause analysis. Given a bug description or error trace, it trace
 **Source:** [awesome-claude-code-subagents](https://github.com/VoltAgent/awesome-claude-code-subagents/blob/main/categories/09-meta-orchestration/error-coordinator.md)
 
 Focuses on cascade risk — what else might break if this bug is fixed a certain way, and what are the downstream effects of the proposed change. Runs in parallel with `error-detective`.
-
-## code-reviewer (skill-internal)
-
-**Spawned by:** `/zenflow:review`
-
-Not a standalone agent — this is an inline prompt template used by the review skill to evaluate diffs. It checks production readiness, categorizes findings by severity, and produces a structured review. Defined in `plugins/zenflow/skills/review/code-reviewer.md`.
 
 ---
 

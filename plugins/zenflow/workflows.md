@@ -10,7 +10,6 @@
 - [Bug Fix Pipeline](#bug-fix-pipeline)
 - [Collab Session Flow](#collab-session-flow)
 - [Context Refresh Flow](#context-refresh-flow)
-- [Audit Flow](#audit-flow)
 
 **Examples**
 - [New Feature (full pipeline)](#new-feature-full-pipeline)
@@ -18,13 +17,7 @@
 - [Collab Session (worktree delegation)](#collab-session-worktree-delegation)
 - [Context Refresh (mid-session)](#context-refresh-mid-session)
 - [Bug Fix](#bug-fix)
-- [Code Audit (full)](#code-audit-full)
-- [Code Audit (changed files only)](#code-audit-changed-files-only)
-- [Refactor (internal API change)](#refactor-internal-api-change)
-- [Refactor (module split)](#refactor-module-split)
-- [Recent Work Verification](#recent-work-verification)
 - [Documentation Update](#documentation-update)
-- [Quick Status Check](#quick-status-check)
 
 ---
 
@@ -91,9 +84,7 @@ flowchart TD
     execplan -->|"all tasks done"| check
 
     check["<b>zenflow:check-work</b><br/>Lint → Format → Tests → Docs → Journal"]
-    check -->|"all gates pass"| review
-    review["<b>zenflow:review</b><br/>Final Code Review"]
-    review --> done([Ship It])
+    check -->|"all gates pass"| done([Ship It])
 
     style start fill:#24283b,color:#c0caf5,stroke:#565f89
     style idea fill:#bb9af7,color:#1a1b26,stroke:#bb9af7
@@ -111,7 +102,6 @@ flowchart TD
     style qualrev2 fill:#f7768e,color:#1a1b26,stroke:#f7768e
     style qualrevN fill:#f7768e,color:#1a1b26,stroke:#f7768e
     style check fill:#e0af68,color:#1a1b26,stroke:#e0af68
-    style review fill:#f7768e,color:#1a1b26,stroke:#f7768e
     style done fill:#9ece6a,color:#1a1b26,stroke:#9ece6a
 ```
 
@@ -256,48 +246,6 @@ flowchart TD
     style adjust fill:#73daca,color:#1a1b26,stroke:#73daca
 ```
 
-### Audit Flow
-
-```mermaid
-%%{init: {'theme': 'base', 'themeVariables': { 'primaryColor': '#1a1b26', 'primaryTextColor': '#c0caf5', 'lineColor': '#565f89', 'secondaryColor': '#24283b', 'tertiaryColor': '#24283b' }}}%%
-flowchart TD
-    start(["/zenflow:audit"]) --> mode{"Mode?"}
-    mode -->|full| config["Read zen.local.md<br/><small>All audit sections</small>"]
-    mode -->|changed| diff["git diff main...HEAD<br/><small>Only changed files</small>"]
-    diff --> config
-    config --> dispatch
-
-    subgraph dispatch ["Parallel Audit Agents"]
-        a1["Backend Architect<br/><small>API Routes</small>"]
-        a2["Frontend Developer<br/><small>Components</small>"]
-        a3["Software Architect<br/><small>Core</small>"]
-        a4["typescript-pro<br/><small>Schemas</small>"]
-    end
-
-    dispatch --> report["Compile Report<br/><small>Critical → Important → Minor</small>"]
-    report --> action{"Action?"}
-    action -->|fix| fix["Dispatch Fix Agents"]
-    action -->|plan| plan["<b>zenflow:plan</b>"]
-    action -->|save| save["Save Report"]
-    fix --> check["<b>zenflow:check-work</b>"]
-
-    style start fill:#24283b,color:#c0caf5,stroke:#565f89
-    style mode fill:#24283b,color:#c0caf5,stroke:#565f89
-    style diff fill:#7dcfff,color:#1a1b26,stroke:#7dcfff
-    style config fill:#7dcfff,color:#1a1b26,stroke:#7dcfff
-    style dispatch fill:#24283b,color:#c0caf5,stroke:#565f89
-    style a1 fill:#bb9af7,color:#1a1b26,stroke:#bb9af7
-    style a2 fill:#bb9af7,color:#1a1b26,stroke:#bb9af7
-    style a3 fill:#bb9af7,color:#1a1b26,stroke:#bb9af7
-    style a4 fill:#bb9af7,color:#1a1b26,stroke:#bb9af7
-    style report fill:#e0af68,color:#1a1b26,stroke:#e0af68
-    style action fill:#24283b,color:#c0caf5,stroke:#565f89
-    style fix fill:#9ece6a,color:#1a1b26,stroke:#9ece6a
-    style plan fill:#7aa2f7,color:#1a1b26,stroke:#7aa2f7
-    style save fill:#73daca,color:#1a1b26,stroke:#73daca
-    style check fill:#e0af68,color:#1a1b26,stroke:#e0af68
-```
-
 ---
 
 ## Workflow Examples
@@ -435,88 +383,6 @@ You: /zenflow:bug-fix  SSE connections drop after 30 seconds
   → /zenflow:check-work validates
 ```
 
-### Code Audit (full)
-
-```
-You: /zenflow:audit
-  → Reads audit config from .claude/zen.local.md
-  → Dispatches 4 specialist agents in parallel:
-    Backend Architect → API Routes (12 files, 3 standards)
-    Frontend Developer → Components (8 files, 1 standard)
-    Software Architect → Core Orchestration (15 files, 4 standards)
-    typescript-pro → Type Schemas (14 files, 2 standards)
-  → Report: 49 files audited, 7 findings (1 Critical, 3 Important, 3 Minor)
-  → "How should we handle findings?" → Fix Critical + Important
-  → Dispatches fix agents, runs zenflow:check-work
-```
-
-### Code Audit (changed files only)
-
-```
-You: /zenflow:audit changed
-  → Runs git diff --name-only main...HEAD
-  → 6 files changed: 3 in routes/, 2 in components/, 1 in types/
-  → Maps to 3 audit sections (skips Core Orchestration — no changes there)
-  → Dispatches 3 agents (not 4 — only affected sections):
-    Backend Architect → API Routes (3 files)
-    Frontend Developer → Components (2 files)
-    typescript-pro → Type Schemas (1 file)
-  → Report: 6 files audited, 2 findings (0 Critical, 1 Important, 1 Minor)
-  → Fast — finished in under a minute
-```
-
-### Refactor (internal API change)
-
-```
-You: /zenflow:refactor  triageIssue has 5 positional params, should be options object
-  → Reads triageIssue and all 8 call sites
-  → "This changes an internal function signature. All 8 callers are in this repo
-     — no external consumers. This qualifies as an internal API refactor."
-  → Proposes:
-    Before: triageIssue(issueId, config, provider, db, sessionId)
-    After:  triageIssue({ issueId, config, provider, db, sessionId })
-  → Shows before/after for each of the 8 call sites
-  → You approve
-  → Writes characterization tests, updates signature + all callers, tests pass
-  → zenflow:check-work validates
-```
-
-### Refactor (module split)
-
-```
-You: /zenflow:refactor  packages/core/src/core/triage.ts is getting unwieldy
-  → Reads triage.ts and all callers/callees
-  → Identifies: 3 responsibilities mixed in one file, 2 duplicated patterns
-  → Proposes split into triage-interview.ts + triage-classifier.ts + triage.ts
-  → Shows before/after for each extraction
-  → You approve
-  → Writes characterization tests, executes split, all tests pass
-  → zenflow:check-work validates
-```
-
-### Recent Work Verification
-
-```
-You: /zenflow:status recent
-  → Recent Verification: 245-realtime-notifications.md
-
-  Task 1: SSE Event Schema — done
-    ✓ packages/core/src/types/schema/sse-events.ts exists
-    ✓ SSEEventSchema exported
-    ✓ tests/unit/types/sse-events.test.ts — 4/4 passing
-
-  Task 2: Stream Handler — partial
-    ✓ packages/server/src/server/routes/sse.ts exists
-    ✗ Missing: reconnection logic (described in step 4)
-    ✓ tests/unit/routes/sse.test.ts — 3/3 passing
-
-  Task 3: Client Subscriber — missing
-    ✗ packages/frontend/src/lib/sse-client.ts does not exist
-
-  Summary: 1 done, 1 partial, 1 missing
-  → Updated frontmatter: validated: 2026-03-27, status: in-progress
-```
-
 ### Documentation Update
 
 ```
@@ -525,14 +391,4 @@ You: /zenflow:docs
   → Scans docs/, finds 3 stale guides
   → "Which docs should I update?" → Guides + README
   → Updates with current behavior
-```
-
-### Quick Status Check
-
-```
-You: /zenflow:status
-  → Branch: feature/notifications (3 ahead, 2 uncommitted)
-  → Active plan: 245-realtime-notifications.md (3/5 tasks, 60%)
-  → Session: zenflow:dispatch in progress, zenflow:check-work not yet invoked
-  → Last journal: worked on SSE system, blocker on rate limiting
 ```

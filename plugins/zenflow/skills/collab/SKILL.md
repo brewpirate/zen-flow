@@ -393,5 +393,4 @@ Nothing should fall through the cracks between sessions. The journal records his
 ## Related Skills
 
 - **zenflow:bug-fix** — For issues that need the full diagnostic pipeline (detective + coordinator + specialist + reviewer)
-- **zenflow:status** — Check on delegated work and session progress
 - **zenflow:check-work** — Run after the session's primary work is complete

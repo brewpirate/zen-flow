@@ -165,7 +165,7 @@ After the self-review passes, add a **Subagent Recommendation** section to the e
 Include:
 - **Number of subagents** — how many parallel workers are needed
 - **Agent types** — which specializations (e.g., Senior Developer, Frontend Developer, Backend Architect)
-- **Skills per agent** — which skills each agent should use (e.g., testing-anti-patterns, react-best-practices, zod-schema)
+- **Skills per agent** — which skills each agent should use (e.g., react-best-practices, zod-schema)
 - **Parallelization strategy** — which tasks are independent (can run in parallel) vs sequential (must wait for prior tasks)
 - **Dependencies** — if Task 3 depends on Task 1's output, say so
 
@@ -180,7 +180,6 @@ Example:
 - Agent 3 (Senior Developer): Task 5 (context bundle changes)
 - Tasks 1-2 and 3-4 and 5 are independent — run all 3 agents in parallel
 - Task 6 (tests) depends on all others — run after agents complete
-- **Required skill for all agents:** testing-anti-patterns
 ```
 
 ## Execution Handoff

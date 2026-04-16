@@ -94,7 +94,7 @@ Skills Usage:
   zenflow:collab      5 sessions
   zenflow:bug-fix     4 sessions
   zenflow:plan        3 sessions
-  zenflow:audit       1 session
+  zenflow:idea        1 session
 ```
 
 ## Output Format

@@ -107,6 +107,5 @@ When marking STUCK, report:
 ## Related Skills
 
 - **zenflow:check-work** — Required at Step 6; runs all quality gates
-- **zenflow:review** — Template for the review step
 - **error-detective** — Root cause analysis agent
 - **error-coordinator** — Error correlation and cascade detection agent

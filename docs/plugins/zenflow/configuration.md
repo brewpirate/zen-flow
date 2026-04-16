@@ -80,7 +80,7 @@ Each entry in `paths` can be either a directory (with `dir` and optional `glob`)
 
 ### `agents`
 
-Used by `/zenflow:audit` and `/zenflow:bug-fix` to map codebase sections to agents and rules.
+Used by `/zenflow:bug-fix` to map codebase sections to agents and rules.
 
 | Field | Required | Description |
 |-------|----------|-------------|

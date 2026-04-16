@@ -11,7 +11,6 @@ The most common flow: new feature from scratch through to a reviewed, validated 
 /zenflow:plan    Write the implementation plan
 /zenflow:dispatch    Execute the plan with parallel subagents
 /zenflow:check-work  Run lint, format, tests, docs, journal
-/zenflow:review  Get a code review of the diff
 ```
 
 **Example session:**
@@ -32,10 +31,6 @@ You: /zenflow:dispatch
 You: /zenflow:check-work
 
 [All 5 gates pass]
-
-You: /zenflow:review
-
-[Reviewer returns: 2 Minor issues, merge verdict: ready with fixes]
 ```
 
 ---
@@ -87,56 +82,11 @@ You: /zenflow:collab
 [A reviewer verifies the fix]
 
 /zenflow:check-work
-/zenflow:review
 ```
 
 ---
 
-## Code Audit
-
-Audit the entire codebase against your project's coding rules:
-
-```
-/zenflow:audit
-```
-
-Audit only files changed on the current branch vs. main:
-
-```
-/zenflow:audit changed
-```
-
-The sections and rules used come from the `agents` config in `.claude/zen.local.md`. Each section gets its own specialist subagent running in parallel.
-
----
-
-## Refactor
-
-```
-/zenflow:refactor    Describe what you want to refactor
-
-[Agent analyzes target, proposes changes with before/after examples]
-[Agent verifies regression tests exist or writes them]
-
-You: [approve the proposal]
-
-[Agent executes the refactor]
-
-/zenflow:check-work
-/zenflow:review
-```
-
----
-
-## Checking Recent Work
-
-Verify that tasks completed in the last 72 hours were actually done:
-
-```
-/zenflow:status recent
-```
-
-The agent inspects tests, commits, and files to validate each completed task, then stamps plans with `validated` frontmatter.
+> **Note:** `/zenflow:audit`, `/zenflow:refactor`, `/zenflow:review`, and `/zenflow:status` workflows were removed on 2026-04-15 pending redesign. See issues [#8](https://github.com/brewpirate/zen-flow/issues/8)–[#11](https://github.com/brewpirate/zen-flow/issues/11).
 
 ---
 
@@ -173,7 +123,7 @@ flowchart TD
     choose -->|coupled tasks| execplan["zenflow:exec-plan"]
     dispatch --> check["zenflow:check-work"]
     execplan --> check
-    check -->|all gates pass| review["zenflow:review"]
+    check -->|all gates pass| done["Ship It"]
 ```
 
 ### Bug Fix Pipeline

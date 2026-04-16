@@ -43,21 +43,18 @@ graph LR
     dispatch["zenflow:dispatch<br/><small>Parallel Subagents</small>"]
     execplan["zenflow:exec-plan<br/><small>Sequential Steps</small>"]
     check["zenflow:check-work<br/><small>5 Quality Gates</small>"]
-    review["zenflow:review<br/><small>Code Review</small>"]
 
     idea --> plan
     plan --> dispatch
     plan --> execplan
     dispatch --> check
     execplan --> check
-    check --> review
 
     style idea fill:#bb9af7,color:#1a1b26,stroke:#bb9af7
     style plan fill:#7aa2f7,color:#1a1b26,stroke:#7aa2f7
     style dispatch fill:#9ece6a,color:#1a1b26,stroke:#9ece6a
     style execplan fill:#9ece6a,color:#1a1b26,stroke:#9ece6a
     style check fill:#e0af68,color:#1a1b26,stroke:#e0af68
-    style review fill:#f7768e,color:#1a1b26,stroke:#f7768e
 ```
 
 ### Full Pipeline
@@ -77,8 +74,6 @@ graph LR
 
 4. **`/zenflow:check-work`** — Five quality gates in order: lint, format, tests, docs, journal. Auto-discovers project commands from `package.json`/`CLAUDE.md`. Auto-fixes what it can, launches subagents for the rest. Enforced by a Stop hook — you cannot finish an execution session without running this.
 
-5. **`/zenflow:review`** — Dispatch a code reviewer subagent with the git diff. Categorizes issues as Critical/Important/Minor with file:line references and a clear merge verdict.
-
 ### Standalone Skills
 
 These work independently of the pipeline:
@@ -91,11 +86,7 @@ These work independently of the pipeline:
 
 - **`/zenflow:docs`** — Create or update project documentation. Reads `.claude/zen.local.md` for doc paths, assesses what's stale, asks what to update, writes it.
 
-- **`/zenflow:audit`** — Audit codebase sections against configurable code standards. Dispatches specialist agents in parallel per section, each checking against rules defined in `.claude/rules/`. Supports **changed mode** (`/zenflow:audit changed`) for diff-only audits — only files modified vs main get checked. Full mode for comprehensive sweeps.
-
-- **`/zenflow:refactor`** — Structured refactoring pipeline. Analyzes target code, proposes changes with before/after examples, ensures regression test coverage exists, then executes. Internal API changes are allowed if all callers are updated in the same scope; external-facing changes are not refactors.
-
-- **`/zenflow:status`** — Quick snapshot of project state: active plans (any frontmatter `status != complete`), task progress, git status, session history, and journal entries. Supports **recent mode** (`/zenflow:status recent`) which verifies tasks from the last 72h were actually completed by inspecting tests, commits, and files, then stamps plans with `validated` frontmatter.
+> **Temporarily removed (tracked for restoration):** `/zenflow:audit`, `/zenflow:refactor`, `/zenflow:review`, `/zenflow:status`, and `testing-anti-patterns` were pruned on 2026-04-15 — see issues [#8](https://github.com/brewpirate/zen-flow/issues/8), [#9](https://github.com/brewpirate/zen-flow/issues/9), [#10](https://github.com/brewpirate/zen-flow/issues/10), [#11](https://github.com/brewpirate/zen-flow/issues/11), [#12](https://github.com/brewpirate/zen-flow/issues/12).
 
 ### Field Notes (separate plugin)
 
@@ -119,13 +110,8 @@ Journal entries are stored in `.claude/journal.jsonl` (single file, append-only)
 | Execute (parallel) | `/zenflow:dispatch` | — | Subagent-per-task with two-stage review |
 | Execute (sequential) | `/zenflow:exec-plan` | — | Step-by-step with checkpoints |
 | Validate | `/zenflow:check-work` | — | Lint, format, tests, docs, journal gates |
-| Review | `/zenflow:review` | — | Code review via subagent |
 | Bug Fix | `/zenflow:bug-fix` | — | Diagnose and fix with agent pipeline |
 | Docs | `/zenflow:docs` | — | Create or update documentation |
-| Audit | `/zenflow:audit [changed]` | — | Audit code sections against standards; changed = diff-only |
-| Refactor | `/zenflow:refactor` | — | Structured refactoring with regression safety |
-| Status | `/zenflow:status [recent]` | — | Project state snapshot; recent mode verifies recent work |
-| Testing Anti-Patterns | (automatic) | — | Enforces test quality rules — test real behavior, not mock behavior |
 | Journal Write | `/field-notes:write` | — | Append structured journal entry |
 | Journal Read | `/field-notes:read` | — | View and filter entries |
 | Journal Summary | `/field-notes:summary` | — | Aggregate patterns and health signals |
@@ -143,7 +129,7 @@ Journal entries are stored in `.claude/journal.jsonl` (single file, append-only)
 
 The collab-delegate agent:
 - **Loads all project rules dynamically** — globs `.claude/rules/*.md` and reads every file, announcing each one
-- **Has zen skills** — can invoke `zenflow:plan`, `zenflow:check-work`, `zenflow:review`, and `testing-anti-patterns`
+- **Has zen skills** — can invoke `zenflow:plan` and `zenflow:check-work`
 - **Receives structured handoffs** — context, reproduction steps, relevant files, what was already tried
 - **Can work in worktrees** — isolated branch, commits freely, submits PR as review gate
 - **Can escalate** — reports `BLOCKED` if context is insufficient rather than guessing
@@ -211,7 +197,7 @@ Style notes: use tables for config options, code blocks for commands.
 |-----|---------|-------------|
 | `project` | All skills | Detected language and framework |
 | `docs` | zenflow:docs | Documentation file paths and directories |
-| `agents` | zenflow:audit, zenflow:bug-fix | Domain-to-agent mapping for the codebase |
+| `agents` | zenflow:bug-fix | Domain-to-agent mapping for the codebase |
 
 ### agents fields
 
@@ -257,12 +243,8 @@ zen-marketplace/
 │   │   ├── dispatch.md               # /zenflow:dispatch
 │   │   ├── exec-plan.md              # /zenflow:exec-plan
 │   │   ├── check-work.md             # /zenflow:check-work
-│   │   ├── review.md                 # /zenflow:review
 │   │   ├── bug-fix.md                # /zenflow:bug-fix
-│   │   ├── refactor.md               # /zenflow:refactor
-│   │   ├── audit.md                  # /zenflow:audit
-│   │   ├── docs.md                   # /zenflow:docs
-│   │   └── status.md                 # /zenflow:status
+│   │   └── docs.md                   # /zenflow:docs
 │   ├── hooks/
 │   │   └── scripts/
 │   │       ├── enforce-plan-mode-tools.sh    # Stop — plan mode discipline
@@ -278,18 +260,11 @@ zen-marketplace/
 │       │   ├── spec-reviewer-prompt.md
 │       │   └── code-quality-reviewer-prompt.md
 │       ├── check-work/SKILL.md       # zenflow:check-work — 5 quality gates
-│       ├── review/                    # zenflow:review — code review
-│       │   ├── SKILL.md
-│       │   └── code-reviewer.md
 │       ├── bug-fix/SKILL.md          # zenflow:bug-fix — diagnostic pipeline
 │       ├── docs/SKILL.md             # zenflow:docs — documentation
-│       ├── audit/SKILL.md            # zenflow:audit — code standards audit
-│       ├── refactor/SKILL.md         # zenflow:refactor — structured refactoring
-│       ├── status/SKILL.md           # zenflow:status — project snapshot + recent verify
 │       ├── collab/SKILL.md           # zenflow:collab — collaborative session (Opus)
 │       ├── context-refresh/SKILL.md  # zenflow:context-refresh — mid-session context shed
-│       ├── init/SKILL.md             # zenflow:init — generate zen.local.md config
-│       └── testing-anti-patterns/SKILL.md  # test quality enforcement
+│       └── init/SKILL.md             # zenflow:init — generate zen.local.md config
 └── plugins/field-notes/
     ├── .claude-plugin/
     │   └── plugin.json
@@ -312,6 +287,6 @@ zen-marketplace/
 
 See **[workflows.md](workflows.md)** for all workflow diagrams and usage examples.
 
-**Diagrams:** [Idea Modes](workflows.md#zenflowidea--three-modes) | [Full Pipeline](workflows.md#full-pipeline-flow) | [Bug Fix](workflows.md#bug-fix-pipeline) | [Collab Session](workflows.md#collab-session-flow) | [Context Refresh](workflows.md#context-refresh-flow) | [Audit](workflows.md#audit-flow)
+**Diagrams:** [Idea Modes](workflows.md#zenflowidea--three-modes) | [Full Pipeline](workflows.md#full-pipeline-flow) | [Bug Fix](workflows.md#bug-fix-pipeline) | [Collab Session](workflows.md#collab-session-flow) | [Context Refresh](workflows.md#context-refresh-flow)
 
-**Examples:** [New Feature](workflows.md#new-feature-full-pipeline) | [Collab (inline)](workflows.md#collab-session-inline-delegation) | [Collab (worktree)](workflows.md#collab-session-worktree-delegation) | [Context Refresh](workflows.md#context-refresh-mid-session) | [Bug Fix](workflows.md#bug-fix) | [Audit](workflows.md#code-audit-full) | [Refactor](workflows.md#refactor-internal-api-change) | [Status](workflows.md#quick-status-check)
+**Examples:** [New Feature](workflows.md#new-feature-full-pipeline) | [Collab (inline)](workflows.md#collab-session-inline-delegation) | [Collab (worktree)](workflows.md#collab-session-worktree-delegation) | [Context Refresh](workflows.md#context-refresh-mid-session) | [Bug Fix](workflows.md#bug-fix)
