@@ -352,10 +352,9 @@ You: /zenflow:collab
 
 Agent: [resumes from handoff, checks delegate status]
        [task 4 executed, check-work passes]
-       [zenflow:review dispatched]
 
 Agent: End of session. Let's close out:
-       - 4 tasks complete, PR #47 merged, review passed
+       - 4 tasks complete, PR #47 merged
        - Open: update ARCHITECTURE.md (marked [LATER])
        - Writing field notes entry...
        Anything else to capture?

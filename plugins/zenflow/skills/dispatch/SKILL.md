@@ -262,7 +262,5 @@ Done!
 ## Related Skills
 
 - **zenflow:plan** — Creates the plan this skill executes (includes Subagent Recommendation)
-- **zenflow:review** — Code review template for reviewer subagents
 - **zenflow:check-work** — Required after all tasks complete; runs quality gates
-- **testing-anti-patterns** — Subagents should follow this for test quality
 - **zenflow:exec-plan** — Alternative for sequential execution with checkpoints

@@ -35,7 +35,7 @@ After installing, generate the config file:
 
 This scans your project and creates `.claude/zen.local.md` with detected language, framework, documentation paths, and agent-to-domain mappings. Review it and adjust as needed before running the pipeline.
 
-Then explore available commands under `/zenflow:*` — try `/zenflow:collab` for a collaborative session or `/zenflow:status` for a project snapshot.
+Then explore available commands under `/zenflow:*` — try `/zenflow:collab` for a collaborative session or `/zenflow:idea` to begin a new feature.
 
 ## First steps with Field Notes
 

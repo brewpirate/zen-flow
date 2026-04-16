@@ -10,8 +10,6 @@ capabilities:
 skills:
   - zenflow:plan
   - zenflow:check-work
-  - zenflow:review
-  - testing-anti-patterns
 hooks:
   Stop:
     - hooks:

@@ -29,7 +29,7 @@ Check if the plan includes a **Subagent Recommendation** section (specifying whi
 - **If no recommendation**: Launch a Plan subagent to analyze the plan and recommend:
   - How many subagents to use
   - Which subagent types (e.g., Senior Developer, Frontend Developer, Backend Architect)
-  - Which skills each subagent needs (e.g., testing-anti-patterns, react-best-practices)
+  - Which skills each subagent needs (e.g., react-best-practices)
   - Which tasks can be parallelized vs must be sequential
   - Present the recommendation to the user before proceeding
 

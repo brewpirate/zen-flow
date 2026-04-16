@@ -7,7 +7,7 @@ description: Study the codebase and available agents to generate a zen.local.md 
 
 ## Overview
 
-Scan the codebase and available agents to generate a `zen.local.md` config tailored to this project. Auto-triggered when `zenflow:audit` or `zenflow:bug-fix` finds no config; also invocable directly via `/zenflow:init`.
+Scan the codebase and available agents to generate a `zen.local.md` config tailored to this project. Auto-triggered when `zenflow:bug-fix` finds no config; also invocable directly via `/zenflow:init`.
 
 **Announce at start:** "I'm using the zenflow:init skill to configure zen for this project."
 
@@ -197,7 +197,7 @@ After approval:
 Write the approved YAML as frontmatter in `.claude/zen.local.md`. Preserve any existing markdown body below the frontmatter.
 
 Confirm:
-> "Config written to `.claude/zen.local.md`. Run `/zenflow:audit` to audit the codebase or `/zenflow:bug-fix` to diagnose a bug — both will now use this config."
+> "Config written to `.claude/zen.local.md`. Run `/zenflow:bug-fix` to diagnose a bug — it will now use this config."
 
 ## Re-run Behavior
 
@@ -213,6 +213,5 @@ When re-run on a project that already has config:
 
 ## Related Skills
 
-- **zenflow:audit** — reads `agents` from config for section-to-agent mapping
 - **zenflow:bug-fix** — reads `agents` from config for specialist selection
 - **zenflow:docs** — reads `docs` from config for documentation paths

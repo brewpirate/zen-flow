@@ -7,7 +7,7 @@ Use this template when dispatching a code quality reviewer subagent.
 **Only dispatch after spec compliance review passes.**
 
 ```
-Use the zenflow:review skill to dispatch a code quality review.
+Dispatch a code quality review subagent (previously zenflow:review — removed 2026-04-15, see issue #10). Until restored, dispatch a reviewer agent directly with the context below.
 
   WHAT_WAS_IMPLEMENTED: [from implementer's report]
   PLAN_OR_REQUIREMENTS: Task N from [plan-file]
