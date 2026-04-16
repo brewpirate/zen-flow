@@ -84,6 +84,7 @@ In testing, the lowest-confidence file (04-claude-integration, 0.80) covered two
 | `/total-recall:seed [path] [--models m1,m2]` | Bootstrap triggers from docs, prompts, skills, and project knowledge |
 | `/total-recall:list [filter]` | Show all stored triggers, optionally filtered |
 | `/total-recall:index` | Rebuild the master word-to-files reverse lookup index |
+| `/total-recall:write` | Write trigger phrases from triggers.json into file frontmatter |
 | `/total-recall:forget <path>` | Remove triggers for a file or pattern |
 | `/total-recall:compare <path>` | Cross-model comparison — run study agents on haiku, sonnet, and opus to compare phrase generation |
 
@@ -105,6 +106,7 @@ In testing, the lowest-confidence file (04-claude-integration, 0.80) covered two
 | **seed** | Auto-discover documentation and prompt files, batch-scan with model targeting |
 | **index** | Build per-model reverse lookup (word → files + phrase) from triggers.json |
 | **list** | Display stored triggers with optional filtering |
+| **write** | Write trigger phrases from triggers.json into file frontmatter |
 | **forget** | Remove triggers for a file or glob pattern |
 | **compare** | Cross-model comparison research tool |
 
