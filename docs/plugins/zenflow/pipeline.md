@@ -66,13 +66,17 @@ These operate independently from the main pipeline.
 
 ### `/zenflow:collab`
 
-Opens a long-running collaborative session using the Opus model. The agent works with you interactively — exploring the codebase, building features, troubleshooting issues. When a side problem comes up, it's extracted and delegated to a separate `collab-delegate` agent rather than handled inline, keeping the main session focused.
-
-Delegation options:
-- **Inline** — the delegate agent works in the same directory and reports back
-- **Worktree** — the delegate works in an isolated git worktree on its own branch, then submits a PR for review
+Opens a long-running collaborative session using the Opus model. The agent works with you interactively — exploring the codebase, researching approaches, and planning. When implementation work is needed, Collab creates well-structured GitHub issues with acceptance criteria and verification instructions. The user launches Builder (`/build #N`) and Reviewer (`/review #N`) agents separately.
 
 Use `/zenflow:context-refresh` to shed accumulated context mid-session without ending it.
+
+### `/zenflow:build`
+
+Build a GitHub issue into a PR. Reads the issue, confirms with the user, creates a linked branch, implements against acceptance criteria, runs verification, and opens a PR. Every decision is surfaced via `AskUserQuestion`.
+
+### `/zenflow:review`
+
+Review a PR with structured feedback and independent runtime verification. Reads the diff, runs a 5-area checklist (code quality, tests, PR body, runtime verification, patterns), and posts a structured review comment with severity tiers.
 
 ### `/zenflow:context-refresh`
 

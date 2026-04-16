@@ -5,16 +5,16 @@
 ## Navigation
 
 **Diagrams**
+- [3-Agent Issue-Driven Flow](#3-agent-issue-driven-flow)
 - [zenflow:idea — Three Modes](#zenflowidea--three-modes)
 - [Full Pipeline Flow](#full-pipeline-flow)
 - [Bug Fix Pipeline](#bug-fix-pipeline)
-- [Collab Session Flow](#collab-session-flow)
 - [Context Refresh Flow](#context-refresh-flow)
 
 **Examples**
-- [New Feature (full pipeline)](#new-feature-full-pipeline)
-- [Collab Session (inline delegation)](#collab-session-inline-delegation)
-- [Collab Session (worktree delegation)](#collab-session-worktree-delegation)
+- [Issue-Driven Feature](#issue-driven-feature)
+- [Builder Session](#builder-session)
+- [Reviewer Session](#reviewer-session)
 - [Context Refresh (mid-session)](#context-refresh-mid-session)
 - [Bug Fix](#bug-fix)
 - [Documentation Update](#documentation-update)
@@ -22,6 +22,51 @@
 ---
 
 ## Workflow Diagrams
+
+### 3-Agent Issue-Driven Flow
+
+```mermaid
+%%{init: {'theme': 'base', 'themeVariables': { 'primaryColor': '#1a1b26', 'primaryTextColor': '#c0caf5', 'lineColor': '#565f89', 'secondaryColor': '#24283b', 'tertiaryColor': '#24283b' }}}%%
+flowchart TD
+    start([User + Collab Session]) --> explore
+    explore["<b>Explore & Plan Together</b><br/><small>Research, spike, discuss</small>"]
+    explore --> create["<b>Create GitHub Issue</b><br/><small>Context + ACs + Verification Instructions</small>"]
+    create --> issue[("GitHub Issue #N")]
+
+    issue --> userBuild([User launches /build #N])
+    userBuild --> read["<b>Builder: Read Issue</b><br/><small>Confirm with user via AskUserQuestion</small>"]
+    read --> branch["Create Branch"]
+    branch --> implement["<b>Implement</b><br/><small>Every decision via AskUserQuestion</small>"]
+    implement --> verify["<b>Local Verification</b><br/><small>Tests + lint + verification instructions</small>"]
+    verify --> pr["<b>Open PR</b><br/><small>AC status + verification proof</small>"]
+    pr --> prArtifact[("Pull Request")]
+
+    prArtifact --> userReview([User launches /review #N])
+    userReview --> diff["<b>Reviewer: Read Diff + Issue</b>"]
+    diff --> checklist["<b>Run 5-Area Checklist</b><br/><small>Code quality, tests, PR body,<br/>runtime verification, patterns</small>"]
+    checklist --> verdict{"Verdict?"}
+    verdict -->|"Ship it"| approve["Approve PR"]
+    verdict -->|"Needs work"| comment["Post Review Comment"]
+    comment --> userBuild
+
+    style start fill:#24283b,color:#c0caf5,stroke:#565f89
+    style explore fill:#bb9af7,color:#1a1b26,stroke:#bb9af7
+    style create fill:#bb9af7,color:#1a1b26,stroke:#bb9af7
+    style issue fill:#e0af68,color:#1a1b26,stroke:#e0af68
+    style userBuild fill:#24283b,color:#c0caf5,stroke:#565f89
+    style read fill:#9ece6a,color:#1a1b26,stroke:#9ece6a
+    style branch fill:#9ece6a,color:#1a1b26,stroke:#9ece6a
+    style implement fill:#9ece6a,color:#1a1b26,stroke:#9ece6a
+    style verify fill:#9ece6a,color:#1a1b26,stroke:#9ece6a
+    style pr fill:#9ece6a,color:#1a1b26,stroke:#9ece6a
+    style prArtifact fill:#e0af68,color:#1a1b26,stroke:#e0af68
+    style userReview fill:#24283b,color:#c0caf5,stroke:#565f89
+    style diff fill:#f7768e,color:#1a1b26,stroke:#f7768e
+    style checklist fill:#f7768e,color:#1a1b26,stroke:#f7768e
+    style verdict fill:#24283b,color:#c0caf5,stroke:#565f89
+    style approve fill:#9ece6a,color:#1a1b26,stroke:#9ece6a
+    style comment fill:#7dcfff,color:#1a1b26,stroke:#7dcfff
+```
 
 ### zenflow:idea — Three Modes
 
@@ -137,48 +182,6 @@ flowchart TD
     style done fill:#9ece6a,color:#1a1b26,stroke:#9ece6a
 ```
 
-### Collab Session Flow
-
-```mermaid
-%%{init: {'theme': 'base', 'themeVariables': { 'primaryColor': '#1a1b26', 'primaryTextColor': '#c0caf5', 'lineColor': '#565f89', 'secondaryColor': '#24283b', 'tertiaryColor': '#24283b' }}}%%
-flowchart TD
-    start(["/zenflow:collab"]) --> work
-    work["Working Together<br/><small>Explore, build, discuss</small>"]
-    work --> issue{"Issue found?"}
-    issue -->|"quick fix<br/>(< 2 min)"| inline["Fix Inline"]
-    inline --> work
-    issue -->|"complex"| extract["Extract Issue<br/><small>Context + repro + files</small>"]
-    extract --> delegateType{"Scope?"}
-    delegateType -->|small| inlineDelegate["Spawn Delegate<br/><small>Inline, same branch</small>"]
-    delegateType -->|large| worktreeDelegate["Spawn Delegate<br/><small>Worktree → PR</small>"]
-    inlineDelegate -.->|async| result["Delegate Reports Back"]
-    worktreeDelegate -.->|async| pr["Delegate Submits PR"]
-    extract --> work
-    result -.-> work
-    pr -.-> work
-    issue -->|no| work
-
-    work --> finish{Done?}
-    finish -->|more work| work
-    finish -->|"context heavy"| refresh["<b>zenflow:context-refresh</b><br/><small>Write handoff → /clear → resume</small>"]
-    refresh --> work
-    finish -->|yes| check["<b>zenflow:check-work</b>"]
-
-    style start fill:#24283b,color:#c0caf5,stroke:#565f89
-    style work fill:#bb9af7,color:#1a1b26,stroke:#bb9af7
-    style issue fill:#24283b,color:#c0caf5,stroke:#565f89
-    style inline fill:#73daca,color:#1a1b26,stroke:#73daca
-    style extract fill:#e0af68,color:#1a1b26,stroke:#e0af68
-    style delegateType fill:#24283b,color:#c0caf5,stroke:#565f89
-    style inlineDelegate fill:#9ece6a,color:#1a1b26,stroke:#9ece6a
-    style worktreeDelegate fill:#9ece6a,color:#1a1b26,stroke:#9ece6a
-    style result fill:#7dcfff,color:#1a1b26,stroke:#7dcfff
-    style pr fill:#7dcfff,color:#1a1b26,stroke:#7dcfff
-    style refresh fill:#7dcfff,color:#1a1b26,stroke:#7dcfff
-    style finish fill:#24283b,color:#c0caf5,stroke:#565f89
-    style check fill:#e0af68,color:#1a1b26,stroke:#e0af68
-```
-
 ### Context Refresh Flow
 
 ```mermaid
@@ -198,7 +201,7 @@ flowchart TD
         observations["Observations & Discoveries<br/><small>Aha moments, direction shifts,<br/>user patterns</small>"]
         calibration["Behavioral Calibration<br/><small>Working style, corrections,<br/>partnership dynamics</small>"]
         tasks["Snapshot Tasks<br/><small>Open, in-progress, completed</small>"]
-        delegates["Check Active Delegates<br/><small>Warn if any in-flight</small>"]
+        delegates["Check Open Issues & PRs<br/><small>Note status from session</small>"]
     end
 
     capture --> journal["Write Journal Entry<br/><small>type: context-refresh</small>"]
@@ -250,90 +253,92 @@ flowchart TD
 
 ## Workflow Examples
 
-### New Feature (full pipeline)
+### Issue-Driven Feature
 
 ```
-You: /zenflow:idea  I want to improve how agents communicate results
-  → "How concrete is this? Still forming, clear problem, or ready to design?"
+You: /zenflow:collab  Let's work on the notification system
+  → Starting collab session (Opus). What are we trying to accomplish?
 
-You: Still forming — I know there's a problem but I'm not sure what to build
-  → [Exploration mode: open questions, research agents investigate
-     current communication patterns, checkpoint findings]
-  → Exploration artifact produced
+You: Users need to know when their builds finish
+  → [Explores notification approaches together — SSE, polling, WebSocket]
+  → [Spawns research agent to investigate existing SSE patterns in codebase]
+  → "Based on what we found, SSE with a notification store makes sense.
+     Let me draft an issue for the builder."
 
-  → "This is getting concrete — ready to move into discovery?"
-You: Yes
-  → [Discovery mode: investigates 3 approaches — structured reports,
-     streaming events, journal integration]
-  → Discovery artifact produced: leading candidate is journal integration
+  → [Discusses acceptance criteria and verification instructions with user]
+  → gh issue create #55 "Add SSE build notifications"
+  → "Issue #55 created. When you're ready: /build #55"
 
-  → "Ready to design?"
-You: Yes, let's go with journal integration
-  → [Design mode: clarifies schema, proposes architecture, presents design]
-  → Design approved
+You: (in a new session) /build #55
+  → "Issue #55: Add SSE build notifications
+     ACs: SSE endpoint, notification store, client subscription, UI badge
+     Proceed?" → [User confirms]
+  → [Creates branch, implements each AC, surfaces decisions via AskUserQuestion]
+  → [Runs verification instructions, captures proof]
+  → "PR #60 opened. Ready for review: /review #60"
 
-You: /zenflow:plan
-  → Plan saved to resources/plans/245-agent-communication.md
-
-You: Subagent-Driven
-  → /zenflow:dispatch executes 5 tasks with parallel subagents
-  → Each task: implement → spec review → code quality review
-  → /zenflow:check-work runs all 5 gates
-  → Done
+You: (in a new session) /review #60
+  → "How should I review?" → [User picks Independent]
+  → [Reads diff, runs 5-area checklist]
+  → [Launches Playwright verification — navigates to dashboard, triggers build,
+     confirms notification badge appears]
+  → Posts structured review comment: "Ship it — all ACs verified"
 ```
 
-### Collab Session (inline delegation)
+### Builder Session
 
 ```
-You: /zenflow:collab  Let's work on the notification system together
-  → Starting collab session (Opus). Working on notifications together.
+You: /build #42
+  → Reads issue #42: "Add user profile avatar upload"
+  → "Issue #42: Add user profile avatar upload
+     Brief: Allow users to upload an avatar image from the profile settings page.
+     AC groups: Backend API, Frontend UI, Validation, Storage
+     Proceed?"
+  → [User confirms]
 
-You: Let's start by looking at how SSE works in the server
-  → [Reads SSE handler together, discusses architecture]
-  → "The stream handler looks clean but I notice the rate limiter
-     has a bug — it's not resetting the counter. Want to fix it
-     inline or delegate?"
+  → Loading project context...
+    ✓ CLAUDE.md
+    ✓ .claude/rules/api-patterns.md
+    ✓ .claude/rules/react-conventions.md
+    Rules loaded: 5 files.
 
-You: Delegate it, let's stay focused on notifications
-  → [Extracts issue with context, reproduction steps, files involved]
-  → [Spawns collab-delegate agent with full handoff]
-  → Delegate:
-      Loading project context...
-        ✓ CLAUDE.md
-      Loading .claude/rules/ ...
-        ✓ error-handling.md
-        ✓ async-patterns.md
-        ✓ ... (all rules)
-      Rules loaded: 13 files. Ready to work.
-      [Writes regression test, fixes rate limiter]
-  → "Rate limiter fix is in — added counter reset in middleware.
-     Back to notifications..."
+  → [Implements Backend API ACs]
+  → "For file storage, I see two options:"
+    AskUserQuestion: Local disk vs S3?
+  → [User picks S3]
+  → [Implements remaining ACs, runs tests, runs verification instructions]
+  → PR #48 opened. Acceptance criteria: 8/8 completed.
 ```
 
-### Collab Session (worktree delegation)
+### Reviewer Session
 
 ```
-You: /zenflow:collab  Let's explore the plugin system together
-  → Starting collab session (Opus). Exploring plugins together.
+You: /review #48
+  → "How should I review this PR?" → [Independent]
+  → Reading PR #48: "Add user profile avatar upload" (Closes #42)
+  → Reading diff: +342 -12, 6 files changed
+  → Reading linked issue #42 for acceptance criteria
 
-You: I think the plugin loader needs a complete rewrite
-  → [Reads plugin loader, discusses problems together]
-  → "This is bigger than a side fix — 6 files involved, needs a plan.
-     Want me to delegate this to a worktree so we can keep exploring?"
+  → Running checklist...
+  → [Launches Playwright verification — uploads test avatar, confirms display]
+  → [Checks code quality, test coverage, PR body integrity]
 
-You: Yes, fire and forget — we'll review the PR later
-  → [Extracts issue with full context and architectural notes]
-  → [Spawns collab-delegate in isolated worktree]
-  → "Delegate is working on its own branch. It'll plan the rewrite,
-     implement it, and submit a PR. We'll review when it's ready.
-     Back to exploring — what else did you want to look at?"
-
-  → ... (20 minutes later, delegate finishes)
-  → "The plugin loader PR is up: #247 — rewrites loader with
-     lazy initialization, adds 12 tests. Review it when you're ready."
-
-You: We'll look at it after we finish here
-  → [Continues working, PR waiting for review]
+  → Posts review comment:
+    ## Code Review
+    ### Overview
+    Adds avatar upload with S3 storage, input validation, and profile UI.
+    ### Strengths
+    - Clean multipart handling with size/type validation
+    - Good test coverage (12 new tests)
+    ### Issues & Suggestions
+    **1. Missing Content-Type validation on S3 upload** — load-bearing
+    The S3 put uses the client-provided content-type without server-side
+    verification. Should validate against allowed MIME types.
+    ### Runtime Verification
+    ✅ Upload flow works end-to-end (screenshot attached)
+    ✅ Oversized file rejected with correct error
+    ### Verdict
+    Approve-with-nits — fix the Content-Type validation in a follow-up commit.
 ```
 
 ### Context Refresh (mid-session)
@@ -361,7 +366,7 @@ You: /zenflow:collab
   → Detected handoff: auth-rewrite (30 seconds ago)
   → Re-reading collab philosophy...
   → "Resuming session 'auth-rewrite'. Here's where we are:
-     - Mapped the auth middleware chain, delegated session token fix to worktree
+     - Mapped the auth middleware chain, created issue #58 for session token fix
      - Decided on JWT rotation strategy with 15-min expiry
      - Next up: design the refresh token endpoint
      Does this match your understanding?"

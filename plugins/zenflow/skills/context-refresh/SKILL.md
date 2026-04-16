@@ -49,11 +49,11 @@ These observations are the most perishable part of context — task lists surviv
 
 Read `TaskList` and capture all tasks with their current status.
 
-### 4. Check for Active Delegates
+### 4. Check for Open Issues and PRs
 
-If any background agents are running:
-- **Warn the user**: "There's a delegate still working on [X]. Options: wait for it, note it as in-flight, or cancel it."
-- Record in-flight delegates in the handoff doc so the post-clear agent knows to check on them.
+If any GitHub issues were created during this session:
+- **Note their status**: "Issue #N is open / has a PR pending review."
+- Record open issues in the handoff doc so the post-clear agent knows to check on them.
 
 ### 5. Write Journal Entry
 
@@ -112,9 +112,10 @@ Write to `.claude/handoffs/<session-name>-<timestamp>.md` using the template bel
 |----|--------|---------|-------|
 <snapshot from TaskList>
 
-## Active Delegates
-- <Agent description, what it's working on, expected status>
-- <If none: "No active delegates">
+## Open Issues & PRs
+- <Issue #N — status, what it covers>
+- <PR #N — status, review state>
+- <If none: "No open issues or PRs from this session">
 
 ## Key Files & Learnings
 - `path/to/file` — <what we learned about it, why it matters>
@@ -142,7 +143,7 @@ When the collab skill detects a recent handoff file (added to collab's opening p
    > - Next up: [immediate next step]
    > Does this match your understanding, or has anything changed?"
 
-5. **Check delegate status**: If the handoff noted in-flight delegates, check on them now.
+5. **Check issue/PR status**: If the handoff noted open issues or PRs, check on them now.
 
 6. **Resume from "Next Steps"** — don't re-explore accomplished work.
 

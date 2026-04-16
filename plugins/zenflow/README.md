@@ -10,7 +10,7 @@ ZenFlow is derived from [Superpowers](https://github.com/obra/superpowers) by Je
 
 > **Deep dive:** [Philosophy (Human)](PHILOSOPHY-HUMAN.md) | [Philosophy (Agent)](PHILOSOPHY-AGENT.md)
 
-Every feature follows the same path: **idea → plan → execute → validate → review**. Each step has a dedicated skill with clear inputs, outputs, and quality gates. Skip a step and a hook blocks you. Follow the flow and you get consistent, high-quality results regardless of task complexity.
+Every feature follows the same path: **idea → plan → build → review**. Three independent agents communicate through GitHub primitives — Collab creates issues, Builder ships PRs, Reviewer verifies. The user orchestrates by launching each agent explicitly. Every decision surfaces via `AskUserQuestion` — no surprises.
 
 Zen Flow is opinionated about process but flexible about execution. You can run the full pipeline or invoke individual skills as needed.
 
@@ -38,23 +38,16 @@ Run `/zen` to see the interactive menu, or invoke any skill directly:
 ```mermaid
 %%{init: {'theme': 'base', 'themeVariables': { 'primaryColor': '#1a1b26', 'primaryTextColor': '#c0caf5', 'lineColor': '#565f89', 'secondaryColor': '#24283b' }}}%%
 graph LR
-    idea["zenflow:idea<br/><small>Explore → Discover → Design</small>"]
-    plan["zenflow:plan<br/><small>Implementation Plan</small>"]
-    dispatch["zenflow:dispatch<br/><small>Parallel Subagents</small>"]
-    execplan["zenflow:exec-plan<br/><small>Sequential Steps</small>"]
-    check["zenflow:check-work<br/><small>5 Quality Gates</small>"]
+    collab["zenflow:collab<br/><small>Explore + Plan + Create Issues</small>"]
+    build["zenflow:build<br/><small>Issue → Branch → PR</small>"]
+    review["zenflow:review<br/><small>Structured Verification</small>"]
 
-    idea --> plan
-    plan --> dispatch
-    plan --> execplan
-    dispatch --> check
-    execplan --> check
+    collab -->|"GitHub Issue"| build
+    build -->|"Pull Request"| review
 
-    style idea fill:#bb9af7,color:#1a1b26,stroke:#bb9af7
-    style plan fill:#7aa2f7,color:#1a1b26,stroke:#7aa2f7
-    style dispatch fill:#9ece6a,color:#1a1b26,stroke:#9ece6a
-    style execplan fill:#9ece6a,color:#1a1b26,stroke:#9ece6a
-    style check fill:#e0af68,color:#1a1b26,stroke:#e0af68
+    style collab fill:#bb9af7,color:#1a1b26,stroke:#bb9af7
+    style build fill:#9ece6a,color:#1a1b26,stroke:#9ece6a
+    style review fill:#f7768e,color:#1a1b26,stroke:#f7768e
 ```
 
 ### Full Pipeline
@@ -78,7 +71,11 @@ graph LR
 
 These work independently of the pipeline:
 
-- **`/zenflow:collab`** — Collaborative working session (Opus model). You and the agent work together as a team — exploring code, building features, troubleshooting problems. When issues arise, they're extracted and delegated to fresh `collab-delegate` agents — either inline (quick fixes) or in **isolated worktrees** (larger issues that get their own branch and PR). Delegates load all project rules dynamically before starting work. Supports mid-session **context refresh** via `/zenflow:context-refresh`.
+- **`/zenflow:build`** — Build a GitHub issue into a PR. User-launched with an issue number (`/build #42`). Reads the issue, confirms with user, creates a linked branch, implements against acceptance criteria, runs verification, and opens a PR. Every decision surfaces via `AskUserQuestion`.
+
+- **`/zenflow:review`** — Review a PR with structured feedback and independent runtime verification. User-launched with a PR number (`/review #42`). Reads the diff, runs a 5-area checklist, independently verifies claims via Playwright, posts a structured review comment with severity tiers. Routes bugs through `zenflow:bug-fix`.
+
+- **`/zenflow:collab`** — Collaborative working session (Opus model). You and the agent work together as a team — exploring code, researching approaches, and planning. When implementation work is needed, Collab creates well-structured GitHub issues with acceptance criteria and verification instructions. The user launches Builder and Reviewer agents separately. Supports mid-session **context refresh** via `/zenflow:context-refresh`.
 
 - **`/zenflow:context-refresh`** — Shed accumulated context mid-session without losing continuity. Writes a structured knowledge handoff document to `.claude/handoffs/` capturing session goals, decisions, behavioral calibration, observations, open tasks, and next steps. After the user runs `/clear` and re-invokes `/zenflow:collab`, the session resumes from the handoff with minimal context loss. Designed for long collab sessions where dead context (old file reads, debug output) degrades quality.
 
@@ -103,7 +100,9 @@ Journal entries are stored in `.claude/journal.jsonl` (single file, append-only)
 |-------|-----------|-------|---------|
 | Menu | `/zen` | — | Interactive skill picker |
 | Init | `/zenflow:init` | — | Scan codebase and agents to generate zen.local.md config |
-| Collab | `/zenflow:collab` | Opus | Collaborative session with inline + worktree delegation |
+| Collab | `/zenflow:collab` | Opus | Collaborative session — explore, research, create issues |
+| Build | `/zenflow:build` | Opus | Build a GitHub issue into a PR |
+| Review | `/zenflow:review` | Opus | Review a PR with structured verification |
 | Context Refresh | `/zenflow:context-refresh` | Opus | Shed context mid-session with knowledge handoff |
 | Idea | `/zenflow:idea` | — | Explore → discover → design (three modes) |
 | Plan | `/zenflow:plan` | — | Write implementation plan from spec |
@@ -112,6 +111,7 @@ Journal entries are stored in `.claude/journal.jsonl` (single file, append-only)
 | Validate | `/zenflow:check-work` | — | Lint, format, tests, docs, journal gates |
 | Bug Fix | `/zenflow:bug-fix` | — | Diagnose and fix with agent pipeline |
 | Docs | `/zenflow:docs` | — | Create or update documentation |
+| Playwright Verification | — | — | Runtime verification with proof artifacts (companion skill) |
 | Journal Write | `/field-notes:write` | — | Append structured journal entry |
 | Journal Read | `/field-notes:read` | — | View and filter entries |
 | Journal Summary | `/field-notes:summary` | — | Aggregate patterns and health signals |
@@ -121,18 +121,10 @@ Journal entries are stored in `.claude/journal.jsonl` (single file, append-only)
 
 | Agent | Model | Purpose | Source |
 |-------|-------|---------|--------|
-| `collab-delegate` | Opus | Fresh specialist spawned by zenflow:collab to handle extracted issues | — |
 | `error-coordinator` | Sonnet | Cascade risk analysis in zenflow:bug-fix | [awesome-claude-code-subagents](https://github.com/VoltAgent/awesome-claude-code-subagents/blob/main/categories/09-meta-orchestration/error-coordinator.md) |
 | `error-detective` | Sonnet | Root cause analysis in zenflow:bug-fix | [awesome-claude-code-subagents](https://github.com/VoltAgent/awesome-claude-code-subagents/blob/main/categories/04-quality-security/error-detective.md) |
 
 > Agent assignments for skills are configured in `.claude/zen.local.md`. Run `/zenflow:init` to auto-generate config from your installed agents.
-
-The collab-delegate agent:
-- **Loads all project rules dynamically** — globs `.claude/rules/*.md` and reads every file, announcing each one
-- **Has zen skills** — can invoke `zenflow:plan` and `zenflow:check-work`
-- **Receives structured handoffs** — context, reproduction steps, relevant files, what was already tried
-- **Can work in worktrees** — isolated branch, commits freely, submits PR as review gate
-- **Can escalate** — reports `BLOCKED` if context is insufficient rather than guessing
 
 ## Hooks
 
@@ -220,7 +212,7 @@ Style notes: use tables for config options, code blocks for commands.
 - **Human controls commits** — agents write code and present changes; the human decides when to commit
 - **Project-agnostic** — no hardcoded toolchain; skills discover commands from `package.json`, `CLAUDE.md`, or config files
 - **Mandatory artifacts** — exploration and discovery modes produce written summaries before transitioning; if the session dies, the artifact survives
-- **Context protection** — collab delegates side issues to fresh agents instead of burning primary session context
+- **Issue-driven workflow** — collab creates GitHub issues instead of delegating to subagents; Builder and Reviewer are independent agents launched by the user
 - **Hooks enforce gates** — you can't skip validation, so quality is structural, not aspirational
 
 ## Plugin Structure
@@ -233,11 +225,12 @@ zen-marketplace/
 │   ├── .claude-plugin/
 │   │   └── plugin.json
 │   ├── agents/
-│   │   ├── collab-delegate.md        # Opus — specialist for zenflow:collab
 │   │   ├── error-detective.md        # Sonnet — root cause analysis
 │   │   └── error-coordinator.md      # Sonnet — cascade risk analysis
 │   ├── commands/
 │   │   ├── zenflow.md                # /zen interactive menu
+│   │   ├── build.md                  # /zenflow:build
+│   │   ├── review.md                 # /zenflow:review
 │   │   ├── idea.md                   # /zenflow:idea
 │   │   ├── plan.md                   # /zenflow:plan
 │   │   ├── dispatch.md               # /zenflow:dispatch
@@ -262,6 +255,9 @@ zen-marketplace/
 │       ├── check-work/SKILL.md       # zenflow:check-work — 5 quality gates
 │       ├── bug-fix/SKILL.md          # zenflow:bug-fix — diagnostic pipeline
 │       ├── docs/SKILL.md             # zenflow:docs — documentation
+│       ├── build/SKILL.md             # zenflow:build — issue → branch → PR
+│       ├── review/SKILL.md           # zenflow:review — structured PR review
+│       ├── playwright-verification/SKILL.md  # runtime verification companion
 │       ├── collab/SKILL.md           # zenflow:collab — collaborative session (Opus)
 │       ├── context-refresh/SKILL.md  # zenflow:context-refresh — mid-session context shed
 │       └── init/SKILL.md             # zenflow:init — generate zen.local.md config
@@ -287,6 +283,6 @@ zen-marketplace/
 
 See **[workflows.md](workflows.md)** for all workflow diagrams and usage examples.
 
-**Diagrams:** [Idea Modes](workflows.md#zenflowidea--three-modes) | [Full Pipeline](workflows.md#full-pipeline-flow) | [Bug Fix](workflows.md#bug-fix-pipeline) | [Collab Session](workflows.md#collab-session-flow) | [Context Refresh](workflows.md#context-refresh-flow)
+**Diagrams:** [3-Agent Flow](workflows.md#3-agent-issue-driven-flow) | [Idea Modes](workflows.md#zenflowidea--three-modes) | [Full Pipeline](workflows.md#full-pipeline-flow) | [Bug Fix](workflows.md#bug-fix-pipeline) | [Context Refresh](workflows.md#context-refresh-flow)
 
-**Examples:** [New Feature](workflows.md#new-feature-full-pipeline) | [Collab (inline)](workflows.md#collab-session-inline-delegation) | [Collab (worktree)](workflows.md#collab-session-worktree-delegation) | [Context Refresh](workflows.md#context-refresh-mid-session) | [Bug Fix](workflows.md#bug-fix)
+**Examples:** [Issue-Driven Feature](workflows.md#issue-driven-feature) | [Builder Session](workflows.md#builder-session) | [Reviewer Session](workflows.md#reviewer-session) | [Context Refresh](workflows.md#context-refresh-mid-session) | [Bug Fix](workflows.md#bug-fix)

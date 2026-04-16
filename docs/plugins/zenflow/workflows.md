@@ -37,23 +37,29 @@ You: /zenflow:check-work
 
 ## Collaborative Session
 
-`collab` is ZenFlow's crown jewel — a long-running working session where you and Claude Opus operate as partners. Not a task executor: a thinking partner that explores, reasons, and delegates. See the **[Collab](/plugins/zenflow/collab)** page for the full reference.
+`collab` is ZenFlow's crown jewel — a long-running working session where you and Claude Opus operate as partners. Not a task executor: a thinking partner that explores, reasons, and creates GitHub issues for implementation work. See the **[Collab](/plugins/zenflow/collab)** page for the full reference.
 
 ```
 /zenflow:collab    Start a collaborative session
+/zenflow:build     Build a GitHub issue into a PR
+/zenflow:review    Review a PR with structured verification
 ```
 
-When a side issue comes up, the agent delegates it rather than burning context:
+When implementation work is needed, Collab creates a GitHub issue. The user launches a Builder:
 
 ```
 You: /zenflow:collab
 
-Agent: Found a bug in the rate limiter while exploring this.
-       Delegating to a worktree agent — it'll get its own branch and PR.
+Agent: Found a rate limiter bug while exploring. Let me draft an issue.
+       [Creates issue #55 with ACs and verification instructions]
 
-[Worktree delegate creates branch, fixes bug, submits PR #47]
+Agent: Issue #55 created. When ready: /build #55
 
-Agent: PR #47 is up. Back to the main feature.
+You: (new session) /build #55
+     → [Builder implements, opens PR #60]
+
+You: (new session) /review #60
+     → [Reviewer verifies, approves]
 ```
 
 If the session runs long and context gets noisy:
@@ -139,18 +145,18 @@ flowchart TD
     reviewer --> checkwork["zenflow:check-work"]
 ```
 
-### Collab Session with Delegation
+### 3-Agent Issue-Driven Flow
 
 ```mermaid
 flowchart TD
-    collab["zenflow:collab"] --> work["Work with agent interactively"]
-    work --> sideIssue{"Side issue found?"}
-    sideIssue -->|small| inline["Inline delegate\nHandles in current directory"]
-    sideIssue -->|large| worktree["Worktree delegate\nIsolated branch + PR"]
-    inline --> work
-    worktree --> work
-    work --> longSession{"Session getting long?"}
-    longSession -->|yes| refresh["zenflow:context-refresh\nWrite handoff + /clear"]
+    collab["zenflow:collab\nExplore + Plan"] --> issue["Create GitHub Issue\nACs + Verification"]
+    issue --> build["User: /build #N"]
+    build --> pr["Builder opens PR"]
+    pr --> review["User: /review #N"]
+    review --> verdict{"Verdict?"}
+    verdict -->|approved| merge["Merge"]
+    verdict -->|needs work| build
+    collab --> longSession{"Context heavy?"}
+    longSession -->|yes| refresh["zenflow:context-refresh"]
     refresh --> collab
-    longSession -->|no| done["Done"]
 ```

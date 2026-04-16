@@ -44,9 +44,9 @@ See [The Pipeline](/plugins/zenflow/pipeline) for a full breakdown of each stage
 
 ## Collab — The Crown Jewel
 
-`/zenflow:collab` is where the real work happens. It opens a long-running partnership session with Claude Opus — not a task executor, but a thinking partner that explores, reasons, and delegates alongside you.
+`/zenflow:collab` is where the real work happens. It opens a long-running partnership session with Claude Opus — not a task executor, but a thinking partner that explores, reasons, and creates GitHub issues alongside you.
 
-The agent stays in strategist mode: it reads code with you, surfaces trade-offs, writes structured handoffs, and spawns delegates for implementation. Side issues get extracted to fresh subagents (inline or in isolated worktrees) rather than burning primary session context. When the session gets long, a context refresh sheds dead context without losing the partnership.
+The agent stays in strategist mode: it reads code with you, surfaces trade-offs, spawns research subagents, and creates well-structured issues for implementation. The user launches Builder agents (`/build #N`) to implement and Reviewer agents (`/review #N`) to verify — every decision surfaced via `AskUserQuestion`. When the session gets long, a context refresh sheds dead context without losing the partnership.
 
 **See [Collab](/plugins/zenflow/collab) for the full reference, session patterns, and worked examples.**
 
