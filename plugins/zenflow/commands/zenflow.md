@@ -32,14 +32,15 @@ Zenflow Skills
 
  Setup
   12. /zenflow:init        Scan codebase and generate zen.local.md config
+  13. /zenflow:schedule    Schedule periodic trigger/rule refresh
 ──────────────────────────────────────────
 ```
 
-After printing, ask: "Enter a number (1-12):"
+After printing, ask: "Enter a number (1-13):"
 
 Number-to-skill mapping:
 1=zenflow:idea, 2=zenflow:plan, 3=zenflow:build, 4=zenflow:dispatch, 5=zenflow:exec-plan,
 6=zenflow:review, 7=zenflow:bug-fix, 8=zenflow:collab, 9=zenflow:context-refresh,
-10=zenflow:docs, 11=zenflow:check-work, 12=zenflow:init
+10=zenflow:docs, 11=zenflow:check-work, 12=zenflow:init, 13=zenflow:schedule
 
 Once the user enters a number, invoke the corresponding skill using the Skill tool. If the user adds extra text after the number, pass it as the `args` parameter.
